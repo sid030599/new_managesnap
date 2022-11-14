@@ -1,0 +1,26 @@
+1.Episode
+episode type
+rehab type
+2.Visit 
+duration
+status
+type 
+location
+3.Assesment 
+Occupation
+scales and index scale
+arom manual joints
+4.Dashboard
+All
+5.Entry
+common:
+States
+Country
+City
+gender
+blood type
+physio:
+degree
+expertise
+patient:
+title

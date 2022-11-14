@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block content %}
+
+
+  <div class="m-4">
+    <h3 class="mt-5 mb-4">students stats for {{course.title}}</h3>
+
+    {% if my_courses %}
+
+
+
+        {% for my_course in my_courses.all %}
+
+            <div>
+                <p>{{course.id|get_percentage:my_course.user.id }}% Completed</p>
+                <p>By: {{my_course.user.username}}</p>
+            </div>
+            
+
+            <hr />
+
+        {% endfor %}
+
+
+    {% else %}
+
+            <h3>Nobody have completed this...</h3>
+
+
+    {% endif %}
+
+
+
+
+  </div>
+
+
+{% endblock content %}

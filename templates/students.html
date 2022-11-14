@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "styles/style.css" %}">
+    <link rel="stylesheet" href="{% static "styles/students-style.css" %}">
+    <link rel="icon" type="image/x-icon" href="{% static "rsc/icons8-project-management-48.png" %}">
+    <title>Students</title>
+</head>
+<body>
+    <div class="notification-list-container noti-notdisplay">
+        <div class="notification-list">
+            <div class="notification-heading">
+                <h3>Notifications</h3>
+                <img src="rsc/icons8-expand-50.png" alt="" class="expand">
+            </div>
+            <div class="notifications">
+                <div class="notification">
+                    <div class="noti-details">
+                        <div class="noti-image">
+                            <img src="rsc/paul-castanie-WZB_ZOqR4dA-unsplash.jpg" alt="">
+                        </div>
+                        <div class="noti-detail">
+                            <p class="det">Paul updated the syllabus for Python</p>
+                            <p class="time">5 min ago</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification">
+                    <div class="noti-details">
+                        <div class="noti-image">
+                            <img src="rsc/joshua-earle-ICE__bo2Vws-unsplash.jpg" alt="">
+                        </div>
+                        <div class="noti-detail">
+                            <p class="det">Josh assigned a test for you</p>
+                            <p class="time">2 days ago</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification">
+                    <div class="noti-details">
+                        <div class="noti-image">
+                            <img src="rsc/radu-florin-4_QFycgpC4c-unsplash.jpg" alt="">
+                        </div>
+                        <div class="noti-detail">
+                            <p class="det">Jim added you to python classroom</p>
+                            <p class="time">10 days ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="mark">Mark all as read</p>
+        </div>
+    </div>
+    <div class="profile-container prof-notdisplay">
+        <div class="profile">
+            <div class="user-info profile-item">
+                <div class="user-image">
+                    <img src="rsc/kristina-v-hYdikKrex4U-unsplash.jpg" alt="">
+                </div>
+                <div class="user-details">
+                    <p class="user-fullname">Emily Rose</p>
+                    <p class="user-name">@rose_emily003</p>
+                </div>
+            </div>
+            <div class="settings profile-item">
+                <img src="rsc/icons8-settings-48.png" alt="">
+                <p>Account Settings</p>
+            </div>
+            <div class="logout profile-item">
+                <img src="rsc/icons8-logout-48.png" alt="">
+                <p>Logout</p>
+            </div>
+        </div>
+    </div>
+    <div class="side-panel-container">
+        <div class="side-panel">
+            <div class="panel-item logo-item">
+                <div class="logo">
+                    <img src="rsc/icons8-project-management-48.png" alt="" class="logo-image">
+                    <p class="logo-name">managesnap</p>
+                </div>
+                <img src="rsc/icons8-close-30 (1).png" alt="" id="close">
+            </div>
+            <div class="dashboard panel-item">
+                <img src="rsc/icons8-dashboard-layout-48.png" alt="" class="item">
+                <p class="name"><a href="dashboard.html">Dashboard</a></p>
+            </div>
+            <div class="courses panel-item">
+                <img src="rsc/icons8-e-learning-48.png" alt="" class="item">
+                <p class="name"><a href="index.html">Courses</a></p>
+            </div>
+            <div class="requests panel-item">
+                <img src="rsc/icons8-request-service-48.png" alt="" class="item">
+                <p class="name"><a href="requests.html">Requests</a></p>
+            </div>
+            <div class="groups panel-item">
+                <img src="rsc/icons8-user-groups-48.png" alt="" class="item">
+                <p class="name"><a href="groups.html">Groups</a></p>
+            </div>
+            <div class="course-details panel-item">
+                <div class="panel-heading">
+                    <h3>Course Details</h3>
+                    <img src="rsc/icons8-chevron-down-30.png" alt="" class="down" id="arrow">
+                </div>
+                <div class="details">
+                    <div class="detail announcements">
+                        <img src="rsc/icons8-commercial-48.png" alt="" class="item">
+                        <p class="name"><a href="announcements.html">Announcements</a></p>
+                    </div>
+                    <div class="detail timetable">
+                        <img src="rsc/icons8-calendar-48.png" alt="" class="item">
+                        <p class="name"><a href="timetable.html">Timetable</a></p>
+                    </div>
+                    <div class="detail syllabus">
+                        <img src="rsc/icons8-google-classroom-48.png" alt="" class="item">
+                        <p class="name"><a href="syllabus.html">Syllabus</a></p>
+                    </div>
+                    <div class="detail assignment">
+                        <img src="rsc/icons8-audit-48.png" alt="" class="item">
+                        <p class="name"><a href="assignment.html">Assignment</a></p>
+                    </div>
+                    <div class="detail caesum">
+                        <img src="rsc/icons8-read-online-48.png" alt="" class="item">
+                        <p class="name"><a href="caesum.html">Caesum</a></p>
+                    </div>
+                    <div class="detail exams">
+                        <img src="rsc/icons8-hand-with-pen-48.png" alt="" class="item">
+                        <p class="name"><a href="exams.html">Exams</a></p>
+                    </div>
+                    <div class="detail quiz">
+                        <img src="rsc/icons8-help-48.png" alt="" class="item">
+                        <p class="name"><a href="quiz.html">Quiz</a></p>
+                    </div>
+                    <div class="detail units">
+                        <img src="rsc/icons8-unit-48.png" alt="" class="item">
+                        <p class="name"><a href="units.html">Units</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-item support">
+                <button>
+                    <img src="rsc/icons8-support-60.png" alt="">
+                    <p>Get Support</p>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="navigation">
+        <div class="navi">
+            <div class="nav-logo">
+                <img src="rsc/icons8-menu-50.png" alt="" id="menu" class="nav-logo-item">
+                <img src="rsc/icons8-project-management-48.png" alt="" class="nav-logo-item nav-logo-image">
+                <p class="nav-logo-item nav-logo-text">managesnap</p>
+            </div>
+            <div class="nav-rest">
+                <div class="nav-item">
+                    <img src="rsc/icons8-notification-48 (1).png" alt="" class="noti-icon">
+                </div>
+                <div class="profile-image nav-item">
+                    <img src="rsc/kristina-v-hYdikKrex4U-unsplash.jpg" alt="" class="image">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="students-container">
+            <div class="student">
+                
+                <div class="heading student-item">
+                    <div class="head heading-item">
+                        <p class="heading-name">
+                            CSE-A Students
+                        </p>
+                    </div>
+                    <div class="add-search heading-item">
+                        <div class="search as-item">
+                            <input type="text" name="" id="" placeholder="search" class="search-item searchbar">
+                            <img src="rsc/icons8-search-50 (4).png" alt="" class="search-icon search-item">
+                        </div>
+                        <div class="add as-item">
+                            <button class="add-btn"><p>Add</p></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs student-item">
+                    <div class="tab all current">
+                        <img src="rsc/icons8-person-30.png" alt="" class="icon">
+                        <p>All</p>
+                    </div>
+                    <div class="tab top-target not-current">
+                        <img src="rsc/icons8-star-30.png" alt="" class="icon">
+                        <p>Top Target</p>
+                    </div>
+                </div>
+                <div class="table student-item all-table">
+                    <div class="table-item">
+                        
+                        <table>
+                            <tr>
+                                <th class="invisible">Roll No.</th>
+                                <th>Full Name</th>
+                                <th class="invisible">Email</th>
+                                <th class="invisible">Requested On</th>
+                                <th>Profile</th>
+                            </tr>
+                            {% for i in students %}
+                            <tr>
+                                <td class="invisible">45</td>
+                                <td>{{i}}</td>
+                                <td class="invisible">{{i.email}}</td>
+                                <td class="invisible">24/07</td>
+                                <td><button class="view-btn"><a href="{% url "profile" i.id %}">view</a></button></td>
+                            </tr>
+                            {% endfor %}
+                            
+                        </table>
+                        <div class="page-num table-item">
+                            <p class="bracket"><</p>
+                            <p class="num">1</p>
+                            <p class="num">2</p>
+                            <p class="num">3</p>
+                            <p class="num">4</p>
+                            <p class="num">5</p>
+                            <p class="num">6</p>
+                            <p class="bracket">></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="table student-item toptarget-table">
+                    <div class="table-item">
+                        <table>
+                            <tr>
+                                <th class="invisible">Roll No.</th>
+                                <th>Full Name</th>
+                                <th class="invisible">Email</th>
+                                <th class="invisible">Requested On</th>
+                                <th>Profile</th>
+                            </tr>
+                            <tr>
+                                <td class="invisible">21</td>
+                                <td>Esha Gupta</td>
+                                <td class="invisible">esha003@gmail.com</td>
+                                <td class="invisible">05/06</td>
+                                <td><button class="view-btn"><a href="profile.html">view</a></button></td>
+                            </tr>
+                            <tr>
+                                <td class="invisible">21</td>
+                                <td>Esha Gupta</td>
+                                <td class="invisible">esha003@gmail.com</td>
+                                <td class="invisible">05/06</td>
+                                <td><button class="view-btn"><a href="profile.html">view</a></button></td>
+                            </tr>
+                            <tr>
+                                <td class="invisible">21</td>
+                                <td>Esha Gupta</td>
+                                <td class="invisible">esha003@gmail.com</td>
+                                <td class="invisible">05/06</td>
+                                <td><button class="view-btn"><a href="profile.html">view</a></button></td>
+                            </tr>
+                            <tr>
+                                <td class="invisible">21</td>
+                                <td>Esha Gupta</td>
+                                <td class="invisible">esha003@gmail.com</td>
+                                <td class="invisible">05/06</td>
+                                <td><button class="view-btn"><a href="profile.html">view</a></button></td>
+                            </tr>
+                            <tr>
+                                <td class="invisible">21</td>
+                                <td>Esha Gupta</td>
+                                <td class="invisible">esha003@gmail.com</td>
+                                <td class="invisible">05/06</td>
+                                <td><button class="view-btn"><a href="profile.html">view</a></button></td>
+                            </tr>
+                            <tr>
+                                <td class="invisible">21</td>
+                                <td>Esha Gupta</td>
+                                <td class="invisible">esha003@gmail.com</td>
+                                <td class="invisible">05/06</td>
+                                <td><button class="view-btn"><a href="profile.html">view</a></button></td>
+                            </tr>
+                            <tr>
+                                <td class="invisible">21</td>
+                                <td>Esha Gupta</td>
+                                <td class="invisible">esha003@gmail.com</td>
+                                <td class="invisible">05/06</td>
+                                <td><button class="view-btn"><a href="profile.html">view</a></button></td>
+                            </tr>
+                            <tr>
+                                <td class="invisible">21</td>
+                                <td>Esha Gupta</td>
+                                <td class="invisible">esha003@gmail.com</td>
+                                <td class="invisible">05/06</td>
+                                <td><button class="view-btn"><a href="profile.html">view</a></button></td>
+                            </tr>
+                        </table>
+                        <div class="page-num table-item">
+                            <p class="bracket"><</p>
+                            <p class="num">1</p>
+                            <p class="num">2</p>
+                            <p class="num">3</p>
+                            <p class="num">4</p>
+                            <p class="num">5</p>
+                            <p class="num">6</p>
+                            <p class="bracket">></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/students-script.js"></script>
+</body>
+</html>

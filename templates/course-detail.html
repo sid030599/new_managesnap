@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+{% endblock css %} 
+{% block content %}
+
+    <div class="p-4 m-4">
+
+        {% for mycourseunit in mycourseunits %}
+
+            <h5>{{mycourseunit.courseunit.name}}</h5>
+            
+            {% if mycourseunit.courseunit.is_assignment %}
+            
+                {% if mycourseunit.course_assignments.all %}
+
+                    {% for assignment in mycourseunit.course_assignments.all %}
+                    {% if assignment.assignment.released %}
+                        <div style="display: flex;justify-content: space-between;" class="p-3">
+                            <a href={% url 'assignment-detail' assignment.id %}><p><button class="btn btn-link">{{assignment.assignment.title}}</button></p></a>
+                            {% if assignment.done %}
+                                <a target="{% url 'assignment-complete' assignment.id %}" topicid="{{assignment.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{assignment.id}} fas fa-check-square"></i></a>
+                            {% else %}
+                                <a target="{% url 'assignment-complete' assignment.id %}" topicid="{{assignment.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{assignment.id}} fas fa-square"></i></a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {% endfor %}
+                
+                {% else %}
+                    <p class="mt-3">No items here!!</p>
+
+                {% endif %}
+                
+            {% elif mycourseunit.courseunit.name == 'Unit Lessons' %}
+                {% if mycourseunit.coursetopics.all %}
+
+                    {% for courseTopic in mycourseunit.coursetopics.all %}
+                        <div style="display: flex;justify-content: space-between;" class="p-3">
+                            <a href={% url 'topic-detail' courseTopic.id %}><p><button class="btn">{{courseTopic.coursetopic.title}}</button></p></a>
+                        </div>
+                    {% endfor %}
+            
+                {% else %}
+                    <p class="mt-3">No items here!!</p> 
+
+                {% endif %} 
+
+            {% else %}
+            
+                {% if mycourseunit.coursetopics.all %}
+
+                    {% for courseTopic in mycourseunit.coursetopics.all %}
+                    {% if courseTopic.coursetopic.released %}
+                        <div style="display: flex;justify-content: space-between;" class="p-3">
+                            <a href={% url 'topic-detail' courseTopic.id %}><p><button class="btn btn-link">{{courseTopic.coursetopic.title}}</button></p></a>
+                            {% if courseTopic.done %}
+                                <a target="{% url 'topic-complete' courseTopic.id %}" topicid="{{courseTopic.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{courseTopic.id}} fas fa-check-square"></i></a>
+                            {% else %}
+                                <a target="{% url 'topic-complete' courseTopic.id %}" topicid="{{courseTopic.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{courseTopic.id}} fas fa-square"></i></a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                
+                {% else %}
+                    <p class="mt-3">No items here!!</p> 
+
+                
+                {% endif %}    
+
+            {% endif %}
+            
+            
+            <br />
+            <hr />
+            <br />
+
+        {% endfor %}
+
+    </div>
+
+{% endblock content %}   
+
+{% block js %}
+
+  <script>
+    var donebtn = document.querySelectorAll(".doneBtn")
+    donebtn.forEach(function(btn) {
+        var url = btn.getAttribute('target');
+        var topicid = btn.getAttribute('topicid');
+        var doneIcon = document.querySelector(".doneIcon" + topicid);
+        btn.addEventListener("click", function(){
+            if(doneIcon.classList.contains('fa-check-square') == true){
+                doneIcon.classList.remove('fa-check-square');
+                doneIcon.classList.add('fa-square');
+            }
+            else if (doneIcon.classList.contains('fa-square') == true){
+                doneIcon.classList.remove('fa-square');
+                doneIcon.classList.add('fa-check-square');
+            }
+            fetch(url)
+            .then(response => response.json())
+        });
+    });
+  </script>
+
+{% endblock js %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block content %}
+
+
+  <div class="m-4">
+    <h2 class="mt-5 mb-4">{{request.user.username}}'s Grades</h2>
+
+    {% if myAssignments %}
+
+
+
+        {% for myAssignment in myAssignments %}
+
+            <div>
+                <h4>Grades of {{myAssignment.assignment.title}}</h4>
+                <p style="font-weight:bold;">{{myAssignment.grades.grades}} out of {{myAssignment.assignment.max_grades}}</p>
+            </div>
+            
+
+            <hr />
+
+        {% endfor %}
+
+
+    {% else %}
+
+            <h3>You have not got any grades yet...</h3>
+
+
+    {% endif %}
+
+
+
+
+  </div>
+
+
+{% endblock content %}

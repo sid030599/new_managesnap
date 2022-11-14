@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+    <title>LMS</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5" style="width:100%;">
+        <a class="navbar-brand" href="/">LMS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+
+            <div class="m-0 ml-auto form-inline">
+                {% if request.user.is_authenticated %}
+
+                  {% if request.user.profile.status == "s" %}
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle mr-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                              aria-haspopup="true" aria-expanded="false">
+                              <span style="color: mintcream;font-family: cursive;letter-spacing: 1px;">Welcome {{request.user}}</span>
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="{% url 'usercourse' %}">My courses</a>
+                              <a class="dropdown-item" href="{% url 'my-grades' %}">My Grades</a>
+                              <a class="dropdown-item" href="#">Account</a>
+                              <a class="dropdown-item" href="/logout">Logout</a>
+                          </div>
+                        </li>
+                    </ul>
+                  {% elif request.user.profile.status == 't' %}
+                    <ul class="navbar-nav">
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle mr-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <span style="color: mintcream;font-family: cursive;letter-spacing: 1px;">Welcome {{request.user}}</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'usercourse' %}">My courses</a>
+                            <a class="dropdown-item" href="{% url 'groups' %}">Groups</a>
+                            <a class="dropdown-item" href="#">Account</a>
+                            <a class="dropdown-item" style="cursor:pointer;" data-toggle="modal" data-target="#coursemodal">create Course</a>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                        </div>
+                      </li>
+                    </ul>
+
+                  {% elif request.user.profile.status == 'p' %}
+                    <ul class="navbar-nav">
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle mr-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <span style="color: mintcream;font-family: cursive;letter-spacing: 1px;">Welcome {{request.user}}</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" style="cursor:pointer;" data-toggle="modal" data-target="#teachersignupmodal">Add a teacher</a>
+                            <a class="dropdown-item" href="#">Account</a>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                        </div>
+                      </li>
+                    </ul>
+                    {% endif %}
+
+                {% else %}
+                <!-- Button trigger  Sign upmodal -->
+                <button type="button" class="rbton btn btn-outline-success my-2 my-sm-0 ml-2" data-toggle="modal"
+                    data-target="#signupmodal">
+                    Sign up
+                </button>
+                <!-- Button trigger  login modal -->
+                <button type="button" class="rbton btn btn-outline-success my-2 my-sm-0 ml-2" data-toggle="modal"
+                    data-target="#loginmodal">
+                    Student Login
+                </button>
+                <button type="button" class="rbton btn btn-outline-success my-2 my-sm-0 ml-2" data-toggle="modal"
+                    data-target="#loginmodal">
+                    Teacher Login
+                </button>
+                <button type="button" class="rbton btn btn-outline-success my-2 my-sm-0 ml-2" data-toggle="modal"
+                    data-target="#loginmodal">
+                    Principal Login
+                </button>
+
+            {% endif %}
+        </div>
+    </nav>
+
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <strong>Message!-</strong> {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    {% endfor %}
+        
+    
+    {% block content %}{% endblock content %}
+    
+
+    <!-- Sign up Modal -->
+    <div class="modal fade" id="signupmodal" tabindex="-1" aria-labelledby="signupmodal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="signupmodaltitle">Sign up to add comments...</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/signup" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                  <label for="username">Username(cannot contain spaces)</label>
+                  <input type="text" class="form-control" id="username" name="username"
+                    placeholder="Choose a unique username (Lowercase & alphanumeric)" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="text" class="form-control" id="email" name="email"
+                    placeholder="email" required>
+                </div>
+                <div class="form-group">
+                  <label for="college">College Name</label>
+                  <select id="college" class="form-control" name="college" required>
+                    {% for college_choice in college_choices %}
+                      <option value={{college_choice.name}} >{{college_choice.name}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="password">Choose a Password</label>
+                  <input type="password" class="form-control" id="password" name="password"
+                    placeholder="Choose your password" required>
+                </div>
+                <div class="form-group">
+                  <label for="pass2">Confirm password</label>
+                  <input type="password" class="form-control" id="pass2" name="pass2"
+                    placeholder="Enter your password again" required>
+                </div>
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+      <!-- Login Modal -->
+    <div class="modal fade" id="loginmodal" tabindex="-1" aria-labelledby="loginmodal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="loginmodaltitle">Login here</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/login" method="post">{% csrf_token %}
+                <div class="form-group">
+                  <label for="loginusername">Username</label>
+                  <input type="text" class="form-control" id="loginusername" name="loginusername"
+                    placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                  <label for="loginpass">Password</label>
+                  <input type="password" class="form-control" id="loginpass" name="loginpass"
+                    placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- create course Modal -->
+    <div class="modal fade" id="coursemodal" tabindex="-1" aria-labelledby="coursemodal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="coursemodaltitle">create your course</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action={% url 'create-course' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="form-group">
+                  <label for="title">Title</label>
+                  <input type="text" class="form-control" id="title" name="title"
+                    placeholder="Enter title" required>
+                </div>
+                <input type="hidden" value={{request.path}} name="next" id="next" />
+                <div class="form-group">
+                  <label for="category">Category</label>
+                  <input type="text" class="form-control" id="category" name="category"
+                    placeholder="Enter category" required>
+                </div>
+                <div class="form-group">
+                  <label for="image" class="form-label">Image</label>
+                  <input type="file" class="form-control" id="image" name="image" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+
+    <!-- Teacher Sign up Modal -->
+    <div class="modal fade" id="teachersignupmodal" tabindex="-1" aria-labelledby="teachersignupmodal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="teachersignupmodaltitle">Add a teacher...</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action={% url 'teacher-signup' %} method="post" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="username">Username(cannot contain spaces)</label>
+                <input type="text" class="form-control" id="username" name="username"
+                  placeholder="Choose a unique username (Lowercase & alphanumeric)" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" name="email"
+                  placeholder="email" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Choose a Password</label>
+                <input type="password" class="form-control" id="password" name="password"
+                  placeholder="Choose your password" required>
+              </div>
+              <div class="form-group">
+                <label for="pass2">Confirm password</label>
+                <input type="password" class="form-control" id="pass2" name="pass2"
+                  placeholder="Enter your password again" required>
+              </div>
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+      
+
+
+
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+    {% block js %}{% endblock js %}
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

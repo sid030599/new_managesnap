@@ -1,0 +1,85 @@
+1.Episode
+a]Episode type:[Check Up,Emergency,Follow Up,Routine,Walk In]
+b]Rehab type:[Pre Op, Post Op,Preventive,Non Operative Types,Others]
+2.Visit 
+a]Duration:[15 minutes,30 minutes,45 minutes,1 hour,75 minutes,90 minutes,105 minutes,2 hour]
+b]Status:[Pre Operation,Post Operation,Trauma, Corporate,Wellness]
+c]Visit type:[Check Up,Emergency,Follow Up,Routine,Walk In] 
+d]Location:[Home,Clinic,Video Conference]
+3.Assesment 
+a]Occupation:[Desk Job,Standing,Field Work,Home Maker,Retired,Sports]
+b]Scales and Index = scale:[Knee,Hip,Berg Balance,Dash,Womac,Barthel]
+c]Arom manual joints = Anterior:[
+  L Shoulder Abd/Add,
+  R Shoulder Abd/Add,
+  L Elbow Flex,
+  R Elbow Flex,
+  L Cervical Side Flex,
+  R Cervical Side Flex,
+  L Lateral Side Flex,
+  R Lateral Side Flex,
+  L Hip Abd/Add,
+  R Hip Abd/Add,
+]
+left:[
+  L Shoulder Abd/Add,
+  L Hip Fwd Flex,
+  L Knee Flex/Ext,
+  L Wrist,
+  L Ankle,
+  Cervical Fwd Flex
+]
+right:[
+  R Shoulder Abd/Add,
+  R Hip Fwd Flex,
+  R Knee Flex/Ext,
+  R Wrist,
+  R Ankle,
+  Cervical Fwd Flex,
+]
+3.Arom(AI):
+a]Anterior:[Pelvic,Cervical,Hip,Elbow,Shoulder]
+b]Lateral:[Ankle,Knee,Wrist,Shoulder,Cervical,Hip]
+4.Dashboard
+a]Clincs:[Clinic Register,Clinic List]
+b]Enterprise:[Organization Register,Employee Register,Organization List,Employee List]
+c]Physio:[Physio Register,Physio List]
+d]Patient:[Dashboard,Patient Register,Patient List]
+e]Episode:[Add Episode]
+f]Visit:[New Visit]
+g]Assessment:[Add Assessment]
+h]Prescription:[Add Prescription]
+i]Care Plan:[Add Care Plan]
+5.Entry
+Common:
+a]States
+b]Country
+c]City
+d]Gender: [Male,Female,Other]
+e]Blood type:[A+,A-,B+,B-,AB+,AB-,O+,O-]
+physio:
+a]Degree:[
+  BPT - Bachelor of Physio / Physical Therapy,
+  B.Sc in Physiotherapy,
+  BOT - Bachelor of Occupational Therapy,
+  Diploma in Physiotherapy,
+  Masters in Physiotherapy,
+  MSc in Physiotherapy,
+]
+b]Expertise:[
+  CRS & CPS,
+  Orthopedics or Musculoskeletal Disorders,
+  Sports,
+  Neurological & Psychosomatic disorder,
+   Gynaecology and Obstetrics,
+    Community Rehabilitation,
+    Paediatrics,
+    Others
+]
+c]Doctor Type : [
+Treating Doctor,
+Referring Doctor,
+Both
+]
+patient:
+a]Title:[Dr,Mr,Mrs,Ms,Mst]

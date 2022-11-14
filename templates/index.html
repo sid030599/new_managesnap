@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block content %}
+  {% if request.user.is_authenticated  %}
+    {% if request.user.profile.status == 't' %}
+      <p>go to the  <a href="{% url 'usercourse' %}">courses</a> which you have created.</p>
+    
+    {% elif request.user.profile.status == 's' %}
+      <p>go to the <a href="{% url 'usercourse' %}">courses</a> which you have enrolled.</p>
+    
+    {% else %}
+      <h2 class="mx-5">These are your current teachers</h2>
+      <ul>
+      {% for teacher in teachers %}
+        <li class="my-3 mx-5">{{teacher.username}}</li>
+      {% endfor %}
+      </ul> <hr>
+
+      <h2 class="mx-5 mt-5">Students</h2>
+      <ul>
+      {% for student in students %}
+        <li class="my-3 mx-5">{{student.username}}</li>
+      {% endfor %}
+      </ul> <hr>
+
+      <h2 class="mx-5 mt-5">Courses</h2>
+      <div style="display: flex;flex-wrap:no-wrap;" class="mx-3">
+        {% for course in courses %}
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src={{course.image.url}} alt="Card image cap">
+            <div class="card-body">
+              <p class="card-text">{{course.category}}</p>
+              <h5 class="card-title">{{course.title}}</h5>
+              <p class="card-text">created by: {{course.created_by.username}}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div> <br><br>
+
+    {% endif %}
+  {% endif %}
+{% endblock content %}

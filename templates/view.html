@@ -1,0 +1,285 @@
+{% extends 'base1.html' %}
+{% load custom_tags %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+{% endblock css %} 
+{% block content %}
+        <div class="view-container">
+            <div class="view">
+                <div class="heading view-item">
+                    <div class="head heading-item">
+                        <p class="heading-name">
+                            {{topic.title}}
+                        </p>
+                    </div>
+                    <div class="add-item heading-item">
+                        <div class="add">
+                            <button class="add-btn" data-toggle="modal" data-target="#updatemodel">
+                                <p>Update</p>
+                            </button>
+                        </div>
+                    </div>
+                    {% if topic.released == False %}
+                    <div class="release-edit heading-item">
+                        
+                        <div class="release">
+                            <a href="{% url 'release-topic' topic.id %}"> <button class="release-btn">   
+                                <img src="{% static "rsc/icons8-telegram-app-30.png" %}" alt="" class="icon">
+                                <p>Release</p>
+                            </button></a>
+                        </div>
+                        {% comment %} <div class="edit">
+                            <button class="edit-btn">
+                                <img src="rsc/icons8-edit-26.png" alt="" class="icon">
+                                <p>Edit</p>
+                            </button>
+                        </div> {% endcomment %}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="announcement view-item">
+                    {% if topic.info %}
+          <p>{{topic.info}}</p>
+      {% endif %}
+                </div>
+                <div class="links view-item">
+                    <div class="heading links-item">
+                        <div class="head heading-item">
+                            <p class="heading-name">
+                                Links
+                            </p>
+                        </div>
+                        <div class="add-item heading-item">
+                            <div class="add">
+                                <button class="add-btn" data-toggle="modal" data-target="#addLink">
+                                    <p>Add +</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="links-item">
+                        <ol class="links-list">
+                            {% if links %}
+                                {% for link in links %}
+                                    <div style="display:flex">
+                                        <p>Link {{forloop.counter}}:  <a href="{{link}}"><button class="btn btn-link">{{link}}</button></a></p>
+                                        <a href="{% url 'delete-link-topic' topic.id forloop.counter %}" ><button class="btn btn-danger">Delete link</button></a>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </ol>
+                    </div>
+                </div>
+                <div class="docs view-item">
+                    <div class="heading docs-item">
+                        <div class="head heading-item">
+                            <p class="heading-name">
+                                Files
+                            </p>
+                        </div>
+                        <div class="add-item heading-item">
+                            <div class="add">
+                                <button class="add-btn" data-toggle="modal" data-target="#addFile">
+                                    <p>Add +</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="docs-item">
+                        <ol class="links-list">
+                            {% if topic.documents %}
+                                    {% for document in topic.documents.all %}
+                                        <div style="display:flex">
+                                            <li> <p>File {{forloop.counter}}: <a href='{{document.document.url}}' ><button class="btn btn-link">{{document.document.name|cut:'documents/'}}</button></a></p>
+                                            <button data-toggle="modal" data-target="#renamefile{{document.id}}" class="btn btn-primary mb-3 ml-2">rename file</button>
+                                            <a href={% url 'delete-file' document.id topic.id %} ><button class="btn btn-danger mb-3 ml-2">delete file</button></a> </li>
+                                            {% if is_unit %}
+                                                <a href={% url 'topic-unit-stats' topic.id document.id %}><button class="btn btn-outline-primary mx-3">See student stats</button> <br/></a>
+                                            {% endif %}
+                                        </div>
+                                        <!-- rename file modal  -->
+                                        <div class="modal fade" id="renamefile{{document.id}}" tabindex="-1" aria-labelledby="renamefile{{document.id}}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="renamefile{{document.id}}title">Rename file</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action={% url 'rename-file' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                                                        <div class="form-group">
+                                                            <label for="filename">File name</label>
+                                                            <input type="text" value="{{document.document.name|cut:'documents/'}}" class="form-control" id="filename" name="filename" placeholder="rename File">
+                                                        </div>
+                                                        <input type="hidden" value={{document.id}} name="documentid" id="documentid">
+                                                        <input type="hidden" value={{request.path}} name="next" id="next">
+                                                        <button type="submit" class="btn btn-primary">Rename</button>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
+
+                                    {% endfor %}
+                            {% endif %}
+
+                        </ol>
+                    </div>
+                    {% comment %} <div style="width: 60%;" class="py-5">
+                        <h3>Update content</h3>
+                        <form action={% url 'edit-topic' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" value={{topic.title}} class="form-control" id="title" name="title" placeholder="Enter title">
+                            </div>
+                            <div class="form-group">
+                                <label for="info">Info</label>
+                                {% if topic.info %}
+                                    <input type="text" value='{{topic.info}}' class="form-control" id="info" name="info" placeholder="Add Info if any" >
+                                {% else %}
+                                    <input type="text" class="form-control" id="info" name="info" placeholder="Add Info if any" >
+                                {% endif %}
+                                
+                            </div>
+                            <input type="hidden" value={{topic.id}} name="assignmentid" id="assignmentid">
+                            <input type="hidden" value='False' name="isassignment" id="isassignment">
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                        </form>
+                
+                      </div> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    
+<!-- update content modal  -->
+        <div class="modal fade" id="updatemodel" tabindex="-1" aria-labelledby="updatemodel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addLinktitle">update model</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action={% url 'edit-topic' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" value={{topic.title}} class="form-control" id="title" name="title" placeholder="Enter title">
+                        </div>
+                        <div class="form-group">
+                            <label for="info">Info</label>
+                            {% if topic.info %}
+                                <input type="text" value='{{topic.info}}' class="form-control" id="info" name="info" placeholder="Add Info if any" >
+                            {% else %}
+                                <input type="text" class="form-control" id="info" name="info" placeholder="Add Info if any" >
+                            {% endif %}
+                            
+                        </div>
+                        <input type="hidden" value={{topic.id}} name="assignmentid" id="assignmentid">
+                        <input type="hidden" value='False' name="isassignment" id="isassignment">
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+                </div>
+                </div>
+            </div>
+          </div>
+
+<!-- add link modal  -->
+<div class="modal fade" id="addLink" tabindex="-1" aria-labelledby="addLink" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="addLinktitle">Add Link</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action={% url 'add-link' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="form-group">
+                    <label for="link">Link</label>
+                    <input type="link" class="form-control" id="link" name="link" placeholder="Add Link">
+                </div>
+                <input type="hidden" value={{topic.id}} name="assignmentid" id="assignmentid">
+                <input type="hidden" value='False' name="isassignment" id="isassignment">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- add file modal  -->
+  <div class="modal fade" id="addFile" tabindex="-1" aria-labelledby="addFile" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="addFiletitle">Add file</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action={% url 'add-file' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="form-group">
+                    <label for="document">Add multiple files</label>
+                    <input type="file" class="form-control" id="document" name="document" placeholder="Add Files" multiple>
+                </div>
+                <input type="hidden" value={{topic.id}} name="assignmentid" id="assignmentid">
+                <input type="hidden" value='False' name="isassignment" id="isassignment">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        </div>
+        </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block js %}
+
+  <script>
+    var donebtn = document.querySelectorAll(".doneBtn")
+    donebtn.forEach(function(btn) {
+        var url = btn.getAttribute('target');
+        var documentid = btn.getAttribute('documentid');
+        var doneIcon = document.querySelector(".doneIcon" + documentid);
+        btn.addEventListener("click", function(){
+            if(doneIcon.classList.contains('fa-check-square') == true){
+                doneIcon.classList.remove('fa-check-square');
+                doneIcon.classList.add('fa-square');
+            }
+            else if (doneIcon.classList.contains('fa-square') == true){
+                doneIcon.classList.remove('fa-square');
+                doneIcon.classList.add('fa-check-square');
+            }
+            fetch(url)
+            .then(response => response.json())
+        });
+    });
+  </script>
+
+{% endblock js %}

@@ -1,0 +1,586 @@
+{
+    "PainScale": [
+        {
+            "section": "PainScale",
+            "part_name": "Knee",
+            "question": "Since How long have you been having pain?",
+            "option": [
+                [
+                    "Less than 1 Month",
+                    1
+                ],
+                [
+                    "1 - 3 Months",
+                    2
+                ],
+                [
+                    "3- 6 Months",
+                    3
+                ],
+                [
+                    "More than 6 months",
+                    4
+                ]
+            ],
+            "pp_qs_id": 141,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "PainScale",
+            "part_name": "Knee",
+            "question": "Pain aggravates with",
+            "option": [
+                [
+                    "Prolonged Sitting (Daily work)",
+                    1
+                ],
+                [
+                    "Morning: Getting up in morning",
+                    2
+                ],
+                [
+                    "After every work",
+                    3
+                ],
+                [
+                    "Constnat pain, remains same",
+                    4
+                ]
+            ],
+            "pp_qs_id": 142,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "PainScale",
+            "part_name": "Knee",
+            "question": "Pain relieves after",
+            "option": [
+                [
+                    "Rest",
+                    1
+                ],
+                [
+                    "Self management",
+                    2
+                ],
+                [
+                    "Remains Same",
+                    3
+                ],
+                [
+                    "Medicines ",
+                    4
+                ]
+            ],
+            "pp_qs_id": 143,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "PainScale",
+            "part_name": "Knee",
+            "question": "Pain radiates towards",
+            "option": [
+                [
+                    "Remains in the knee",
+                    1
+                ],
+                [
+                    "Towards calf muscles",
+                    2
+                ],
+                [
+                    "Front of thigh/ Back of thigh",
+                    3
+                ],
+                [
+                    "Associated with lower back",
+                    4
+                ]
+            ],
+            "pp_qs_id": 144,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "PainScale",
+            "part_name": "Knee",
+            "question": "Does pain affect your quality of work",
+            "option": [
+                [
+                    "Yes",
+                    4
+                ],
+                [
+                    "No",
+                    0
+                ]
+            ],
+            "pp_qs_id": 145,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "PainScale",
+            "part_name": "Knee",
+            "question": "Please select the scale of pain",
+            "option": [
+                [
+                    "Pain Scale",
+                    0
+                ],
+                [
+                    "Pain Scale",
+                    1
+                ],
+                [
+                    "Pain Scale",
+                    2
+                ],
+                [
+                    "Pain Scale",
+                    3
+                ],
+                [
+                    "Pain Scale",
+                    4
+                ]
+            ],
+            "pp_qs_id": 146,
+            "image_url": [
+                "https://dev.physioai.care/images/t1/pain_1.png",
+                "https://dev.physioai.care/images/t1/pain_2.jpg",
+                "https://dev.physioai.care/images/t1/pain_3.png",
+                "https://dev.physioai.care/images/t1/pain_4.jpg",
+                "https://dev.physioai.care/images/t1/pain_5.jpg"
+            ],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [
+                "images/t1/pain_1.png",
+                "images/t1/pain_2.png",
+                "images/t1/pain_3.png",
+                "images/t1/pain_4.png",
+                "images/t1/pain_5.png"
+            ],
+            "option_image": [],
+            "id": "painscale"
+        }
+    ],
+    "General": [
+        {
+            "section": "General",
+            "part_name": "Knee",
+            "question": "Does your knee make any noise or sound?",
+            "option": [
+                [
+                    "Yes",
+                    4
+                ],
+                [
+                    "No",
+                    0
+                ]
+            ],
+            "pp_qs_id": 131,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "General",
+            "part_name": "Knee",
+            "question": "Do you have difficulty straightening your Knee without Pain",
+            "option": [
+                [
+                    "Yes",
+                    4
+                ],
+                [
+                    "No",
+                    0
+                ]
+            ],
+            "pp_qs_id": 132,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "General",
+            "part_name": "Knee",
+            "question": "Do you need support to fully bend your knee and have pain doing it?",
+            "option": [
+                [
+                    "Yes",
+                    4
+                ],
+                [
+                    "No",
+                    0
+                ]
+            ],
+            "pp_qs_id": 133,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "General",
+            "part_name": "Knee",
+            "question": "Do you face difficulty while sitting down or getting up from a chair?",
+            "option": [
+                [
+                    "Yes",
+                    4
+                ],
+                [
+                    "No",
+                    0
+                ]
+            ],
+            "pp_qs_id": 134,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "General",
+            "part_name": "Knee",
+            "question": "Do you face any difficulty while climbing or descending the stairs?",
+            "option": [
+                [
+                    "Yes",
+                    4
+                ],
+                [
+                    "No",
+                    0
+                ]
+            ],
+            "pp_qs_id": 135,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "General",
+            "part_name": "Knee",
+            "question": "Do you face difficulty while picking up objects from floor?",
+            "option": [
+                [
+                    "Yes",
+                    4
+                ],
+                [
+                    "No",
+                    0
+                ]
+            ],
+            "pp_qs_id": 136,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "General",
+            "part_name": "Knee",
+            "question": "Do you face difficulty while sitting in or coming out of the car?",
+            "option": [
+                [
+                    "Yes",
+                    4
+                ],
+                [
+                    "No",
+                    0
+                ]
+            ],
+            "pp_qs_id": 137,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "General",
+            "part_name": "Knee",
+            "question": "Do you face any difficulty while walking or any other sports activity?",
+            "option": [
+                [
+                    "Yes",
+                    4
+                ],
+                [
+                    "No",
+                    0
+                ]
+            ],
+            "pp_qs_id": 138,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "General",
+            "part_name": "Knee",
+            "question": "How do you define your walk on flat surface?",
+            "option": [
+                [
+                    "Stable",
+                    1
+                ],
+                [
+                    "Unstable",
+                    2
+                ],
+                [
+                    "Shaky",
+                    3
+                ],
+                [
+                    "Painful",
+                    4
+                ]
+            ],
+            "pp_qs_id": 139,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "General",
+            "part_name": "Knee",
+            "question": "Do you have free space area for leg clearing below the table infront of your knees?",
+            "option": [
+                [
+                    "Yes",
+                    4
+                ],
+                [
+                    "No",
+                    0
+                ]
+            ],
+            "pp_qs_id": 140,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        }
+    ],
+    "AromFlex": [
+        {
+            "section": "AromFlex",
+            "part_name": "Knee",
+            "question": "Please follow the motion as described in the video",
+            "option": [
+                [
+                    "Capture",
+                    10
+                ],
+                [
+                    "Skip",
+                    10
+                ]
+            ],
+            "pp_qs_id": 127,
+            "image_url": [],
+            "video_url": [
+                "images/v1/202201033.gif"
+            ],
+            "question_image": [
+                "images/v1/202201033.gif"
+            ],
+            "emoji_image": [],
+            "option_image": [
+                "images/v1/202201033.gif"
+            ],
+            "result": 0
+        },
+        {
+            "section": "AromFlex",
+            "part_name": "Knee",
+            "question": "Please follow the motion as described in the video",
+            "option": [
+                [
+                    "Capture",
+                    10
+                ],
+                [
+                    "Skip",
+                    10
+                ]
+            ],
+            "pp_qs_id": 148,
+            "image_url": [],
+            "video_url": [
+                "images/v1/277676522.gif"
+            ],
+            "question_image": [
+                "images/v1/277676522.gif"
+            ],
+            "emoji_image": [],
+            "option_image": [
+                "images/v1/277676522.gif"
+            ],
+            "result": 1
+        }
+    ],
+    "PostureFlex": [
+        {
+            "section": "PostureFlex",
+            "part_name": "Knee",
+            "posture_type": 1,
+            "question": "Please stand straight in front of the camera",
+            "option": [
+                [
+                    "Capture",
+                    10
+                ],
+                [
+                    "Skip",
+                    10
+                ]
+            ],
+            "pp_qs_id": 128,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [
+                "images/t1/anterior-view.jpg"
+            ],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "PostureFlex",
+            "part_name": "Knee",
+            "posture_type": 2,
+            "question": "Please stand by facing your body towards the rights hand side",
+            "option": [
+                [
+                    "Capture",
+                    10
+                ],
+                [
+                    "Skip",
+                    10
+                ]
+            ],
+            "pp_qs_id": 129,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [
+                "images/t1/sideways-vector.jpg"
+            ],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "PostureFlex",
+            "part_name": "Knee",
+            "posture_type": 1,
+            "question": "Please sit in position facing the camera, that you would usually do",
+            "option": [
+                [
+                    "Capture",
+                    10
+                ],
+                [
+                    "Skip",
+                    10
+                ]
+            ],
+            "pp_qs_id": 149,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [
+                "images/t1/sitting_2.png"
+            ],
+            "emoji_image": [],
+            "option_image": []
+        },
+        {
+            "section": "PostureFlex",
+            "part_name": "Knee",
+            "posture_type": 3,
+            "question": "Please sit in position that you would usually do, with your right side towards the camera",
+            "option": [
+                [
+                    "Capture",
+                    10
+                ],
+                [
+                    "Skip",
+                    10
+                ]
+            ],
+            "pp_qs_id": 150,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [
+                "images/t1/sitting_1.jpeg"
+            ],
+            "emoji_image": [],
+            "option_image": []
+        }
+    ],
+    "Consent": [
+        {
+            "section": "Consent",
+            "part_name": "Knee",
+            "question": "Do you agree with the terms and conditions",
+            "option": [
+                [
+                    "Yes",
+                    10
+                ],
+                [
+                    "No",
+                    10
+                ]
+            ],
+            "pp_qs_id": 130,
+            "image_url": [],
+            "video_url": [],
+            "question_image": [],
+            "emoji_image": [],
+            "option_image": []
+        }
+    ]
+}

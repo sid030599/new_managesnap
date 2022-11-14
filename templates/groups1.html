@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block content %}
+  {% if request.user.is_authenticated  %}
+    {% if request.user.profile.status == 't' %}
+      <div class="m-5">
+        <h2>Current Groups</h2><br /><br />
+
+        <h4>Default Groups</h4>
+        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#defaultgroupmodal">Add a default Group</button>
+        <ul>
+            {% for default_group in default_groups %}
+              <li><a href="/group_detail/{{default_group.id}}">{{ default_group.name }}<a></li>
+            {% endfor %}
+        <ul/><br/>
+
+        <h4>Your Custom Groups</h4>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#customgroupmodal">Add a custom group</button>
+        <ul>
+            {% for custom_group in custom_groups %}
+                <li><a href="/group_detail/{{custom_group.id}}">{{ custom_group.name }}<a></li>
+            {% endfor %}
+        <ul/>
+
+      </div>
+    {% endif %}
+  {% endif %}
+
+   <!-- default group modal  -->
+  <div class="modal fade" id="defaultgroupmodal" tabindex="-1" aria-labelledby="defaultgroupmodal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="defaultgroupmodaltitle">create your default group here</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action={% url 'create-group' %} method="post">{% csrf_token %}
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+            </div>
+            <input type="hidden" value="d" name="status" id="status">
+            <input type="hidden" value={{request.path}} name="next">
+            <button type="submit" class="btn btn-primary">Create</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- custom group modal  -->
+  <div class="modal fade" id="customgroupmodal" tabindex="-1" aria-labelledby="customgroupmodal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="customgroupmodaltitle">create your custom group here</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action={% url 'create-group' %} method="post">{% csrf_token %}
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+            </div>
+            <input type="hidden" value="c" name="status" id="status">
+            <input type="hidden" value={{request.path}} name="next">
+            <button type="submit" class="btn btn-primary">Create</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}

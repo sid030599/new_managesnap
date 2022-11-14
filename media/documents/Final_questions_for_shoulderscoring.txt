@@ -1,0 +1,434 @@
+
+{
+"_id": ObjectId("6346997d4be1f1cb5130f0c0"),
+"section": "PainScale",
+"part_name": "Shoulder",
+"question": "Do you have pain in shoulder ?",
+"option": [
+[
+"Less than week",
+1
+],
+
+"1 week - 2 week",
+2
+],
+[
+"2 Week - 4 Week",
+3
+],
+[
+"1 to 3 Month",
+4
+]
+],
+"image_url": [
+],
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+],
+"pp_qs_id": 151
+}{
+"_id": ObjectId("6346a0a14be1f1cb5130f0c1"),
+"section": "General",
+"part_name": "Shoulder",
+"question": "Do you have any swelling ?",
+"option": [
+[
+"Yes",
+4
+],
+[
+"No",
+0
+]
+],
+"image_url": [
+],
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+],
+"pp_qs_id": 152
+}{
+"_id": ObjectId("6346a1014be1f1cb5130f0c2"),
+"section": "General",
+"part_name": "Shoulder",
+"question": "How long do you sit in particular position ?",
+"option": [
+[
+"Flexible",
+1
+],
+[
+"6-8 hours",
+2
+],
+[
+"8-10 hours",
+3
+],
+[
+"More than 10 hours",
+4
+]
+],
+"image_url": [
+],
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+],
+"pp_qs_id": 153
+}{
+"_id": ObjectId("6346a1484be1f1cb5130f0c3"),
+"section": "General",
+"part_name": "Shoulder",
+"question": "What is your general posture while working on laptop?",
+"option": "",
+"image_url": [
+],
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+[
+"Sitting Posture1",4
+],
+[
+"Sitting Posture2",3
+],
+[
+"Sitting Posture3",2
+],
+[
+"Sitting Posture4",0
+]
+],
+"pp_qs_id": 154
+}{
+"_id": ObjectId("6346a2794be1f1cb5130f0c4"),
+"section": "General",
+"part_name": "Shoulder",
+"question": "Do you feel difficulty in lifting arm sidways?",
+"option": [
+[
+"Upto 30°",
+1
+],
+[
+"Upto 90°",
+2
+],
+[
+"Upto 120° (End range restriction/difficulty)",
+3
+],
+[
+"Completely 180°",
+4
+]
+],
+"image_url": [
+],
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+],
+"pp_qs_id": 155
+}{
+"_id": ObjectId("6346a4884be1f1cb5130f0c5"),
+"section": "PainScale",
+"part_name": "Shoulder",
+"question": "Do you feel pain in any one of these?",
+"option": [
+[
+"Sleeping on arm",
+1
+],
+[
+"Tucking shirt in",
+2
+],
+[
+"Combing hairs",
+3
+],
+[
+"Lifting arm",
+4
+]
+],
+"image_url": [
+],
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+],
+"pp_qs_id": 156
+}{
+"_id": ObjectId("6346a5024be1f1cb5130f0c6"),
+"section": "PainScale",
+"part_name": "Shoulder",
+"question": "Do you Know reason for pain?",
+"option": [
+
+["Recent activity",2],
+["Injury",2],
+["Operation",2],
+["Other",2],
+],
+"image_url": [
+],
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+],
+"pp_qs_id": 157
+}{
+"_id": ObjectId("6346a5604be1f1cb5130f0c7"),
+"section": "PainScale",
+"part_name": "Shoulder",
+"question": "When does the Pain aggravate?",
+"option": [
+[
+"Daily work",
+1
+],
+[
+"Morning stifness",
+2
+],
+[
+"After lifting arm",
+3
+],
+[
+"Constant",
+4
+]
+],
+"image_url": [
+],
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+],
+"pp_qs_id": 158
+}{
+"_id": ObjectId("6346a5bc4be1f1cb5130f0c8"),
+"section": "PainScale",
+"part_name": "Shoulder",
+"question": "Pain relieves with",
+"option": [
+[
+"Rest",
+1
+],
+[
+"On it's own, after some time",
+2
+],
+[
+"Medicine",
+3
+],
+[
+"Remains same",
+4
+]
+],
+"image_url": [
+],
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+],
+"pp_qs_id": 159
+}{
+"_id": ObjectId("6346a60f4be1f1cb5130f0c9"),
+"section": "PainScale",
+"part_name": "Shoulder",
+"question": "Does the pain radiates towards",
+"option": [
+[
+"Neck",
+1
+],
+[
+"Elbow",
+2
+],
+[
+"Upper back",
+3
+],
+[
+"Wrist",
+4
+]
+],
+"image_url": [
+],
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+],
+"pp_qs_id": 160
+}{
+"_id": ObjectId("6346a68f4be1f1cb5130f0ca"),
+"section": "General",
+"part_name": "Shoulder",
+"question": "Are you able to Comb you hairs easily?",
+"option": [
+[
+"YES",
+0
+],
+[
+"NO",
+4
+]
+],
+"image_url": "",
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+],
+"pp_qs_id": 161
+}{
+"_id": ObjectId("6346a73c4be1f1cb5130f0cb"),
+"section": "PostureFlex",
+"part_name": "Shoulder",
+"question": "Are you able to touch both palms at your back?",
+"option": [
+[
+"Upto hip",
+1
+],
+[
+"Upto lower back/buttocks",
+2
+],
+[
+"Upto back",
+3
+],
+[
+"Completely touching palms",
+4
+]
+],
+"image_url": [],
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+],
+"pp_qs_id": 162
+},
+{
+"_id": ObjectId("6346a8c64be1f1cb5130f0cc"),
+"section": "General",
+"part_name": "Shoulder",
+"question": "Do you see your shoulders rounded?",
+"option": "",
+"image_url": [],
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+[
+"Image 1"
+],
+[
+"Image 2"
+],
+[
+"Image 3"
+],
+[
+"Image 4"
+]
+],
+"pp_qs_id": 163
+}{
+"_id": ObjectId("6346a94f4be1f1cb5130f0cd"),
+"section": "General",
+"part_name": "Shoulder",
+"question": "Do you see any hump at upper back?",
+"option": "",
+"image_url": [
+],
+"video_url": [
+],
+"question_image": [
+],
+"emoji_image": [
+],
+"option_image": [
+[
+"Image 1"
+],
+[
+"Image 2"
+],
+[
+"Image 3"
+],
+[
+"Image 4"
+]
+],
+"pp_qs_id": 164
+}

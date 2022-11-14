@@ -1,0 +1,49 @@
+{% extends 'base1.html' %}
+{% load custom_tags %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static "styles/announcements-style.css"%}">
+{% endblock css %} 
+{% block content %}
+
+
+  <div class="m-4">
+    <h3 class="mt-5 mb-4">students stats for {{coursetopic.title}}</h3>
+
+    {% if my_topics %}
+
+
+
+        {% for my_topic in my_topics %}
+
+            <div>
+                {% if my_topic.done %}
+                    <p>Completed</p>
+                {% else %}
+                    <p>Not Completed</p>
+                {% endif %}
+                <p>By: {{my_topic.user.username}}</p>
+            </div>
+            
+
+            <hr />
+
+        {% endfor %}
+
+
+    {% else %}
+
+            <h3>Nobody have completed this...</h3>
+
+
+    {% endif %}
+
+
+
+
+  </div>
+
+
+{% endblock content %}

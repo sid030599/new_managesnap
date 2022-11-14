@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+{% endblock css %} 
+{% block content %}
+
+  {% if request.user.is_authenticated %}
+    <div style="display: flex;flex-wrap:no-wrap;">
+      {% for course in courses %}
+        <div class="card" style="width: 18rem;">
+          <a href={% url 'courseDetail' course.id %}><img class="card-img-top" src={{course.image.url}} alt="Card image cap"></a>
+          <div class="card-body">
+            <p class="card-text">{{course.category}}</p>
+            <h5 class="card-title">{{course.title}}</h5>
+            <p>{{course.id|get_percentage:request.user.id }}%</p>
+          </div>
+        </div>
+      {% endfor %}
+  </div>
+  {% endif %}
+{% endblock content %}

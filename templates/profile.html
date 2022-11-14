@@ -1,0 +1,144 @@
+{% extends 'base1.html' %}
+{% load custom_tags %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+{% endblock css %} 
+{% block content %}
+    
+        <div class="prof-container">
+            <div class="prof">
+                <div class="prof-item prof-details">
+                    <div class="image-details">
+                        <div class="prof-image">
+                            <img src="{{students.profile_pic.url}}" alt="sad">
+                        </div>
+                        <div class="details">
+                            <p class="prof-name">{{students.full_name}}</p>
+                            <p class="prof-mail">{{students.email}}</p>
+                            <p class="status"><b>Status : </b><span>Pending</span></p>
+                        </div>
+                    </div>
+                    <div class="prof-buttons">
+                        <div class="accept">
+                            <button class="accept-btn">
+                                <img src="rsc/icons8-double-tick-30.png" alt="" class="icon">
+                                <p>Accept</p>
+                            </button>
+                        </div>
+                        <div class="reject">
+                            <button class="reject-btn">
+                                <img src="rsc/icons8-close-30 (3).png" alt="" class="icon">
+                                <p>Reject</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs prof-item">
+                    <div class="tab personal current">
+                        <img src="rsc/icons8-person-30.png" alt="" class="icon">
+                        <p>Personal</p>
+                    </div>
+                    <div class="tab education not-current">
+                        <img src="rsc/icons8-student-center-30.png" alt="" class="icon">
+                        <p>Education</p>
+                    </div>
+                    <div class="tab experience not-current">
+                        <img src="rsc/icons8-laptop-30.png" alt="" class="icon">
+                        <p>Experience</p>
+                    </div>
+                </div>
+                <div class="prof-item personal-info">
+                    <div class="info">
+                        <img src="rsc/icons8-iphone-24.png" alt="" class="icon">
+                        <p class="info-name">Mobile : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-mail-24.png" alt="" class="icon">
+                        <p class="info-name">Email : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-location-24 (1).png" alt="" class="icon">
+                        <p class="info-name">Location</p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-visualization-skill-24.png" alt="" class="icon">
+                        <p class="info-name">Skills : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-linkedin-24 (1).png" alt="" class="icon">
+                        <p class="info-name">LinkedIn : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-github-24.png" alt="" class="icon">
+                        <p class="info-name">Github : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-code-24.png" alt="" class="icon">
+                        <p class="info-name">Programming Languages : </p>
+                    </div>
+                </div>
+                <div class="prof-item education-info">
+                    <div class="info">
+                        <img src="rsc/icons8-iphone-24.png" alt="" class="icon">
+                        <p class="info-name">Mobile : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-mail-24.png" alt="" class="icon">
+                        <p class="info-name">Email : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-location-24 (1).png" alt="" class="icon">
+                        <p class="info-name">Location</p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-visualization-skill-24.png" alt="" class="icon">
+                        <p class="info-name">Skills : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-linkedin-24 (1).png" alt="" class="icon">
+                        <p class="info-name">LinkedIn : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-github-24.png" alt="" class="icon">
+                        <p class="info-name">Github : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-code-24.png" alt="" class="icon">
+                        <p class="info-name">Programming Languages : </p>
+                    </div>
+                </div>
+                <div class="prof-item experience-info">
+                    <div class="info">
+                        <img src="rsc/icons8-iphone-24.png" alt="" class="icon">
+                        <p class="info-name">Mobile : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-mail-24.png" alt="" class="icon">
+                        <p class="info-name">Email : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-location-24 (1).png" alt="" class="icon">
+                        <p class="info-name">Location</p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-visualization-skill-24.png" alt="" class="icon">
+                        <p class="info-name">Skills : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-linkedin-24 (1).png" alt="" class="icon">
+                        <p class="info-name">LinkedIn : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-github-24.png" alt="" class="icon">
+                        <p class="info-name">Github : </p>
+                    </div>
+                    <div class="info">
+                        <img src="rsc/icons8-code-24.png" alt="" class="icon">
+                        <p class="info-name">Programming Languages : </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock content %}

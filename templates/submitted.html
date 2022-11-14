@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+  <div class="m-4">
+
+    {% if submissions %}
+
+
+        <h3 class="mt-5 mb-4">Submitted</h3>
+
+        {% for submission in submissions %}
+
+            <p>Submitted</p>
+            <div>
+                <p>By: {{submission.user.username}}</p>
+                <p>Submitted File is <a href={{submission.upload.url}}>here</a></p>
+                {% if submission.grades.is_graded %}
+
+                    <p>Graded: {{ submission.grades.grades }} out of {{ submission.assignment.max_grades }}</p>
+
+                {% else %}
+
+                    <button data-toggle="modal" data-target="#grades{{submission.id}}" class="btn btn-primary mb-5">Add grades</button>
+
+                {% endif %}
+
+            </div>
+            <p>Submitted at: {{submission.uploaded_at}}</p>
+
+                <!-- Add Grades Modal -->
+            <div class="modal fade" id="grades{{submission.id}}" tabindex="-1" aria-labelledby="grades{{submission.id}}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="grades{{submission.id}}title">Add grades to {{ submission.user.username }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action={% url 'add-grades' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                            <div class="form-group">
+                                <label for="grades">Grades</label>
+                                <input type="number" class="form-control" id="grades" name="grades" placeholder="Add grades" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="remark">Remark</label>
+                                <input type="text" class="form-control" id="remark" name="remark" placeholder="Give remark if any">
+                            </div>
+                            <input type="hidden" value={{submission.id}} name="assignmentid" id="assignmentid">
+                            <button type="submit" class="btn btn-primary">Grade</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+        {% endfor %}
+
+
+    {% else %}
+
+            <h3>Nobody have submitted yet</h3>
+
+
+    {% endif %}
+
+
+
+
+  </div>
+
+
+{% endblock content %}

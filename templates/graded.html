@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+  <div class="m-4">
+
+    {% if submissions %}
+
+
+        <h3 class="mt-5 mb-4">Graded</h3>
+
+        {% for submission in submissions %}
+
+            <p>Submitted</p>
+            <div>
+                <p>By: {{submission.user.username}}</p>
+                <p>Submitted File is <a href={{submission.upload.url}}>here</a></p>
+
+                <p>Graded: {{ submission.grades.grades }} out of {{ submission.assignment.max_grades }}</p>
+
+            </div>
+            <p>Submitted at: {{submission.uploaded_at}}</p>
+
+                
+            <hr />
+
+        {% endfor %}
+
+
+    {% else %}
+
+            <h3>Nobody have been graded yet</h3>
+
+
+    {% endif %}
+
+
+
+
+  </div>
+
+
+{% endblock content %}

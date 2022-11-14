@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+  <div class="m-4">
+
+    {% if submissions %}
+
+
+        <h3 class="mt-5 mb-4">Not Submitted</h3>
+
+        {% for submission in submissions %}
+
+            <div>
+                <p>Not Submitted</p>
+                <p>By: {{submission.user.username}}</p>
+            </div>
+
+            <hr />
+
+        {% endfor %}
+
+
+    {% else %}
+
+            <h3>Everybody have submitted.</h3>
+
+
+    {% endif %}
+
+
+
+
+  </div>
+
+
+{% endblock content %}

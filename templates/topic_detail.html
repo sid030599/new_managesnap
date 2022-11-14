@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+  <div class="m-4">
+
+    {% if status == 't' %}
+
+      <div style="display:flex">
+        <h2>{{topic.title}}</h2>
+        {% if not is_unit %}
+            <a href={% url 'topic-stats' topic.id %}><button class="btn btn-primary mx-3">See student stats</button> <br/></a>
+        {% endif %}
+      </div>
+
+
+      <br/>
+      {% if topic.info %}
+          <p>{{topic.info}}</p>
+      {% endif %}
+
+      <button data-toggle="modal" data-target="#addLink" class="btn btn-outline-primary mb-3">Add Link</button> <br/>
+
+      {% if links %}
+          {% for link in links %}
+            <div style="display:flex">
+                <p>Link {{forloop.counter}}:  <a href="{{link}}">{{link}}</a></p>
+                <a href="{% url 'delete-link-topic' topic.id forloop.counter %}" ><button class="btn btn-danger mb-3 ml-2">delete link</button></a>
+            </div>
+          {% endfor %}
+      {% endif %}
+
+      <button data-toggle="modal" data-target="#addFile" class="btn btn-outline-primary mb-3">Add file</button>
+
+      {% if topic.documents %}
+          {% for document in topic.documents.all %}
+            <div style="display:flex">
+                <p>File {{forloop.counter}}: <a href='{{document.document.url}}' >{{document.document.name|cut:'documents/'}}</a></p>
+                <button data-toggle="modal" data-target="#renamefile{{document.id}}" class="btn btn-primary mb-3 ml-2">rename file</button>
+                <a href={% url 'delete-file' document.id topic.id %} ><button class="btn btn-danger mb-3 ml-2">delete file</button></a>
+                {% if is_unit %}
+                    <a href={% url 'topic-unit-stats' topic.id document.id %}><button class="btn btn-outline-primary mx-3">See student stats</button> <br/></a>
+                {% endif %}
+            </div>
+
+            <!-- rename file modal  -->
+            <div class="modal fade" id="renamefile{{document.id}}" tabindex="-1" aria-labelledby="renamefile{{document.id}}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="renamefile{{document.id}}title">Rename file</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action={% url 'rename-file' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                            <div class="form-group">
+                                <label for="filename">File name</label>
+                                <input type="text" value="{{document.document.name|cut:'documents/'}}" class="form-control" id="filename" name="filename" placeholder="rename File">
+                            </div>
+                            <input type="hidden" value={{document.id}} name="documentid" id="documentid">
+                            <input type="hidden" value={{request.path}} name="next" id="next">
+                            <button type="submit" class="btn btn-primary">Rename</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+
+          {% endfor %}
+
+
+
+          
+      {% endif %}
+
+      <div style="width: 60%;" class="py-5">
+        <h3>Update content</h3>
+        <form action={% url 'edit-topic' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" value={{topic.title}} class="form-control" id="title" name="title" placeholder="Enter title">
+            </div>
+            <div class="form-group">
+                <label for="info">Info</label>
+                {% if topic.info %}
+                    <input type="text" value='{{topic.info}}' class="form-control" id="info" name="info" placeholder="Add Info if any" >
+                {% else %}
+                    <input type="text" class="form-control" id="info" name="info" placeholder="Add Info if any" >
+                {% endif %}
+                
+            </div>
+            <input type="hidden" value={{topic.id}} name="assignmentid" id="assignmentid">
+            <input type="hidden" value='False' name="isassignment" id="isassignment">
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+
+      </div>
+
+    {% else %}
+
+      <h2>{{topic.coursetopic.title}}</h2>
+      <br/>
+      {% if topic.documents %}
+          {% for document in topic.documents.all %}
+            <div style="display: flex;justify-content: space-between;">
+              <p>File {{forloop.counter}}: <a href={{document.document.document.url}}>{{document.document.document.name|cut:'documents/'}}</a></p>
+
+              {% if is_unit %}
+                {% if document.done %}
+                    <a target="{% url 'unit-topic-complete' document.id %}" documentid="{{document.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{document.id}} fas fa-check-square"></i></a>
+                {% else %}
+                    <a target="{% url 'unit-topic-complete' document.id %}" documentid="{{document.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{document.id}} fas fa-square"></i></a>
+                {% endif %}
+              {% endif %}
+              
+            </div>
+          {% endfor %}
+          
+      {% endif %}
+      {% if topic.coursetopic.info %}
+          <p>{{topic.coursetopic.info}}</p>
+      {% endif %}
+
+
+      {% if links %}
+          {% for link in links %}
+            <div style="display:flex">
+                <p>Link {{forloop.counter}}:  <a href="{{link}}">{{link}}</a></p>
+            </div>
+          {% endfor %}
+      {% endif %}
+
+
+    {% endif %}
+
+
+  </div>
+
+
+  <!-- add file modal  -->
+  <div class="modal fade" id="addFile" tabindex="-1" aria-labelledby="addFile" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="addFiletitle">Add file</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action={% url 'add-file' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="form-group">
+                    <label for="document">Add multiple files</label>
+                    <input type="file" class="form-control" id="document" name="document" placeholder="Add Files" multiple>
+                </div>
+                <input type="hidden" value={{topic.id}} name="assignmentid" id="assignmentid">
+                <input type="hidden" value='False' name="isassignment" id="isassignment">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- add link modal  -->
+  <div class="modal fade" id="addLink" tabindex="-1" aria-labelledby="addLink" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="addLinktitle">Add Link</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action={% url 'add-link' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="form-group">
+                    <label for="link">Link</label>
+                    <input type="link" class="form-control" id="link" name="link" placeholder="Add Link">
+                </div>
+                <input type="hidden" value={{topic.id}} name="assignmentid" id="assignmentid">
+                <input type="hidden" value='False' name="isassignment" id="isassignment">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        </div>
+        </div>
+    </div>
+  </div>
+
+
+{% endblock content %}
+
+{% block js %}
+
+  <script>
+    var donebtn = document.querySelectorAll(".doneBtn")
+    donebtn.forEach(function(btn) {
+        var url = btn.getAttribute('target');
+        var documentid = btn.getAttribute('documentid');
+        var doneIcon = document.querySelector(".doneIcon" + documentid);
+        btn.addEventListener("click", function(){
+            if(doneIcon.classList.contains('fa-check-square') == true){
+                doneIcon.classList.remove('fa-check-square');
+                doneIcon.classList.add('fa-square');
+            }
+            else if (doneIcon.classList.contains('fa-square') == true){
+                doneIcon.classList.remove('fa-square');
+                doneIcon.classList.add('fa-check-square');
+            }
+            fetch(url)
+            .then(response => response.json())
+        });
+    });
+  </script>
+
+{% endblock js %}

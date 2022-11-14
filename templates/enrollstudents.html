@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+  {% if request.user.is_authenticated %}
+    <div class="m-3">
+      <div class="mt-5">
+        <h3>Students enrolled in this course</h3>
+
+
+
+        <form action={% url 'search-students' %} method="post" class="row g-3">{% csrf_token %}
+          <div class="col-auto">
+            {% if searched %}
+              <input type="text" class="form-control my-3" value='{{query}}' id="search" name="search" placeholder="Search Students">
+            {% else %}
+              <input type="text" class="form-control my-3" value='' id="search" name="search" placeholder="Search Students">
+            {% endif %}
+          </div>
+          <input type="hidden" value={{course.id}}  id="courseid" name="courseid">
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary my-3">Search</button>
+          </div>
+        </form>
+
+
+
+        {% for enrolled_student in enrolled_students %}
+          <div style="display: flex;" class="my-3">
+            <p class="mr-2">{{enrolled_student.username}}</p>
+            <a href= {% url 'unenroll-student' enrolled_student.id course.id %} ><button class="btn btn-outline-danger">Remove</button></a>
+          </div>
+        {% endfor %}
+        {% if not enrolled_students %}
+          <p>No students here...</p>
+        {% endif %}
+      </div>
+
+      <h3>Enroll students</h3>
+      {% for student in students %}
+        <div style="display: flex;" class="my-5">
+          <p class="mr-2">{{student.username}}</p>
+          <a href="/{{course.id}}/{{student.id}}/enroll/"><button class="btn btn-primary">enroll in this course</button></a>
+        </div>
+      {% endfor %}
+
+      <br />
+      <div>
+        <h3>Enroll group of students</h3>
+        {% for group in groups %}
+          <div style="display: flex;" class="my-3">
+            <a href="/group_detail/{{group.id}}"><p class="mr-2">{{group.name}}</p></a>
+            <a href="/enroll/{{course.id}}/{{group.id}}/"><button class="btn btn-primary">enroll this group in this course</button></a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+
+{% endblock content %}

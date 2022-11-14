@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block content %}
+
+
+  {% if request.user.is_authenticated %}
+    {% for course in courses %}
+      <div class="card mb-5" style="width: 18rem;">
+        <a href={% url 'courseDetail' course.id %}><img class="card-img-top" src={{course.image.url}} alt="Card image cap"></a>
+        <div class="card-body">
+          <p class="card-text">{{course.category}}</p>
+          <h5 class="card-title">{{course.title}}</h5>
+        </div>
+        <a class="mx-auto" href={% url 'courseDetail' course.id %}><button class="btn btn-primary mb-2">Detail</button></a>
+        <a class="mx-auto" href="/enroll_students/{{course.id}}/"><button class="btn btn-primary mb-2">Enroll students</button></a>
+        <a class="mx-auto" href={% url 'course-stats' course.id %}><button class="btn btn-primary mb-2">Student stats</button></a>
+        <a class="mx-auto" href={% url 'delete-course' course.id %}><button class="btn btn-danger mb-2">Delete</button></a>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  
+
+
+{% endblock content %}

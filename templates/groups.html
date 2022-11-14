@@ -1,0 +1,250 @@
+{% extends 'base1.html' %}
+{% load custom_tags %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+{% endblock css %} 
+{% block content %}
+
+        <div class="groups-container">
+            <div class="gp">
+                <div class="heading groups-item">
+                    <div class="head heading-item">
+                        <p class="heading-name">
+                            Groups
+                        </p>
+                    </div>
+                    <div class="heading-item but">
+                        <button class="view1">
+                            <img src="{% static "rsc/icons8-table-24.png" %}" alt="" class="view1-icon1">
+                            <p id="view-type">Tab View</p>
+                        </button>
+                    </div>
+
+                </div>
+                <div class="tabs1 groups-item">
+                    <div class="tab1 default current1">
+                        <img src="{% static "rsc/icons8-person-64 (1).png" %}" alt="" class="icon1">
+                        <p class="default-hov">Default</p>
+                    </div>
+                    <div class="tab1 private not-current1">
+                        <img src="{% static "rsc/icons8-lock-50.png" %}" alt="" class="icon1">
+                        <p class="private-hov">Private</p>
+                    </div>
+                    <div class="tab1 public not-current1">
+                        <img src="{% static "rsc/icons8-globe-50.png" %}" alt="" class="icon1">
+                        <p class="public-hov">Public</p>
+                    </div>
+                </div>
+                <div class="table-view groups-item">
+                    
+                    
+                    <div class="default-table">
+                        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#defaultgroupmodal">Add a default Group</button>
+                        <div class="table-item">
+                            <table>
+                                <tr>
+                                    <th>Group Name</th>
+                                    <th class="invisible1">Created By</th>
+                                    <th class="invisible1">Number Of Students</th>
+                                    <th class="invisible1">Created On</th>
+                                    <th>View Group</th>
+                                </tr>
+                                {% for group in default_groups %}
+                                <tr>
+                                    <td>{{group.name}}</td>
+                                    <td class="invisible1">{{group.created_by}}</td>
+                                    <td class="invisible1">{{group.students.count}}</td>
+                                    <td class="invisible1">{{group.id}}</td>
+                                    <td><button class="view-btn"><a href="{% url "group_student" group.id %}">view</a></button></td>
+                                </tr>
+                                {% endfor %}
+                                
+                            </table>
+                            <div class="page-num table-item">
+                                <p class="bracket"><</p>
+                                <p class="num">1</p>
+                                <p class="num">2</p>
+                                <p class="num">3</p>
+                                <p class="num">4</p>
+                                <p class="num">5</p>
+                                <p class="num">6</p>
+                                <p class="bracket">></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="private-table">
+                        
+                        <div class="table-item">
+                            <table>
+                                <tr>
+                                    <th>Group Name</th>
+                                    <th class="invisible1">Created By</th>
+                                    <th class="invisible1">Number Of Students</th>
+                                    <th class="invisible1">Created On</th>
+                                    <th>View Group</th>
+                                </tr>
+                                {% for group in custom_groups %}
+                                <tr>
+                                    <td>{{group.name}}</td>
+                                    <td class="invisible1">{{group.created_by}}</td>
+                                    <td class="invisible1">{{group.students.count}}</td>
+                                    <td class="invisible1">23/06</td>
+                                    <td><button class="view-btn"><a href="students.html">view</a></button></td>
+                                </tr>
+                                {% endfor %}
+                                
+                            </table>
+                            <div class="page-num table-item">
+                                <p class="bracket"><</p>
+                                <p class="num">1</p>
+                                <p class="num">2</p>
+                                <p class="num">3</p>
+                                <p class="num">4</p>
+                                <p class="num">5</p>
+                                <p class="num">6</p>
+                                <p class="bracket">></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="public-table">
+                        <div class="table-item">
+                            <table>
+                                <tr>
+                                    <th>Group Name</th>
+                                    <th class="invisible1">Created By</th>
+                                    <th class="invisible1">Number Of Students</th>
+                                    <th class="invisible1">Created On</th>
+                                    <th>View Group</th>
+                                </tr>
+                                <tr>
+                                    <td>ISE-A</td>
+                                    <td class="invisible1">Priya</td>
+                                    <td class="invisible1">340</td>
+                                    <td class="invisible1">23/06</td>
+                                    <td><button class="view-btn"><a href="students.html">view</a></button></td>
+                                </tr>
+                                <tr>
+                                    <td>ISE-B</td>
+                                    <td class="invisible1">Rahul</td>
+                                    <td class="invisible1">120</td>
+                                    <td class="invisible1">01/06</td>
+                                    <td><button class="view-btn"><a href="students.html">view</a></button></td>
+                                </tr>
+                                <tr>
+                                    <td>ISE-C</td>
+                                    <td class="invisible1">Priya</td>
+                                    <td class="invisible1">340</td>
+                                    <td class="invisible1">23/06</td>
+                                    <td><button class="view-btn"><a href="students.html">view</a></button></td>
+                                </tr>
+                                <tr>
+                                    <td>ISE-D</td>
+                                    <td class="invisible1">Priya</td>
+                                    <td class="invisible1">340</td>
+                                    <td class="invisible1">23/06</td>
+                                    <td><button class="view-btn"><a href="students.html">view</a></button></td>
+                                </tr>
+                                <tr>
+                                    <td>ECE-E</td>
+                                    <td class="invisible1">Priya</td>
+                                    <td class="invisible1">340</td>
+                                    <td class="invisible1">23/06</td>
+                                    <td><button class="view-btn"><a href="students.html">view</a></button></td>
+                                </tr>
+                                <tr>
+                                    <td>ECE-F</td>
+                                    <td class="invisible1">Priya</td>
+                                    <td class="invisible1">340</td>
+                                    <td class="invisible1">23/06</td>
+                                    <td><button class="view-btn"><a href="students.html">view</a></button></td>
+                                </tr>
+                                <tr>
+                                    <td>ECE-G</td>
+                                    <td class="invisible1">Priya</td>
+                                    <td class="invisible1">340</td>
+                                    <td class="invisible1">23/06</td>
+                                    <td><button class="view-btn"><a href="students.html">view</a></button></td>
+                                </tr>
+                                <tr>
+                                    <td>ECE-H</td>
+                                    <td class="invisible1">Priya</td>
+                                    <td class="invisible1">340</td>
+                                    <td class="invisible1">23/06</td>
+                                    <td><button class="view-btn"><a href="students.html">view</a></button></td>
+                                </tr>
+                            </table>
+                            <div class="page-num table-item">
+                                <p class="bracket">&lt;</p>
+                                <p class="num">1</p>
+                                <p class="num">2</p>
+                                <p class="num">3</p>
+                                <p class="num">4</p>
+                                <p class="num">5</p>
+                                <p class="num">6</p>
+                                <p class="bracket">&gt;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs-view groups-item">
+                    <div class="default-tab tab-item">
+                        <div class="t">CSE-A</div>
+                        <div class="t">CSE-B</div>
+                        <div class="t">CSE-C</div>
+                        <div class="t">CSE-D</div>
+                        <div class="t">ECE-A</div>
+                        <div class="t">ECE-B</div>
+                        <div class="t">ECE-C</div>
+                        <div class="t">ECE-D</div>
+                    </div>
+                    <div class="private-tab tab-item">
+                        <div class="t">CSE-E</div>
+                        <div class="t">CSE-F</div>
+                        <div class="t">CSE-G</div>
+                        <div class="t">CSE-H</div>
+                    </div>
+                    <div class="public-tab tab-item">
+                        <div class="t">ISE-A</div>
+                        <div class="t">ISE-B</div>
+                        <div class="t">ISE-C</div>
+                        <div class="t">ISE-D</div>
+                        <div class="t">ECE-E</div>
+                        <div class="t">ECE-F</div>
+                        <div class="t">ECE-G</div>
+                        <div class="t">ECE-H</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- default group modal  -->
+    <div class="modal fade" id="defaultgroupmodal" tabindex="-1" aria-labelledby="defaultgroupmodal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="defaultgroupmodaltitle">create your default group here</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form action={% url 'create-group' %} method="post">{% csrf_token %}
+                    <div class="form-group">
+                      <label for="name">Name</label>
+                      <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+                    </div>
+                    <input type="hidden" value="d" name="status" id="status">
+                    <input type="hidden" value={{request.path}} name="next">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

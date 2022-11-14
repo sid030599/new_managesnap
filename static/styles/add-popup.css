@@ -1,0 +1,276 @@
+/* Add popup */
+.add-popup 
+{
+    position: fixed;
+    width: 800px;
+    height: 400px;
+    top: 50%;
+    left: 50%;
+    margin-left: -400px;
+    margin-top: -200px;
+    display: none;
+    z-index: 4;
+}
+.popup
+{
+    display: flex;
+}
+.right, .left 
+{
+    height: 400px;
+}
+.left 
+{
+    width: 300px;
+}
+.right 
+{
+    width: 500px;
+}
+.right-cont 
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.right-cont h3
+{
+    font-size: 20px;
+}
+.right-item input[type="text"]
+{
+    width: 400px;
+    font-size: 14px;
+    border: none;
+    padding: 8px;
+    background-color: rgb(246, 246, 246);
+}
+::placeholder
+{
+    color: rgb(169, 166, 166);
+}
+.right-item input[type="text"]:focus
+{
+    outline: none;
+}
+.right
+{
+    background-color: white;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    display: flex;
+    justify-content: center;
+}
+.right-item
+{
+    padding: 10px;
+}
+.ac-btn button, .upload
+{
+    padding: 6px 12px;
+    margin-right: 10px;
+    text-align: center;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+}
+.ac-btn button:hover 
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+}
+.a 
+{
+    background-image: linear-gradient( 73.1deg,  rgba(34,126,34,1) 8%, rgba(99,162,17,1) 86.9% );
+}
+.cancel
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(247,87,0,1) 0%, rgba(249,0,0,1) 90.1% );
+}
+.cancel-icon 
+{
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    margin-left: -40px;
+    margin-top: 20px;
+}
+.left
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.left-cont 
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.left-cont h3
+{
+    font-family: 'Raleway', sans-serif;
+    font-size: 22px;
+    color: white;
+    font-weight: bolder;
+    letter-spacing: 1px;
+}
+.left-cont img
+{
+    width: 50px;
+    height: 50px;
+}
+/* Edit popup */
+.edit-popup 
+{
+    position: fixed;
+    width: 800px;
+    height: 400px;
+    top: 50%;
+    left: 50%;
+    margin-left: -400px;
+    margin-top: -200px;
+    z-index: 4;
+    display: none;
+}
+.edit-popup .popup .right .right-cont .right-item 
+{
+    padding: 5px;
+}
+textarea
+{
+    border: none;
+    background-color: rgb(246, 246, 246);
+    border-radius: 3px;
+    padding: 10px;
+}
+textarea:focus
+{
+    outline: none;
+}
+/* Add Course */
+.add-course 
+{
+    position: fixed;
+    width: 800px;
+    height: 400px;
+    top: 50%;
+    left: 50%;
+    margin-left: -400px;
+    margin-top: -200px;
+    display: none;
+    z-index: 4;
+}
+.add-course .popup .right .right-cont .right-item input[type="text"]
+{
+    width: 400px;
+    margin-top: 10px;
+    padding: 7px;
+    font-size: 14px;
+}
+.add-course .popup .right .right-cont .right-item h3 
+{
+    font-size: 18px;
+}
+.upload 
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    width: 100%;
+}
+/* Media Queries */
+@media(max-width: 1024px)
+{
+    .add-course, .add-popup, .edit-popup
+    {
+        width: 600px;
+        height: 300px;
+        margin-left: -300px;
+        margin-top: -150px;
+    }
+    .right, .left 
+    {
+        height: 300px;
+        width: 300px;
+    }
+    .left 
+    {
+        width: 200px;
+    }
+    .right 
+    {
+        width: 400px;
+    }
+    .right-item input[type="text"], .add-course .popup .right .right-cont .right-item input[type="text"], textarea
+    {
+        width: 300px;
+    }
+    .second 
+    {
+        height: 160px;
+    }
+    
+}
+@media(max-width: 650px)
+{
+    .add-course, .add-popup, .edit-popup
+    {
+        width: 300px;
+        height: 300px;
+        margin-left: -150px;
+        margin-top: -150px;
+    }
+    .right, .left 
+    {
+        height: 300px;
+    }
+    .left 
+    {
+        width: 120px;
+    }
+    .right 
+    {
+        width: 180px;
+    }
+    .right-item input[type="text"], .add-course .popup .right .right-cont .right-item input[type="text"], textarea
+    {
+        width: 140px;
+        font-size: 12px;
+    }
+    .second 
+    {
+        height: 150px;
+    }
+    .left-cont h3
+    {
+        font-size: 12px;
+    }
+    .left-cont img
+    {
+        width: 20px;
+        height: 20px;
+    }
+    .ac-btn button, .upload
+    {   
+        padding: 4px 8px;
+        margin-right: 5px;
+        text-align: center;
+        font-size: 12px;
+    }
+    .right-cont h3 
+    {
+        font-size: 14px;
+    }
+    .cancel-icon 
+    {
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+        margin-left: -20px;
+        margin-top: 10px;
+    }
+}
+
