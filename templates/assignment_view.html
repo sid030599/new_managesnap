@@ -1,13 +1,238 @@
-{% extends 'base1.html' %}
-{% load custom_tags %}
+<!DOCTYPE html>
 {% load static %}
-{% block css %}
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-{% endblock css %} 
-{% block content %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> 
+     <link rel="stylesheet" href="{% static "styles/view-style.css"%}">
+    <link rel="stylesheet" href="{% static "styles/style.css"%}">
+   <link rel="stylesheet" href="{% static "styles/announcements-style.css"%}">
+    <link rel="stylesheet" href="{% static "styles/groups-style.css" %}">
+    <link rel="stylesheet" href="{% static "styles/courses-style.css"%}">
+    <link rel="stylesheet" href="{% static "styles/add-popup.css"%}">
+    <link rel="stylesheet" href="{% static "styles/profile-style.css"%}">
+    <link rel="stylesheet" href="{% static "css/w3.css"%}">
+    
+    <link rel="icon" type="image/x-icon" href="rsc/icons8-project-management-48.png">
+    <title>Courses</title>
+</head>
+
+<body>
+    <div class="add-course">
+        <div class="popup">
+            <div class="left">
+                <div class="left-cont">
+                    <img src="{% static "rsc/icons8-project-management-48.png"%}" alt="">
+                    <h3>managessnap</h3>
+                </div>
+            </div>
+            <div class="right">
+                <div class="right-cont">
+                    <form action={% url 'create-course' %} method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="right-item">
+                            <h3>
+                                Course Title
+                            </h3>
+                            <input type="text" name="title" id="" method="POST" placeholder="enter course title">
+                        </div>
+                        <div class="right-item">
+                            <input type="text" name="category" id="" placeholder="course category">
+                            
+                            <label for="img">Select image:</label>
+                            <input type="file" id="img" name="image" accept="image/*">
+                            
+                            
+                        </div>
+                        <div class="right-item ac-btn">
+                            <button class="a" type="submit" >Upload</button>
+                            <button class="cancel">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <img src="{% static "rsc/icons8-close-50.png"%}" alt="" class="cancel-icon">
+        </div>
+    </div>
+    
+    <div class="notification-list-container noti-notdisplay">
+        <div class="notification-list">
+            <div class="notification-heading">
+                <h3>Notifications</h3>
+                <img src="{% static "rsc/icons8-expand-50.png"%}" alt="" class="expand">
+            </div>
+            <div class="notifications">
+                <div class="notification">
+                    <div class="noti-details">
+                        <div class="noti-image">
+                            <img src="{% static "rsc/paul-castanie-WZB_ZOqR4dA-unsplash.jpg"%}" alt="">
+                        </div>
+                        <div class="noti-detail">
+                            <p class="det">Paul updated the syllabus for Python</p>
+                            <p class="time">5 min ago</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification">
+                    <div class="noti-details">
+                        <div class="noti-image">
+                            <img src="{% static "rsc/joshua-earle-ICE__bo2Vws-unsplash.jpg"%}" alt="">
+                        </div>
+                        <div class="noti-detail">
+                            <p class="det">Josh assigned a test for you</p>
+                            <p class="time">2 days ago</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification">
+                    <div class="noti-details">
+                        <div class="noti-image">
+                            <img src="{% static "rsc/radu-florin-4_QFycgpC4c-unsplash.jpg"%}" alt="">
+                        </div>
+                        <div class="noti-detail">
+                            <p class="det">Jim added you to python classroom</p>
+                            <p class="time">10 days ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="mark">Mark all as read</p>
+        </div>
+    </div>
+    <div class="profile-container prof-notdisplay">
+        <div class="profile">
+            <div class="user-info profile-item">
+                <div class="user-image">
+                    <img src="{{request.user.profile.profile_pic.url}}" alt="">
+                </div>
+                <div class="user-details">
+                    <p class="user-fullname">{{request.user.username}}</p>
+                    <p class="user-name">@{{request.user.username}}</p>
+                </div>
+            </div>
+            <div class="settings profile-item">
+                <img src="{% static "rsc/icons8-settings-48.png"%}" alt="">
+                <p>Account Settings</p>
+            </div>
+            <div class="logout profile-item">
+                <img src="{% static "rsc/icons8-logout-48.png"%}" alt="">
+                <p> <a href="/logout"><button class="btn btn-link"> Logouts</button></p>
+            </div>
+        </div>
+    </div>
+    <div class="side-panel-container">
+        <div class="side-panel">
+            <div class="panel-item logo-item">
+                <div class="logo">
+                    <img src="{% static "rsc/icons8-project-management-48.png"%}" alt="" class="logo-image">
+                    <p class="logo-name">managessnap</p>
+                </div>
+                <img src="{% static "rsc/icons8-close-30 (1).png"%}" alt="" id="close">
+            </div>
+            <div class="dashboard panel-item">
+                <img src="{% static "rsc/icons8-dashboard-layout-48.png"%}" alt="" class="item">
+                <p class="name"><a href="dashboard.html">Dashboard</a></p>
+            </div>
+            <div class="courses panel-item">
+                <img src="{% static "rsc/icons8-e-learning-48.png"%}" alt="" class="item">
+                <p class="name"><a href="{% url 'usercourse' %}">Courses</a></p>
+            </div>
+            <div class="requests panel-item">
+                <img src="{% static "rsc/icons8-request-service-48.png"%}" alt="" class="item">
+                <p class="name"><a href="requests.html">Requests</a></p>
+            </div>
+            <div class="groups panel-item">
+                <img src="{% static "rsc/icons8-user-groups-48.png"%}" alt="" class="item">
+                <p class="name"><a href="{% url 'groups' %}">Groups</a></p>
+            </div>
+            <div class="course-details panel-item">
+                <div class="panel-heading">
+                    <h3>Course Details</h3>
+                    <img src="{% static "rsc/icons8-chevron-down-30.png"%}" alt="" class="down" id="arrow">
+                </div>
+                <div class="details">
+                    <div class="detail announcements">
+                        <img src="{% static "rsc/icons8-commercial-48.png"%}" alt="" class="item">
+                        <p class="name"><a href="{% url 'announceDetail' 'Announcement' courseid %}">Announcements</a></p>
+                    </div>
+                    <div class="detail timetable">
+                        <img src="{% static "rsc/icons8-calendar-48.png"%}" alt="" class="item">
+                        <p class="name"><a href="{% url 'announceDetail' 'Timetable' courseid %}">Timetable</a></p>
+                    </div>
+                    <div class="detail syllabus">
+                        <img src="{% static "rsc/icons8-google-classroom-48.png"%}" alt="" class="item">
+                        <p class="name"><a href="{% url 'announceDetail' 'Syllabus' courseid %}">Syllabus</a></p>
+                    </div>
+                    <div class="detail assignment">
+                        <img src="{% static "rsc/icons8-audit-48.png"%}" alt="" class="item">
+                        <p class="name"><a href="{% url 'assignDetail' 'Assignment' courseid %}">Assignment</a></p>
+                    </div>
+                    <div class="detail caesum">
+                        <img src="{% static "rsc/icons8-read-online-48.png"%}" alt="" class="item">
+                        <p class="name"><a href="{% url 'assignDetail' 'Caes' courseid %}">Caesum</a></p>
+                    </div>
+                    <div class="detail exams">
+                        <img src="{% static "rsc/icons8-hand-with-pen-48.png"%}" alt="" class="item">
+                        <p class="name"><a href="">Exams</a></p>
+                    </div>
+                    <div class="detail quiz">
+                        <img src="{% static "rsc/icons8-help-48.png"%}" alt="" class="item">
+                        <p class="name"><a href="{% url 'assignDetail' 'Quiz' courseid %}">Quiz</a></p>
+                    </div>
+                    <div class="detail units">
+                        <img src="{% static "rsc/icons8-unit-48.png"%}" alt="" class="item">
+                        <p class="name"><a href="{% url 'announceDetail' 'Unit' courseid %}">Units</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-item support">
+                <button>
+                    <img src="{% static "rsc/icons8-support-60.png"%}" alt="">
+                    <p>Get Support</p>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="navigation">
+        <div class="navi">
+            <div class="nav-logo">
+                <img src="{% static "rsc/icons8-menu-50.png"%}" alt="" id="menu" class="nav-logo-item">
+                <img src="{% static "rsc/icons8-project-management-48.png"%}" alt=""
+                    class="nav-logo-item nav-logo-image">
+                <p class="nav-logo-item nav-logo-text">managesnap</p>
+            </div>
+            <div class="nav-rest">
+                <div class="nav-item">
+                    <img src="{% static "rsc/icons8-notification-48 (1).png"%}" alt="" class="noti-icon">
+                </div>
+                <div class="profile-image nav-item">
+                    <img src="{{request.user.profile.profile_pic.url}}" alt="" class="image">
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <strong>Message!-</strong> {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    {% endfor %}
+    <div class="body">
         <div class="view-container">
             <div class="view">
+                <div style="display:flex">
+                    <a href={% url 'usercourse' %}><button class="btn btn-link ">All Courses</button></a>
+                    <a href={% url 'courseDetail' courseid %}><button class="btn btn-link ">Course detail</button></a>
+                    <a href={% url 'assignDetail' obj courseid %}><button class="btn btn-link ">{{obj}}</button></a>
+                    <a href={% url 'assignment-detail' obj assignment.id courseid %}><button class="btn btn-link ">{{obj}} Details</button></a>
+                    
+              </div>
                 <div class="heading view-item">
                     <div class="head heading-item">
                         
@@ -16,13 +241,13 @@
                             Info
                         </p>
                     
-                    {% if assignment.info %}
-                            <p>{{assignment.info}}</p>
+                        {% if assignment.info %}
+                                <p>{{assignment.info}}</p>
                         {% endif %}
-                    <a href={% url 'assignment-stats' assignment.id %}><button class="btn btn-outline-primary mb-3">See student stats</button> <br/></a>
-                    <p>{{assignment.max_grades}} points</p>
-                    <p>Created at: {{assignment.created_at}}</p>
-                    <p>Deadline: {{assignment.deadline}}</p>
+                        <a href={% url 'assignment-stats' assignment.id %}><button class="btn btn-outline-primary mb-3">See student stats</button> <br/></a>
+                        <p>{{assignment.max_grades}} points</p>
+                        <p>Created at: {{assignment.created_at}}</p>
+                        <p>Deadline: {{assignment.deadline}}</p>
                     </div>
                     <div class="head heading-item">
                         <div class="add-item heading-item">
@@ -32,13 +257,11 @@
                                 </button>
                             </div>
                         </div>
-                            
-
                     </div>
                     {% if assignment.released == False %}
                     <div class="release-edit heading-item">
                         <div class="release">
-                            <a href="{% url 'release-assignment' assignment.id %}"> <button class="release-btn">   
+                            <a href="{% url 'release-assignment' obj assignment.id courseid %}"> <button class="release-btn">   
                                 <img src="{% static "rsc/icons8-telegram-app-30.png" %}" alt="" class="icon">
                                 <p>Release</p>
                             </button></a>
@@ -54,37 +277,37 @@
                 </div>
                 <div class="announcement view-item">
                     
-                </div>
-                <div class="links view-item">
-                    <div class="heading links-item">
-                        <div class="head heading-item">
-                            <p class="heading-name">
-                                Links
-                            </p>
-                        </div>
-                        <div class="add-item heading-item">
-                            <div class="add">
-                                <button class="add-btn" data-toggle="modal" data-target="#addLink">
-                                    <p>Add +</p>
-                                </button>
+                
+                    <div class="links view-item">
+                        <div class="heading links-item">
+                            <div class="head heading-item">
+                                <p class="heading-name">
+                                    Links
+                                </p>
+                            </div>
+                            <div class="add-item heading-item">
+                                <div class="add">
+                                    <button class="add-btn" data-toggle="modal" data-target="#addLink">
+                                        <p>Add +</p>
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                        <div class="links-item">
+                            <ol class="links-list">
+                                {% if links %}
+                                    {% for link in links %}
+                                        <div style="display:flex">
+                                            <p>Link {{forloop.counter}}:  <button class="btn btn-link">{{link}}</button></p>
+                                            <a href={% url 'delete-link-assignment' assignment.id forloop.counter courseid %} ><button class="btn btn-danger mb-3 ml-2">delete link</button></a>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                
+                                
+                            </ol>
+                        </div>
                     </div>
-                    <div class="links-item">
-                        <ol class="links-list">
-                            {% if links %}
-                                {% for link in links %}
-                                    <div style="display:flex">
-                                        <p>Link {{forloop.counter}}:  <button class="btn btn-link">{{link}}</button></p>
-                                        {% comment %} <a href={% url 'delete-link-assignment' assignment.id link %} ><button class="btn btn-danger mb-3 ml-2">delete link</button></a> {% endcomment %}
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
-                            
-                            
-                        </ol>
-                    </div>
-                </div>
                 <div class="docs view-item">
                     <div class="heading docs-item">
                         <div class="head heading-item">
@@ -107,7 +330,7 @@
                                         <div style="display:flex">
                                             <p>File {{forloop.counter}}: <a href={{document.document.url}} target='_blank'><button class="btn btn-link">{{document.document.name|cut:'documents/'}}</button></a></p>
                                             <button data-toggle="modal" data-target="#renamefile{{document.id}}" class="btn btn-primary mb-3 ml-5">rename file</button>
-                                            <a href={% url 'delete-assignment-file' document.id assignment.id %} ><button class="btn btn-danger mb-3 ml-2">delete file</button></a>
+                                            <a href={% url 'delete-assignment-file' document.id assignment.id courseid%} ><button class="btn btn-danger mb-3 ml-2">delete file</button></a>
                                         </div>
                                         
                                                     <!-- rename file modal  -->
@@ -144,117 +367,74 @@
 
                         </ol>
                     </div>
-                    <div style="width: 60%;" class="py-5">
-                        <h3>Update content</h3>
-                        <form action={% url 'edit-topic' %} method="post" enctype="multipart/form-data">{% csrf_token %}
-                            <fieldset>
-                                <div class="form-group">
-                                    <label for="title">Title</label>
-                                    <input type="text" value={{assignment.title}} class="form-control" id="title" name="title" placeholder="Enter title">
-                                </div>
-                                <div class="form-group">
-                                    <label for="max_grades">Max Grades</label>
-                                    <input type="number" value={{assignment.max_grades}} class="form-control" id="max_grades" name="max_grades" placeholder="Max grades">
-                                </div>
-                                <div class="form-group">
-                                    <label for="deadline">Deadline</label>
-                                    <input type="datetime-local" class="form-control" value="{{assignment.deadline|date:'Y-m-d'}}T{{assignment.deadline|time:'H:i'}}" id="deadline" name="deadline" placeholder="Submission Deadline" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="info">Info</label>
-                                    {% if assignment.info %}
-                                        <input type="text" value='{{assignment.info}}' class="form-control" id="info" name="info" placeholder="Add Info if any" >
-                                    {% else %}
-                                        <input type="text" class="form-control" id="info" name="info" placeholder="Add Info if any" >
-                                    {% endif %}
-                                    
-                                </div>
-                                <input type="hidden" value={{assignment.id}} name="assignmentid" id="assignmentid">
-                                <input type="hidden" value='True' name="isassignment" id="isassignment">
-                                <button type="submit" class="btn btn-primary">Edit</button>
-                            </fieldset>
-                        </form>
-                
-                    </div>
                 
                     <h3 class="mt-5 mb-4">Submissions</h3>
-    <a href= {% url 'submitted' assignment.id %}><button class="btn btn-primary mb-4">Submitted</button></a>
-    <a href= {% url 'not-submitted' assignment.id %}><button class="btn btn-primary mx-2 mb-4">Not Submitted</button></a>
-    <a href= {% url 'graded' assignment.id %}><button class="btn btn-primary mx-2 mb-4">Graded</button></a>
-    <a href= {% url 'not-graded' assignment.id %}><button class="btn btn-primary mx-2 mb-4">Not Graded</button></a>
+                    <a href= {% url 'submitted' assignment.id %}><button class="btn btn-primary mb-4">Submitted</button></a>
+                    <a href= {% url 'not-submitted' assignment.id %}><button class="btn btn-primary mx-2 mb-4">Not Submitted</button></a>
+                    <a href= {% url 'graded' assignment.id %}><button class="btn btn-primary mx-2 mb-4">Graded</button></a>
+                    <a href= {% url 'not-graded' assignment.id %}><button class="btn btn-primary mx-2 mb-4">Not Graded</button></a>
+                
+                    {% for submission in submissions %}
 
-    {% for submission in submissions %}
+                        {% if submission.upload %}
+                            <p>Submitted</p>
+                            <div>
+                                <p>By: {{submission.user.username}}</p>
+                                <p>Submitted File is <a href={{submission.upload.url}}>here</a></p>
+                                {% if submission.grades.is_graded %}
 
-        {% if submission.upload %}
-            <p>Submitted</p>
-            <div>
-                <p>By: {{submission.user.username}}</p>
-                <p>Submitted File is <a href={{submission.upload.url}}>here</a></p>
-                {% if submission.grades.is_graded %}
+                                    <p>Graded: {{ submission.grades.grades }} out of {{ submission.assignment.max_grades }}</p>
 
-                    <p>Graded: {{ submission.grades.grades }} out of {{ submission.assignment.max_grades }}</p>
+                                {% else %}
 
-                {% else %}
+                                    <button data-toggle="modal" data-target="#grades{{submission.id}}" class="btn btn-primary mb-5">Add grades</button>
 
-                    <button data-toggle="modal" data-target="#grades{{submission.id}}" class="btn btn-primary mb-5">Add grades</button>
+                                {% endif %}
 
-                {% endif %}
-
-            </div>
-            <p>Submitted at: {{submission.uploaded_at}}</p>
-
-                <!-- Add Grades Modal -->
-            <div class="modal fade" id="grades{{submission.id}}" tabindex="-1" aria-labelledby="grades{{submission.id}}" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="grades{{submission.id}}title">Add grades to {{ submission.user.username }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action={% url 'add-grades' %} method="post" enctype="multipart/form-data">{% csrf_token %}
-                            <div class="form-group">
-                                <label for="grades">Grades</label>
-                                <input type="number" class="form-control" id="grades" name="grades" placeholder="Add grades" required>
                             </div>
-                            <div class="form-group">
-                                <label for="remark">Remark</label>
-                                <input type="text" class="form-control" id="remark" name="remark" placeholder="Give remark if any">
+                            <p>Submitted at: {{submission.uploaded_at}}</p>
+
+                                <!-- Add Grades Modal -->
+                            <div class="modal fade" id="grades{{submission.id}}" tabindex="-1" aria-labelledby="grades{{submission.id}}" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="grades{{submission.id}}title">Add grades to {{ submission.user.username }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action={% url 'add-grades' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="grades">Grades</label>
+                                                <input type="number" class="form-control" id="grades" name="grades" placeholder="Add grades" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="remark">Remark</label>
+                                                <input type="text" class="form-control" id="remark" name="remark" placeholder="Give remark if any">
+                                            </div>
+                                            <input type="hidden" value={{submission.id}} name="assignmentid" id="assignmentid">
+                                            <button type="submit" class="btn btn-primary">Grade</button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                    </div>
+                                    </div>
+                                </div>
                             </div>
-                            <input type="hidden" value={{submission.id}} name="assignmentid" id="assignmentid">
-                            <button type="submit" class="btn btn-primary">Grade</button>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-                    </div>
-                    </div>
-                </div>
-            </div>
-        
-        {% else %}
+                        {% endif %}
 
-            {% comment %} <div>
-                <p>Not Submitted</p>
-                <p>By: {{submission.user.username}}</p>
-            </div> {% endcomment %}
-
-        {% endif %}
-
-        <hr />
-
-    {% endfor %}
+                    {% endfor %}
 
 
                 </div>
 
                 
-            </div>
-        </div>
-    
+           
 
 <!-- update modal  -->
 <div class="modal fade" id="updatemodel" tabindex="-1" aria-labelledby="addFile" aria-hidden="true">
@@ -267,7 +447,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <form action={% url 'edit-topic' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+            <form action={% url 'edit-topic' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
                 <fieldset>
                     <div class="form-group">
                         <label for="title">Title</label>
@@ -316,7 +496,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <form action={% url 'add-file' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+            <form action={% url 'add-file' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
                 <div class="form-group">
                     <label for="document">Add multiple Files</label>
                     <input type="file" class="form-control" id="document" name="document" placeholder="Add Files" multiple>
@@ -347,7 +527,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <form action={% url 'add-link' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+            <form action={% url 'add-link' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
                 <div class="form-group">
                     <label for="link">Link</label>
                     <input type="link" class="form-control" id="link" name="link" placeholder="Add Link">
@@ -365,29 +545,23 @@
     </div>
   </div>
 
-{% endblock content %}
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+  crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+crossorigin="anonymous"></script>
+<script src="{% static "scripts/script.js"%}"></script>
+<script src="{% static "scripts/add-course.js"%}"></script>
+<script src="{% static "scripts/groups-script.js"%}"></script>
+<script src="{% static "scripts/profile-script.js"%}"></script>
+<script src="{% static "scripts/announcements-script.js"%}"></script>
+</body>
 
-{% block js %}
 
-  <script>
-    var donebtn = document.querySelectorAll(".doneBtn")
-    donebtn.forEach(function(btn) {
-        var url = btn.getAttribute('target');
-        var documentid = btn.getAttribute('documentid');
-        var doneIcon = document.querySelector(".doneIcon" + documentid);
-        btn.addEventListener("click", function(){
-            if(doneIcon.classList.contains('fa-check-square') == true){
-                doneIcon.classList.remove('fa-check-square');
-                doneIcon.classList.add('fa-square');
-            }
-            else if (doneIcon.classList.contains('fa-square') == true){
-                doneIcon.classList.remove('fa-square');
-                doneIcon.classList.add('fa-check-square');
-            }
-            fetch(url)
-            .then(response => response.json())
-        });
-    });
-  </script>
+</html>
 
-{% endblock js %}

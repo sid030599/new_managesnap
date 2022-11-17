@@ -155,7 +155,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <form action={% url 'add-file' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+            <form action={% url 'add-file' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
                 <div class="form-group">
                     <label for="document">Add multiple files</label>
                     <input type="file" class="form-control" id="document" name="document" placeholder="Add Files" multiple>
@@ -184,7 +184,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <form action={% url 'add-link' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+            <form action={% url 'add-link' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
                 <div class="form-group">
                     <label for="link">Link</label>
                     <input type="link" class="form-control" id="link" name="link" placeholder="Add Link">

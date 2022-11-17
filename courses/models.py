@@ -21,13 +21,6 @@ class College(models.Model):
     def __str__(self):
         return self.name
 
-colleges = College.objects.all()
-
-college_choice = []
-
-for college in colleges:
-    college_choice.append((college.name, college.name))
-
 
 #User._meta.get_field('email')._unique = True
 
@@ -42,6 +35,8 @@ gender_choices = (('M', 'MALE'),
 ('F', 'FEMALE'),
 ('O', 'OTHER'))
 class Profile(models.Model):
+    
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
     # personal details
@@ -78,7 +73,7 @@ class Profile(models.Model):
     designation             =       models.CharField(max_length=100, null=True, blank=True)
     xp = models.IntegerField(null=True, default=100, blank=True)
     techsnap_cash = models.IntegerField(null=True, default=999, blank=True)
-    college = models.CharField(max_length=100, choices=college_choice,default = 'abc')
+    college = models.ForeignKey(College,on_delete = models.CASCADE,null=True, blank=True)
     slug = models.SlugField(max_length=200, editable=False, null=True, blank=True)
     status = models.CharField(choices=status_choices, max_length=5, default='s')
     # is_student = models.BooleanField(default=True)
@@ -102,7 +97,14 @@ class Profile(models.Model):
     # def num_ForumPosts(self):
     #     return ForumPost.objects.filter(user=self).count()
 
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
 
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
 
 

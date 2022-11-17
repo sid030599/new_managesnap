@@ -21,7 +21,14 @@ def home(request):
             courses = course.objects.filter(created_by__profile__college=college)
             return render(request, 'index.html', {'teachers': User.objects.filter(profile__status='t', profile__college=college), 'courses': courses, 'students': User.objects.filter(profile__status='s', profile__college=college)})
 
+        if request.user.profile.status == 't':
+
+            courses = course.objects.filter(created_by=request.user)
+            Totalcourse = len(courses)
+            return render(request, 'dashboard.html', {'college_choices': college_choices,'numberofcourses':Totalcourse})
     return render(request, 'index.html', {'college_choices': college_choices})
+
+
 
 def coursepage(request):
     college_choices = College.objects.all()
@@ -33,28 +40,40 @@ def coursepage(request):
     return render(request, 'courses.html', {'courses': courses, 'excluded': excluded, 'college_choices': college_choices})
 
 def usercourse(request):
-    print(request.user)
+    
     courses , _ = mycourses.objects.get_or_create(user=request.user)
+    all_courses = mycourses.objects.all()
     courses = courses.courses.all()
     if request.user.profile.status == 't':
         courses = course.objects.filter(created_by=request.user)
         return render(request, 'index2.html', {'courses': courses, 'user':request.user})
 
-    return render(request, 'mycourses.html', {'courses': courses, 'user':request.user})
+    return render(request, 'student_home.html', {'courses': courses, 'user':request.user,'all_courses':all_courses})
 
 
-def topic_detail(request, topicid):
+
+def all_courses(request):
+    
+    all_courses = course.objects.all()
+    
+
+    return render(request, 'all_courses.html', { 'user':request.user,'all_courses':all_courses})
+
+
+def topic_detail(request,obj, topicid,courseid):
     if request.user.profile.status == 't':
+        
         topic = courseTopic.objects.get(id=topicid)
+        print(topic.id)
         courseid = topic.course.id
         is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic], name="Unit Lessons").exists()
-        
+        print(courseid)
         links = []
         if topic.link:
             links = topic.link.split(",")
 
 
-        return render(request, 'view.html', {'topic': topic, 'status': 't', 'links': links, 'is_unit': is_unit})
+        return render(request, 'view.html', {'topic': topic, 'status': 't', 'links': links, 'is_unit': is_unit,'courseid':courseid,'obj':obj})
 
     topic = mytopics.objects.get(id=topicid)
 
@@ -65,23 +84,36 @@ def topic_detail(request, topicid):
     courseid = topic.coursetopic.course.id
     is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic.coursetopic], name="Unit Lessons").exists()
 
-    return render(request, 'topic_detail.html', {'topic': topic, 'status': 's', 'is_unit': is_unit,  'links': links})
-
-def release_topic(request, topicid):
+    return render(request, 'topic_detail.html', {'topic': topic, 'status': 's', 'is_unit': is_unit,  'links': links,'courseid':courseid})
+def stu_topic_detail(request, topicid,courseid):
     
-    topic = courseTopic.objects.get(id=topicid)
-    topic.released = True
-    print(topic)
-    topic.save()
-    courseid = topic.course.id
-    is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic], name="Unit Lessons").exists()
+
+    topic = mytopics.objects.get(id=topicid)
 
     links = []
-    if topic.link:
-        links = topic.link.split(",")
+    if topic.coursetopic.link:
+        links = topic.coursetopic.link.split(",")
 
+    courseid = topic.coursetopic.course.id
+    is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic.coursetopic], name="Unit Lessons").exists()
 
-    return render(request, 'view.html', {'topic': topic, 'status': 't', 'links': links, 'is_unit': is_unit})
+    return render(request, 'topic_detail.html', {'topic': topic, 'status': 's', 'is_unit': is_unit,  'links': links,'courseid':courseid})
+
+def release_topic(request,obj, topicid, courseid):
+    if request.user.profile.status == 't':
+        print(topicid)
+        topic = courseTopic.objects.get(id=topicid)
+        topic.released = True
+        topic.save()
+        print(topic)
+        courseid = topic.course.id
+        is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic], name="Unit Lessons").exists()
+
+        links = []
+        if topic.link:
+            links = topic.link.split(",")
+
+        return render(request, 'view.html', {'topic': topic, 'status': 't','obj':obj, 'links': links, 'is_unit': is_unit,'courseid':courseid})
 
 def topic_stats(request, topicid):
     my_topics = mytopics.objects.filter(coursetopic__id=topicid)
@@ -140,18 +172,18 @@ def rename_file(request):
     
 
 
-def delete_file(request, documentid, topicid):
+def delete_file(request, documentid, topicid,courseid):
     Files.objects.filter(id=documentid).delete()
 
-    return redirect('topic-detail', topicid=topicid)
+    return redirect('topic-detail', topicid=topicid,courseid=courseid)
 
-def delete_assignment_file(request, documentid, assignmentid):
+def delete_assignment_file(request, documentid, assignmentid,courseid):
     Files.objects.filter(id=documentid).delete()
 
-    return redirect('assignment-detail', assignmentid=assignmentid)
+    return redirect('assignment-detail', assignmentid=assignmentid,courseid=courseid)
 
 
-def assignment_detail(request, assignmentid):
+def assignment_detail(request,obj, assignmentid,courseid):
 
     if request.user.profile.status == 't':
         assignment = Assignment.objects.get(id=assignmentid)
@@ -164,7 +196,7 @@ def assignment_detail(request, assignmentid):
         for document in assignment.documents.all():
             print(document.document.name)
 
-        return render(request, 'assignment_view.html', {'assignment': assignment, 'submissions': submissions, 'links': links})
+        return render(request, 'assignment_view.html', {'assignment': assignment, 'submissions': submissions, 'links': links,'courseid':courseid,'obj':obj})
     links = []
     assignment = myAssignment.objects.get(id=assignmentid)
     if assignment.assignment.link :
@@ -172,7 +204,15 @@ def assignment_detail(request, assignmentid):
 
     return render(request, 'assignment_detail.html', {'assignment': assignment, 'links': links})
 
-def release_assignment(request, assignmentid):
+def stu_assignment_detail(request, assignmentid,courseid):
+    links = []
+    assignment = myAssignment.objects.get(id=assignmentid)
+    if assignment.assignment.link :
+        links = assignment.assignment.link.split(",")
+
+    return render(request, 'assignment_detail.html', {'assignment': assignment, 'links': links})
+
+def release_assignment(request,obj, assignmentid,courseid):
     
     if request.user.profile.status == 't':
         assignment = Assignment.objects.get(id=assignmentid)
@@ -187,7 +227,7 @@ def release_assignment(request, assignmentid):
         for document in assignment.documents.all():
             print(document.document.name)
 
-        return render(request, 'assignment_view.html', {'assignment': assignment, 'submissions': submissions, 'links': links})
+        return render(request, 'assignment_view.html', {'assignment': assignment,'obj':obj, 'submissions': submissions, 'links': links,'courseid':courseid})
 
 def submitted(request, assignmentid):
 
@@ -241,7 +281,7 @@ def grades(request):
     return redirect('home')
 
 
-def topic_delete(request, topicid):
+def topic_delete(request, topicid,courseid):
     topic = courseTopic.objects.get(id=topicid)
     title = topic.title
     courseid = topic.course.id
@@ -323,9 +363,9 @@ def enrollcourse(request, courseid, studentid):
     if request.user.profile.status != 't':
         messages.error(request, "You are not the staff")
         return redirect('home')
-    print(studentid)
+    
     student = User.objects.get(id=studentid)
-    print(student)
+
     addcourse = course.objects.get(id=courseid)
     mycourse,_ = mycourses.objects.get_or_create(user=student)
     mycourse.courses.add(addcourse)
@@ -405,38 +445,58 @@ def courseDetail(request, courseid):
     if request.user.profile.status == 't':
         coursedet = course.objects.get(id=courseid)
         courseunits = courseUnit.objects.filter(course__id = courseid)
-        return render(request, 'course-content-detail.html', {'courseunits': courseunits, 'course': coursedet})
+       
+        return render(request, 'course-content-detail.html', {'courseunits': courseunits, 'course': coursedet,'courseid':courseid})
 
     mycourseunits = myCourseUnit.objects.filter(user=request.user, courseunit__course__id=courseid)
-    return render(request, 'course-detail.html', {'mycourseunits': mycourseunits})
+    
+    return render(request, 'course-detail.html', {'mycourseunits': mycourseunits,'courseid':courseid})
 
-def assignDetail(request,obj):
-    print(obj)
+def courseunit(request, courseid):
+    
+    mycourseunits = myCourseUnit.objects.filter(user=request.user, courseunit__course__id=courseid)
+    
+    
+    for i in mycourseunits:
+        if i.courseunit.name == 'Unit Lessons':
+            units = i.coursetopics.all()
+        
+        if i.courseunit.name == 'Assignment':
+            
+            assign=  i.course_assignments.all()
+                
+            
+    for j in assign:
+        print(j.assignment.title)
+    
+    
+    return render(request, 'course_units.html', {'units':units,'courseid':courseid,'assignments':assign})
+
+def assignDetail(request,obj,courseid):
+    
     if request.user.profile.status == 't':
-        coursedet = course.objects.all()
-        print(coursedet)
-        for i in coursedet:
-            print(i.title)
-        courseunits = courseUnit.objects.all()
-        return render(request, 'assignment.html', {'courseunits': courseunits, 'course': coursedet,"obj":obj})
+        coursedet = course.objects.get(id=courseid)
+    
+        
+        courseunits = courseUnit.objects.filter(course__id = courseid)
+        return render(request, 'assignment.html', {'courseunits': courseunits, 'course': coursedet,"obj":obj,'courseid':courseid})
 
     mycourseunits = myCourseUnit.objects.filter(user=request.user)
     return render(request, 'course-detail.html', {'mycourseunits': mycourseunits})
 
-def announceDetail(request,obj):
+def announceDetail(request,obj,courseid):
     
     if obj=='Timetable':
         obj='Time Table'
     if obj=='Unit':
         obj='Unit Lessons'
-    print(obj)
+    
     if request.user.profile.status == 't':
-        coursedet = course.objects.all()
+        coursedet = course.objects.get(id=courseid)
         print(coursedet)
-        for i in coursedet:
-            print(i.title)
-        courseunits = courseUnit.objects.all()
-        return render(request, 'announcements.html', {'courseunits': courseunits, 'course': coursedet,"obj":obj})
+       
+        courseunits = courseUnit.objects.filter(course__id = courseid)
+        return render(request, 'announcements.html', {'courseunits': courseunits, 'course': coursedet,"obj":obj,'courseid':courseid})
 
     mycourseunits = myCourseUnit.objects.filter(user=request.user)
     return render(request, 'course-detail.html', {'mycourseunits': mycourseunits})
@@ -460,12 +520,13 @@ def create_course(request):
     user = request.user
     if(user.profile.status != 't'):
         messages.error(request, "You are not the staff so you can't create a course")
-        return redirect('home')
+        return redirect('usercourse')
 
     if request.method == 'POST':
         print("SDF",request.POST)
         title = request.POST['title']
         next = request.POST.get('next', '/')
+        print(next)
         category = request.POST['category']
         image = request.FILES['image']
         
@@ -475,7 +536,7 @@ def create_course(request):
         instance.save()
 
         messages.success(request, "Your course has been created.")
-        return HttpResponseRedirect(next)
+        return redirect('usercourse')
     
     #messages.error('something went wrong')
     return redirect('home')
@@ -537,7 +598,7 @@ def create_course_unit(request):
     return redirect('home')
 
 
-def create_topic(request):
+def create_topic(request,obj):
 
     user = request.user
     if(user.profile.status != 't'):
@@ -575,12 +636,12 @@ def create_topic(request):
             courseunit.save()
 
             messages.success(request, "Your topic to the unit has been added.")
-            return redirect("courseDetail", courseid=courseunit.course.id)
+            return redirect("announceDetail", courseid=courseunit.course.id,obj = obj )
 
         max_grades = request.POST['grades']
         deadline = request.POST['deadline']
 
-        print(deadline)
+        
 
         instance = Assignment(course=courseunit.course ,title=title, max_grades=max_grades, deadline=deadline)
 
@@ -602,7 +663,7 @@ def create_topic(request):
         courseunit.save()
 
         messages.success(request, "Your Work to the unit has been added.")
-        return redirect("courseDetail", courseid=courseunit.course.id)
+        return redirect("assignDetail", courseid=courseunit.course.id,obj = obj)
 
     
     messages.error(request, 'something went wrong')
@@ -800,7 +861,7 @@ def assignmentComp(request, assignmentid):
 
     return JsonResponse(data)
 
-def add_file(request):
+def add_file(request,courseid):
     if request.method == 'POST':
         document = request.FILES.getlist('document', None)
         assignmentid = request.POST['assignmentid']
@@ -814,7 +875,7 @@ def add_file(request):
             assignment.save()
 
             messages.success(request, "You have added the file successfully")
-            return redirect('assignment-detail', assignmentid=assignmentid)
+            return redirect('assignment-detail', assignmentid=assignmentid,courseid=courseid)
 
         else:
             topic = courseTopic.objects.get(id=assignmentid)
@@ -825,12 +886,12 @@ def add_file(request):
 
             topic.save()
             messages.success(request, "You have added the file successfully")
-            return redirect('topic-detail', topicid=assignmentid)
+            return redirect('topic-detail', topicid=assignmentid,courseid=courseid)
         
     return HttpResponse("Something went wrong", status=404)
 
 
-def add_link(request):
+def add_link(request,courseid):
     if request.method == 'POST':
         link = request.POST['link']
         assignmentid = request.POST['assignmentid']
@@ -846,7 +907,7 @@ def add_link(request):
             assignment.save()
 
             messages.success(request, "You Link have been added successfully")
-            return redirect('assignment-detail', assignmentid=assignmentid)
+            return redirect('assignment-detail', assignmentid=assignmentid,courseid=courseid)
 
         else:
             topic = courseTopic.objects.get(id=assignmentid)
@@ -857,12 +918,13 @@ def add_link(request):
 
             topic.save()
             messages.success(request, "You Link have been added successfully")
-            return redirect('topic-detail', topicid=assignmentid)
+            return redirect('topic-detail', topicid=assignmentid,courseid=courseid)
         
     return HttpResponse("Something went wrong", status=404)   
 
 
-def delete_link_assignment(request, assignmentid, link):
+def delete_link_assignment(request, assignmentid, link,courseid):
+
     assignment = Assignment.objects.get(id=assignmentid)
     links = assignment.link.split(",")
 
@@ -873,10 +935,10 @@ def delete_link_assignment(request, assignmentid, link):
     assignment.save()
 
     messages.success(request, "link deleted")
-    return redirect('assignment-detail', assignmentid=assignmentid)
+    return redirect('assignment-detail', assignmentid=assignmentid,courseid=courseid)
 
 
-def delete_link_topic(request, topicid, link):
+def delete_link_topic(request, topicid, link,courseid):
     topic = courseTopic.objects.get(id=topicid)
     links = topic.link.split(",")
 
@@ -887,13 +949,13 @@ def delete_link_topic(request, topicid, link):
     topic.save()
 
     messages.success(request, "link deleted")
-    return redirect('topic-detail', topicid=topicid)
+    return redirect('topic-detail', topicid=topicid,courseid=courseid)
 
 
 
 
 
-def edit_topic(request):
+def edit_topic(request,courseid):
     if request.method == 'POST':
         assignmentid = request.POST['assignmentid']
         isassignment = request.POST['isassignment']
@@ -906,13 +968,13 @@ def edit_topic(request):
             Assignment.objects.filter(id=assignmentid).update(title = title, max_grades = max_grades, info = info, deadline=deadline)
 
             messages.success(request, "Updated!!")
-            return redirect('assignment-detail', assignmentid=assignmentid)
+            return redirect('assignment-detail', assignmentid=assignmentid,courseid=courseid)
 
         else:
             courseTopic.objects.filter(id=assignmentid).update(title = title, info = info)
 
             messages.success(request, "Updated!!")
-            return redirect('topic-detail', topicid=assignmentid)
+            return redirect('topic-detail', topicid=assignmentid,courseid=courseid)
 
 
 def handleteachersignup(request):
