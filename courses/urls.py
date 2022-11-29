@@ -42,6 +42,7 @@ urlpatterns = [
     path('update/<str:obj>/<int:lessonid>/<int:unitid>/<int:courseid>', views.update_lesson, name='update-lesson'),
     path('delete/<str:obj>/<int:lessonid>/<int:unitid>/<int:courseid>', views.delete_lesson, name='delete-lesson'),
     path('topic/<int:id>/<courseid>', views.stu_topic_detail, name='stu-topic-detail'),
+    path('announce/<int:topicid>/<courseid>', views.stu_announce_detail, name='stu-announce-detail'),
     
     path('topic/<str:obj>/<int:topicid>/<courseid>/release', views.release_topic, name='release-topic'),
 

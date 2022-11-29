@@ -104,6 +104,37 @@
       </div>
 
     {% else %}
+        <h2>{{topic.coursetopic.title}}</h2>
+        <br/>
+        {% if topic.documents %}
+            {% for document in topic.documents.all %}
+            <div style="display: flex;justify-content: space-between;">
+                <p>File {{forloop.counter}}: <a href={{document.document.document.url}}>{{document.document.document.name|cut:'documents/'}}</a></p>
+
+                {% if is_unit %}
+                {% if document.done %}
+                    <a target="{% url 'unit-topic-complete' document.id %}" documentid="{{document.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{document.id}} fas fa-check-square"></i></a>
+                {% else %}
+                    <a target="{% url 'unit-topic-complete' document.id %}" documentid="{{document.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{document.id}} fas fa-square"></i></a>
+                {% endif %}
+                {% endif %}
+                
+            </div>
+            {% endfor %}
+            
+        {% endif %}
+        {% if topic.coursetopic.info %}
+            <p>{{topic.coursetopic.info}}</p>
+        {% endif %}
+
+
+        {% if links %}
+            {% for link in links %}
+            <div style="display:flex">
+                <p>Link {{forloop.counter}}:  <a href="{{link}}">{{link}}</a></p>
+            </div>
+            {% endfor %}
+        {% endif %}
 
         <div style="width: 60%;" class="py-5">
           {% for lesson in lessons %}

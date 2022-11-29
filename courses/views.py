@@ -196,23 +196,22 @@ def topic_detail(request,obj, topicid,courseid):
 
     return render(request, 'topic_detail.html', {'topic': topic, 'status': 's', 'is_unit': is_unit,  'links': links,'courseid':courseid})
 
-# def stu_topic_detail(request, topicid,courseid):
+def stu_announce_detail(request, topicid,courseid):
     
 
-#     topic = mytopics.objects.get(id=topicid)
+    topic = mytopics.objects.get(id=topicid)
+    print(topic)
+    links = []
+    if topic.coursetopic.link:
+        links = topic.coursetopic.link.split(",")
 
-#     links = []
-#     if topic.coursetopic.link:
-#         links = topic.coursetopic.link.split(",")
+    courseid = topic.coursetopic.course.id
+    #is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic.coursetopic], name="Unit Lessons").exists()
 
-#     courseid = topic.coursetopic.course.id
-#     #is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic.coursetopic], name="Unit Lessons").exists()
-
-#     return render(request, 'topic_detail.html', {'topic': topic, 'status': 's',  'links': links,'courseid':courseid})
+    return render(request, 'topic_detail.html', {'topic': topic, 'status': 's',  'links': links,'courseid':courseid})
 
 def stu_topic_detail(request, id,courseid):
     
-    print(id)
     unit = MyUnit.objects.filter(id = id)
 
     unit_ids = []
@@ -313,8 +312,11 @@ def delete_file(request, documentid, topicid,courseid):
 
 def delete_assignment_file(request, documentid, assignmentid,courseid):
     Files.objects.filter(id=documentid).delete()
-
-    return redirect('assignment-detail', assignmentid=assignmentid,courseid=courseid)
+    assignment = Assignment.objects.get(id=assignmentid)
+    submissions = myAssignment.objects.filter(assignment=assignment)
+    if assignment.link :
+            links = assignment.link.split(",")
+    return render(request, 'assignment_view.html', {'assignment': assignment, 'submissions': submissions, 'links': links,'courseid':courseid,'obj':'Assignment'})
 
 
 def assignment_detail(request,obj, assignmentid,courseid):
@@ -649,7 +651,7 @@ def test_assign_page(request, courseid):
             assign=  i.course_assignments.all()
     
 
-    return render(request, 'test_assignment.html', {"assign":assign})
+    return render(request, 'test_assignment.html', {"assign":assign,"courseid":courseid})
 
 def student_files(request, courseid):
     mycourseunits = myCourseUnit.objects.filter(user=request.user, courseunit__course__id=courseid)
@@ -1126,8 +1128,18 @@ def add_file(request,courseid):
             assignment.save()
 
             messages.success(request, "You have added the file successfully")
-            return redirect('assignment-detail', assignmentid=assignmentid,courseid=courseid)
+            # return redirect('assignment-detail', assignmentid=assignmentid,courseid=courseid)
+            
+            assignment = Assignment.objects.get(id=assignmentid)
+            links = []
 
+            if assignment.link :
+                links = assignment.link.split(",")
+
+            submissions = myAssignment.objects.filter(assignment=assignment)
+        
+
+            return render(request, 'assignment_view.html', {'assignment': assignment, 'submissions': submissions, 'links': links,'courseid':courseid,'obj':'Assignment'})
         else:
             topic = courseTopic.objects.get(id=assignmentid)
 
@@ -1158,7 +1170,7 @@ def add_link(request,courseid):
             assignment.save()
 
             messages.success(request, "You Link have been added successfully")
-            return redirect('assignment-detail', assignmentid=assignmentid,courseid=courseid)
+            return redirect('assignment-detail', assignmentid=assignmentid,courseid=courseid,obj='Assignment')
 
         else:
             topic = courseTopic.objects.get(id=assignmentid)
@@ -1186,7 +1198,7 @@ def delete_link_assignment(request, assignmentid, link,courseid):
     assignment.save()
 
     messages.success(request, "link deleted")
-    return redirect('assignment-detail', assignmentid=assignmentid,courseid=courseid)
+    return redirect('assignment-detail', assignmentid=assignmentid,courseid=courseid,obj='Assignment')
 
 
 def delete_link_topic(request, topicid, link,courseid):

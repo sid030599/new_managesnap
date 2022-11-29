@@ -1,0 +1,389 @@
+[{
+  "section": "PostureFlex",
+  "part_name": "Neck",
+  "question": "Please sit in position that you would usually do, with your right side towards the camera",
+  "option": [
+    [
+      "Capture",
+      10
+    ],
+    [
+      "Skip",
+      10
+    ]
+  ]
+},{
+  "section": "PostureFlex",
+  "part_name": "Neck",
+  "question": "Please sit in position facing the camera, that you would usually do",
+  "option": [
+    [
+      "Capture",
+      10
+    ],
+    [
+      "Skip",
+      10
+    ]
+  ]
+},{
+  "section": "PostureFlex",
+  "part_name": "Neck",
+  "question": "Please stand straight in front of the camera",
+  "option": [
+    [
+      "Capture",
+      10
+    ],
+    [
+      "Skip",
+      10
+    ]
+  ]
+},{
+  "section": "PostureFlex",
+  "part_name": "Neck",
+  "question": "Please stand by facing your body towards the rights hand side",
+  "option": [
+    [
+      "Capture",
+      10
+    ],
+    [
+      "Skip",
+      10
+    ]
+  ]
+},{
+  "section": "PainScale",
+  "part_name": "Neck",
+  "question": "Do you fell pain/discomfort in your neck",
+  "option": [
+    [
+      "while working on laptop",
+      1
+    ],
+    [
+      "While sleeping",
+      2
+    ],
+    [
+      "While on rest",
+      3
+    ],
+    [
+      "Constant",
+      4
+    ]
+  ]
+},{
+  "section": "General",
+  "part_name": "Neck",
+  "question": "How long you maintain a particular working position?",
+  "option": [
+    [
+      "Less than 6 hours",
+      1
+    ],
+    [
+      "6 - 8 hours",
+      2
+    ],
+    [
+      "8 - 10 hours",
+      3
+    ],
+    [
+      "More than 10 hours",
+      4
+    ]
+  ]
+},{
+  "section": "General",
+  "part_name": "Neck",
+  "question": "What is your general posture while working on the laptop?",
+  "option": [
+    [
+      "",
+      1
+    ],
+    [
+      "",
+      2
+    ],
+    [
+      "",
+      3
+    ],
+    [
+      "",
+      4
+    ]
+  ]
+},{
+  "section": "General",
+  "part_name": "Neck",
+  "question": "Are you able to touch your chin towards your chest?",
+  "option": [
+    [
+      "Upto 20°",
+      1
+    ],
+    [
+      "30°",
+      2
+    ],
+    [
+      "40°",
+      3
+    ],
+    [
+      "40-60°",
+      4
+    ]
+  ]
+},{
+  "section": "PainScale",
+  "part_name": "Neck",
+  "question": "Do feel pain in any of these?",
+  "option": [
+    [
+      "Bending backward",
+      1
+    ],
+    [
+      "Bending sideways",
+      2
+    ],
+    [
+      "Bending forward",
+      3
+    ],
+    [
+      "Circular motion",
+      4
+    ]
+  ]
+},{
+  "section": "PainScale",
+  "part_name": "Neck",
+  "question": "Do you know reason of your pain?",
+  "option": [
+    [
+      "Recent activity",
+      2
+    ],
+    [
+      "Injury",
+      2
+    ],
+    [
+      "Operation",
+      2
+    ],
+    [
+      "Occupational",
+      2
+    ],
+    [
+      "Other",
+      2
+    ]
+  ]
+},{
+  "section": "PainScale",
+  "part_name": "Neck",
+  "question": "Pain relieves with",
+  "option": [
+    [
+      "Rest",
+      1
+    ],
+    [
+      "Self Management",
+      2
+    ],
+    [
+      "Medicine",
+      3
+    ],
+    [
+      "Remains same",
+      4
+    ]
+  ]
+},{
+  "section": "PainScale",
+  "part_name": "Neck",
+  "question": "Please select the scale of pain",
+  "option": [
+    [
+      "Pain Scale",
+      0
+    ],
+    [
+      "Pain Scale",
+      1
+    ],
+    [
+      "Pain Scale",
+      2
+    ],
+    [
+      "Pain Scale",
+      3
+    ],
+    [
+      "Pain Scale",
+      4
+    ]
+  ]
+},{
+  "section": "PainScale",
+  "part_name": "Neck",
+  "question": "Does the pain radiates to other part as well",
+  "option": [
+    [
+      "Elbow",
+      1
+    ],
+    [
+      "Shoulder/Upper back",
+      2
+    ],
+    [
+      "Head/Forehead",
+      3
+    ],
+    [
+      "Upper arm/Lower arm",
+      4
+    ]
+  ]
+},{
+  "section": "PainScale",
+  "part_name": "Neck",
+  "question": "Pain aggravates with",
+  "option": [
+    [
+      "Prolonged Sitting (Daily work)",
+      1
+    ],
+    [
+      "Morning: Getting up in morning",
+      2
+    ],
+    [
+      "Lifting arm",
+      3
+    ],
+    [
+      "Constnat pain, remains same",
+      5
+    ],
+    [
+      "Moving neck",
+      4
+    ]
+  ]
+},{
+  "section": "AromFlex",
+  "part_name": "Neck",
+  "question": "Please follow the motion as described in the video",
+  "option": [
+    [
+      "Capture",
+      10
+    ],
+    [
+      "Skip",
+      10
+    ]
+  ]
+},{
+  "section": "General",
+  "part_name": "Neck",
+  "question": "Can you see chin proturded in mirrors sidways?",
+  "option": [
+    [
+      "Yes",
+      4
+    ],
+    [
+      "NO",
+      1
+    ]
+  ]
+},{
+  "section": "PainScale",
+  "part_name": "Neck",
+  "question": "What best defines nature of your pains",
+  "option": [
+    [
+      "Dull/Aching",
+      1
+    ],
+    [
+      "Tingling",
+      1
+    ],
+    [
+      "Numbness",
+      1
+    ],
+    [
+      "Stabbing/Freezing",
+      1
+    ]
+  ]
+},{
+  "section": "General",
+  "part_name": "Neck",
+  "question": "Do you feel any hump at your Neck?",
+  "option": [
+    [
+      "",
+      1
+    ],
+    [
+      "",
+      2
+    ],
+    [
+      "",
+      3
+    ],
+    [
+      "",
+      4
+    ]
+  ]
+},{
+  "section": "Consent",
+  "part_name": "Neck",
+  "question": "Do you agree with the terms and conditions",
+  "option": [
+    [
+      "Yes",
+      10
+    ],
+    [
+      "No",
+      10
+    ]
+  ]
+},{
+  "section": "AromFlex",
+  "part_name": "Neck",
+  "question": "Please follow the motion as described in the video",
+  "option": [
+    [
+      "Capture",
+      10
+    ],
+    [
+      "Skip",
+      10
+    ]
+  ]
+}]

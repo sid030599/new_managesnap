@@ -239,12 +239,20 @@
 
                 <section id="assignment-item" class="tab-content">
                     <div class="ta-list">
-                        {% for assign in assign %}
+                        {% for assignment in assign %}
                         <div class="ta-card">
                             <img
                                 src="https://t4.ftcdn.net/jpg/04/02/42/69/360_F_402426919_8EQoxyOoC1QMZE8a9X0l0IAsjzjrZpWX.jpg">
                             <div class="details">
-                                <a href="#">{{assign.assignment.title}}</a>
+                                <a href="{% url 'courseDetail' courseid %}">{{assign.assignment.title}}</a>
+                                <div style="display: flex;justify-content: space-between;" class="p-3">
+                                    <a href={% url 'stu-assignment-detail' assignment.id courseid %}><p style="display: inline;">{{assignment.assignment.title}}</p></a>
+                                    {% if assignment.done %}
+                                        <a target="{% url 'assignment-complete' assignment.id %}" topicid="{{assignment.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{assignment.id}} fas fa-check-square"></i></a>
+                                    {% else %}
+                                        <a target="{% url 'assignment-complete' assignment.id %}" topicid="{{assignment.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{assignment.id}} fas fa-square"></i></a>
+                                    {% endif %}
+                                </div>
                                 <p>Time: 1hr 30min</p>
                             </div>
                         </div>
