@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>links</title>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+    {% for link in all_links %}
+        
+        <h2><a href={{ link }}>{{ link }}</a></h2>
+            
+                {% comment %} <button class="edit"><a href="{% url "update-obj" document obj document.id %}">Edit&nbsp;</a></button>
+            
+                <button class="delete"><a href="{% url "delete-documents" document.id %}">Delete&nbsp;</a></button> {% endcomment %}
+       
+
+        {% comment %} <button class="delete"><a href="{% url 'create-obj' document.id obj %}">Add Documents&nbsp;</a></button> {% endcomment %}
+    
+        {% endfor %}
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> 
+    <title>Document</title>
+</head>
+<body>
+    <div style="display: flex;" class="row d-flex justify-content-center"></div>
+    <div class = "col-md-4"></div>
+        
+            <form class='popup w3-border w3-round-large' enctype='multipart/form-data' method='POST' action="{% url "update-lesson" obj lessonid unit.id courseid %}">
+                <div class="left">
+                    <div class="left-cont">
+                        <img src="{% static "rsc/icons8-project-management-48.png"%}" alt="">
+                        <h3>Update lesson</h3>
+                        
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="right-cont">
+                        <div class='right-item'>
+                            {% csrf_token %}
+                            {{ lesson_form|crispy }}
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="left-item ac-btn">
+                        <button type="submit" class="a">update</button>
+                        <button class="cancel" type="button">Cancel</button>
+                    </div>
+                </div>
+            </form>
+       
+    </div>
+</div>
+</body>
+</html>

@@ -4,6 +4,8 @@
 
     <div class="p-4 m-4">
 
+        
+
         {% for mycourseunit in mycourseunits %}
 
             <h5>{{mycourseunit.courseunit.name}}</h5>
@@ -29,12 +31,13 @@
                 {% endif %}
             
             {% elif mycourseunit.courseunit.name == 'Unit Lessons' %}
-                {% if mycourseunit.coursetopics.all %}
+                
 
-                    {% for courseTopic in mycourseunit.coursetopics.all %}
+                    {% for unit in units %}
                         <div style="display: flex;justify-content: space-between;" class="p-3">
-                            <a href={% url 'stu-topic-detail' courseTopic.id courseid %}><p style="display: inline;">{{courseTopic.coursetopic.title}}</p></a>
-                            
+                            {{unit.title}}
+                            {% comment %} <a href={% url 'stu-topic-detail' courseTopic.id courseid %}><p style="display: inline;">{{unit.title}}</p></a> {% endcomment %}
+
                             {% if courseTopic.done %}
                                 <a target="{% url 'topic-complete' courseTopic.id %}" topicid="{{courseTopic.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{courseTopic.id}} fas fa-check-square"></i></a>
                             {% else %}
@@ -53,7 +56,7 @@
 
                     {% for courseTopic in mycourseunit.coursetopics.all %}
                         <div style="display: flex;justify-content: space-between;" class="p-3">
-                            <a href={% url 'stu-topic-detail' courseTopic.id courseid %}><p style="display: inline;">{{courseTopic.coursetopic.title}}</p></a>
+                            {% comment %} <a href={% url 'stu-topic-detail' courseTopic.id courseid %}><p style="display: inline;">{{courseTopic.coursetopic.title}}</p></a> {% endcomment %}
                             {% if courseTopic.done %}
                                 <a target="{% url 'topic-complete' courseTopic.id %}" topicid="{{courseTopic.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{courseTopic.id}} fas fa-check-square"></i></a>
                             {% else %}

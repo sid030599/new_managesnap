@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Files Page</title>
+    <link rel="stylesheet" href="{% static "styles/all.css" %}">
+    <link rel="stylesheet" href="{% static "styles/student_files.css" %}">
+    <!----===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <header class="header">
+        <div class="first-header">
+            <div class="left-header">
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+
+                <img id="logo" src="images/logo.png">
+            </div>
+
+            <div class="right-header">
+                <div class="all-apps-container">
+                    <div class="right-header-icons">
+                        <img class="all-apps-icon icon" src="images/Apps.png">
+                    </div>
+                </div>
+
+                <div class="notification-container">
+                    <div class="right-header-icons">
+                        <img class="notify-icon icon" src="images/notification.png">
+                    </div>
+                    <div class="dropdown">
+                        <div class="notify_item">
+                            <div class="notify_img">
+                                <img src="images/User.png" alt="profile_pic" style="width: 50px">
+                            </div>
+                            <div class="notify_info">
+                                <p>You have submitted your assignment submission for<span>Assignment-1</span></p>
+                                <button class="notify-btn">Explore All</button>
+                            </div>
+                            <div class="notify_time">
+                                <p>2h</p>
+                                <h1>...</h1>
+                            </div>
+                        </div>
+                        <div class="notify_item">
+                            <div class="notify_img">
+                                <img src="images/User.png" alt="profile_pic" style="width: 50px">
+                            </div>
+                            <div class="notify_info">
+                                <p>You have submitted your assignment submission for<span>Assignment-1</span></p>
+                                <button class="notify-btn">Explore All</button>
+                            </div>
+                            <div class="notify_time">
+                                <p>2h</p>
+                                <h1>...</h1>
+                            </div>
+                        </div>
+                        <div class="notify_See_All">
+                            <button class="see-All">See All Notifications</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-container">
+                    <div class="right-header-icons">
+                        <img class="profile-icon icon" src="images/User.png">
+                    </div>
+                    <div class="dropdown-content">
+                        <a href="#"><span><i class="fa-solid fa-gauge"></i>Dashboard</span></a>
+                        <a href="#"><span><i class="fa-solid fa-table"></i>Grades</span></a>
+                        <a href="#"><span><i class="fa-solid fa-comment"></i>Messages</span></a>
+                        <a href="#"><span><i class="fa-solid fa-wrench"></i>Preferences</span></a>
+                        <a href="#"><span><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="second-header">
+            <nav class="nav-bar">
+                <ul class="navigation">
+                    <li><a href="all_courses_page.html" class="first">Course Home</a></li>
+                    <li><a href="course_learning_page.html">Content</a></li>
+                    <li><a href="test_and_assignments_page.html">Test & Assignments</a></li>
+                    <li><a href="communication_page.html">Communication</a></li>
+                    <li><a href="course_tools_page.html">Course Tools</a></li>
+                    <li><a href="#">E - Library</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="content-container">
+        <nav class="sidebar close">
+            <header>
+                <i class='bx bx-chevron-right toggle'></i>
+            </header>
+
+            <div class="menu-bar">
+                <div class="menu">
+                    <ul class="menu-links">
+                        <li class="nav-link">
+                            <a href="index.html">
+                                <i class='bx bx-home-alt icon'></i>
+                                <span class="text nav-text">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="all_courses_page.html">
+                                <i class='bx bx-bar-chart-alt-2 icon'></i>
+                                <span class="text nav-text">All courses</span>
+                            </a>
+
+
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="#">
+                                <i class='bx bx-bell icon'></i>
+                                <span class="text nav-text">Calender</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="notifications_page.html">
+                                <i class='bx bx-pie-chart-alt icon'></i>
+                                <span class="text nav-text">Notifications</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="#">
+                                <i class='bx bx-heart icon'></i>
+                                <span class="text nav-text">Your Files</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="#">
+                                <i class='bx bx-wallet icon'></i>
+                                <span class="text nav-text">Events</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="bottom-content">
+                    <li class="">
+                        <a href="#">
+                            <i class='bx bx-log-out icon'></i>
+                            <span class="text nav-text">Logout</span>
+                        </a>
+                    </li>
+
+                    <li class="mode">
+                        <div class="sun-moon">
+                            <i class='bx bx-moon icon moon'></i>
+                            <i class='bx bx-sun icon sun'></i>
+                        </div>
+                        <span class="mode-text text">Dark mode</span>
+
+                        <div class="toggle-switch">
+                            <span class="switch"></span>
+                        </div>
+                    </li>
+
+                </div>
+            </div>
+        </nav>
+
+        <section class="home">
+            <div class="download-card-section">
+                <div class="downloads-on-day-section">
+                    <h1 class="download-date">November 18th, 2022</h1>
+
+                    <div class="download-card">
+                        <div class="file-icon">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+
+                        <h1>Complex Numbers</h1>
+
+                        <button type="button" value="Download">Download</button>
+                    </div>
+
+                    <div class="download-card">
+                        <div class="file-icon">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+
+                        <h1>Differential Equations</h1>
+
+                        <button type="button" value="Download">Download</button>
+                    </div>
+                </div>
+
+                <div class="downloads-on-day-section">
+                    <h1 class="download-date">November 10th, 2022</h1>
+
+                    <div class="download-card">
+                        <div class="file-icon">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+
+                        <h1>Quadratic Equations</h1>
+
+                        <button type="button" value="Download">Download</button>
+                    </div>
+
+                    <div class="download-card">
+                        <div class="file-icon">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+
+                        <h1>Integrations</h1>
+
+                        <button type="button" value="Download">Download</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
+{% load custom_tags %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -92,8 +93,8 @@
             <nav class="nav-bar">
                 <ul class="navigation">
                     <li><a href="#" class="first">Course Home</a></li>
-                    <li><a href="https://vincenzo5k.github.io/TechSnap-Course-Learning-Page/" target="_blank">Content</a></li>
-                    <li><a href="#">Test & Assignments</a></li>
+                    <li><a href="{% url 'student_learning_page' courseid %}" target="_blank">Content</a></li>
+                    <li><a href="{% url 'test-assign-page' courseid %}">Test & Assignments</a></li>
                     <li><a href="#">Communication</a></li>
                     <li><a href="#">Course Tools</a></li>
                     <li><a href="#">E - Library</a></li>
@@ -198,76 +199,33 @@
                                 <i class="fa-solid fa-angle-up"></i></span>
                         </button>
                         <section class="content">
-                            <div class="course-list">
+                            {% comment %} <div class="course-list">
                                 {% for unit in units %}
                                 <div class="course-card">
                                     <div class="row-1">
                                         <h2><a href="{% url 'stu-topic-detail' unit.id courseid %}" target="_blank" rel="noopener noreferrer">{{unit.coursetopic.title}}</a></h2>
-                                        {% comment %} <a href={% url 'stu-topic-detail' courseTopic.id courseid %}><p style="display: inline;">{{courseTopic.coursetopic.title}}</p></a> {% endcomment %}
+                                        <a href={% url 'stu-topic-detail' courseTopic.id courseid %}><p style="display: inline;">{{courseTopic.coursetopic.title}}</p></a>
                                         
                                     </div>
                                     <div class="row-2">
-                                        {% comment %} <div class="pro-bar">
+                                        <div class="pro-bar">
                                             <div class="completed"></div>
-                                        </div> {% endcomment %}
+                                        </div>
                                         {% if unit.done %}
                                             <a target="{% url 'topic-complete' unit.id %}" topicid="{{unit.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{unit.id}} fas fa-check-square"></i></a>
                                         {% else %}
                                             <a target="{% url 'topic-complete' unit.id %}" topicid="{{unit.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{unit.id}} fas fa-square"></i></a>
                                         {% endif %}
-                                        {% comment %} <div class="details">
+                                        <div class="details">
                                             <p><span class="prog-count">4</span>%</p>
                                             <p>1 of 28 Topics Completed</p>
-                                        </div> {% endcomment %}
+                                        </div>
                                     </div>
                                 </div>
                                 {% endfor %}
 
-                                {% comment %} <div class="course-card">
-                                    <div class="row-1">
-                                        <h2><a href="https://" target="_blank" rel="noopener noreferrer">Unit 01 - Introduction</a></h2>
-                                    </div>
-                                    <div class="row-2">
-                                        <div class="pro-bar">
-                                            <div class="completed"></div>
-                                        </div>
-                                        <div class="details">
-                                            <p><span class="prog-count">10</span>%</p>
-                                            <p>1 of 28 Topics Completed</p>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="course-card">
-                                    <div class="row-1">
-                                        <h2><a href="https://" target="_blank" rel="noopener noreferrer">Unit 02 - Mathemaical Logic</a></h2>
-                                    </div>
-                                    <div class="row-2">
-                                        <div class="pro-bar">
-                                            <div class="completed"></div>
-                                        </div>
-                                        <div class="details">
-                                            <p><span class="prog-count">4</span>%</p>
-                                            <p>1 of 28 Topics Completed</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="course-card">
-                                    <div class="row-1">
-                                        <h2><a href="https://" target="_blank" rel="noopener noreferrer">Unit 03 - Modern Algebra</a></h2>
-                                    </div>
-                                    <div class="row-2">
-                                        <div class="pro-bar">
-                                            <div class="completed"></div>
-                                        </div>
-                                        <div class="details">
-                                            <p><span class="prog-count">0</span>%</p>
-                                            <p>1 of 28 Topics Completed</p>
-                                        </div>
-                                    </div>
-                                </div> {% endcomment %}
-                            </div>
+                            </div> {% endcomment %}
                         </section>
                     </div>
                 </div>
@@ -281,9 +239,16 @@
                                 <p>Last viewed - <a href="#">PDF - Complex Numbers</a></p>
 
                                 <div class="topics-list">
-                                    {% for unit in units %}
+
+                                    {% for unit in units%}
+                                    {% comment %} <div class="row-1">
+                                        <h3><a href="{% url 'stu-topic-detail' unit.id courseid %}" target="_blank" rel="noopener noreferrer">{{unit.coursetopic.title}}</a></h3>
+                                        <a href={% url 'stu-topic-detail' courseTopic.id courseid %}><p style="display: inline;">{{courseTopic.coursetopic.title}}</p></a> 
+                                        
+                                    </div> {% endcomment %}
                                     <div class="topic-card">
-                                        <h1>Unit {{forloop.counter}} :{{unit.coursetopic.title}}</h1>
+                                        <h1><a href="{% url 'stu-topic-detail' unit.id courseid %}" target="_blank" rel="noopener noreferrer">Unit {{forloop.counter}} :{{unit.unit.title}}</a></h1>
+                                        {% comment %} <h1>Unit {{forloop.counter}} :{{unit.coursetopic.title}}</h1> {% endcomment %}
 
                                         <div class="percent">
                                             <svg>
@@ -291,7 +256,9 @@
                                               <circle cx="30" cy="30" r="30"></circle>
                                             </svg>
                                             <div class="num">
-                                              <h2>87<span>%</span></h2>
+                                            <p>{{unit.id|get_unit_percentage:request.user.id  }}%</p>
+                                        
+                                              {% comment %} <h2>87<span>%</span></h2> {% endcomment %}
                                             </div>
                                           </div>
                                     </div>
@@ -325,54 +292,15 @@
                                 {% for assign in assignments %}
                                 <div class="link">
                                     <div class="row">
-                                        <a href="#">{{assign.assignment.title}}</a>
+                                        <a href="#">{{assign.coursetopic.title}}</a>
                                         <i class="fa-solid fa-xmark"></i>
                                     </div>
-                                    <p>{{assign.assignment.info}}</p>
+                                    <p>{{assign.announcement.info}}</p>
                                     <a href="#">Exam Preparation Session</a>
                                 </div>
                                 <hr>
                                 {% endfor %}
-                                <div class="link">
-                                    <div class="row">
-                                        <a href="#">Exam Preparation Session</a>
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </div>
-                                    <p>Ramakrishna Ganesh posted on 04 October 2021 12:08 PM</p>
-                                    <a href="#">Exam Preparation Session</a>
-                                </div>
-                                <hr>
-
-                                <div class="link">
-                                    <div class="row">
-                                        <a href="#">Exam Preparation Session</a>
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </div>
-                                    <p>Ramakrishna Ganesh posted on 04 October 2021 12:08 PM</p>
-                                    <a href="#">Exam Preparation Session</a>
-                                </div>
-                                <hr>
-
-                                <div class="link">
-                                    <div class="row">
-                                        <a href="#">Exam Preparation Session</a>
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </div>
-                                    <p>Ramakrishna Ganesh posted on 04 October 2021 12:08 PM</p>
-                                    <a href="#">Exam Preparation Session</a>
-                                </div>
-                                <hr>
-
-                                <div class="link">
-                                    <div class="row">
-                                        <a href="#">Exam Preparation Session</a>
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </div>
-                                    <p>Ramakrishna Ganesh posted on 04 October 2021 12:08 PM</p>
-                                    <a href="#">Exam Preparation Session</a>
-                                </div>
-
-                                </div>
+                                
                             </div>
 
                         <div class="calender-container part">

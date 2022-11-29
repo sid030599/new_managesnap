@@ -4,8 +4,8 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import userform
-from .models import Assignment,Profile, College, Files, course, courseTopic, myAssignment, myFiles, mycourses, mytopics, courseUnit, myCourseUnit, Groups, grades as marks
+from .forms import userform,LessonForm,LessonFileForm
+from .models import Assignment,Profile, College, Files, course, courseTopic, myAssignment, myFiles, mycourses, mytopics, courseUnit, myCourseUnit, Groups, Unit,Lesson,Lesson,LessonFile,MyUnit,MyLesson, grades as marks
 from django.http import JsonResponse
 from django.db.models import Q
 
@@ -46,7 +46,11 @@ def usercourse(request):
     courses = courses.courses.all()
     if request.user.profile.status == 't':
         courses = course.objects.filter(created_by=request.user)
-        return render(request, 'index2.html', {'courses': courses, 'user':request.user})
+        choices=[
+            ('Beginner', 'Beginner'),
+            ('Intermediate', 'Intermediate'),
+            ('Advanced', 'Advanced')]
+        return render(request, 'index2.html', {'courses': courses, 'user':request.user,'choices':choices})
 
     return render(request, 'student_home.html', {'courses': courses, 'user':request.user,'all_courses':all_courses})
 
@@ -59,12 +63,118 @@ def all_courses(request):
 
     return render(request, 'all_courses.html', { 'user':request.user,'all_courses':all_courses})
 
+def update_lesson(request,obj,lessonid, unitid,courseid):
+    if request.user.profile.status == 't':
+        
+        if request.method == 'POST':
+            unit = Unit.objects.get(id=unitid)
+            lessons = Lesson.objects.filter(unit = unit)
+            lesson = Lesson.objects.get(id = lessonid)
+            # latest_order = Lesson.objects.filter(unit__course=unit.course).order_by('-order')
+            # if latest_order:
+            #     latest_order = latest_order.first().order
+            # else :
+            #     latest_order = 0
+            
+            form = LessonForm(request.POST, request.FILES,instance=lesson)
+            print(request.POST)
+            if form.is_valid():
+                files = request.FILES.getlist('resource')
+                print(files)
+                lesson = form.save(commit=False)
+                lesson.unit = unit
+                # lesson.order = latest_order + 1
+                lesson.save()
+                lesson_form = LessonForm()
+                for f in files:
+                    file_instance = LessonFile(lesson = lesson , file = f)
+                    file_instance.save()
+                return render(request, 'lesson_details.html', {'lesson_form':lesson_form,'unit': unit,'lessons':lessons, 'status': 't', 'courseid':courseid,'obj':obj})
+        lesson = Lesson.objects.get(id = lessonid)     
 
+        lesson_form = LessonForm(instance=lesson)
+        unit = Unit.objects.get(id=unitid)
+        
+        return render(request, 'update_lesson.html', {'lesson_form':lesson_form,'lessonid':lessonid, 'unit': unit, 'status': 't', 'courseid':courseid,'obj':obj})
+
+def delete_lesson(request,obj,lessonid, unitid,courseid):
+    if request.user.profile.status == 't':
+        
+        
+            unit = Unit.objects.get(id=unitid)
+            lessons = Lesson.objects.filter(unit = unit)
+            Lesson.objects.get(id = lessonid).delete()
+            # latest_order = Lesson.objects.filter(unit__course=unit.course).order_by('-order')
+            # if latest_order:
+            #     latest_order = latest_order.first().order
+            # else :
+            #     latest_order = 0
+            
+            lesson_form = LessonForm()
+            
+            
+            return render(request, 'lesson_details.html', {'lesson_form':lesson_form,'unit': unit,'lessons':lessons, 'status': 't', 'courseid':courseid,'obj':obj})
+
+
+def unit_detail(request,obj, unitid,courseid):
+    if request.user.profile.status == 't':
+        
+        if request.method == 'POST':
+            unit = Unit.objects.get(id=unitid)
+            lessons = Lesson.objects.filter(unit = unit)
+            # latest_order = Lesson.objects.filter(unit__course=unit.course).order_by('-order')
+            # if latest_order:
+            #     latest_order = latest_order.first().order
+            # else :
+            #     latest_order = 0
+            
+            form = LessonForm(request.POST, request.FILES)
+            print(request.POST)
+            if form.is_valid():
+                files = request.FILES.getlist('resource')
+                print(files)
+                lesson = form.save(commit=False)
+                lesson.unit = unit
+                # lesson.order = latest_order + 1
+                lesson.save()
+                lesson_form = LessonForm()
+                for f in files:
+                    file_instance = LessonFile(lesson = lesson , file = f)
+                    file_instance.save()
+                return render(request, 'lesson_details.html', {'lesson_form':lesson_form,'unit': unit,'lessons':lessons, 'status': 't', 'courseid':courseid,'obj':obj})
+                return redirect('update-unit', slug=slug, unit_slug=lesson.unit.slug)
+        unit = Unit.objects.get(id=unitid)
+        lessons = Lesson.objects.filter(unit = unit)
+        lesson_form = LessonForm()
+        
+        return render(request, 'lesson_details.html', {'lesson_form':lesson_form,'unit': unit,'lessons':lessons, 'status': 't', 'courseid':courseid,'obj':obj})
+
+def show_links(request,pk):
+    
+        lesson = Lesson.objects.get(id = pk)
+        links = (lesson.resource_link)
+        if links:
+            links = links.split(",")
+        
+        return render(request,'links.html',{'all_links':links,'obj':'document','slug':'slug'})
+
+def show_document(request,slug):
+    if request.method == 'GET':
+        lesson = Lesson.objects.get(id = slug)
+        print(lesson)
+        documents = LessonFile.objects.filter(lesson = lesson)
+        print(documents)
+        return render(request,'documents.html',{'documents':documents,'obj':'document','slug':'slug'})
+    
+    if request.method == 'POST':
+        lesson = Lesson.objects.get(id = slug)
+        documents = LessonFile.objects.filter(lesson = lesson)
+        return render(request,'documents.html',{'documents':documents,'obj':'document','slug':'slug'})
+        
 def topic_detail(request,obj, topicid,courseid):
     if request.user.profile.status == 't':
         
         topic = courseTopic.objects.get(id=topicid)
-        print(topic.id)
         courseid = topic.course.id
         is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic], name="Unit Lessons").exists()
         print(courseid)
@@ -85,19 +195,42 @@ def topic_detail(request,obj, topicid,courseid):
     is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic.coursetopic], name="Unit Lessons").exists()
 
     return render(request, 'topic_detail.html', {'topic': topic, 'status': 's', 'is_unit': is_unit,  'links': links,'courseid':courseid})
-def stu_topic_detail(request, topicid,courseid):
+
+# def stu_topic_detail(request, topicid,courseid):
     
 
-    topic = mytopics.objects.get(id=topicid)
+#     topic = mytopics.objects.get(id=topicid)
 
-    links = []
-    if topic.coursetopic.link:
-        links = topic.coursetopic.link.split(",")
+#     links = []
+#     if topic.coursetopic.link:
+#         links = topic.coursetopic.link.split(",")
 
-    courseid = topic.coursetopic.course.id
-    is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic.coursetopic], name="Unit Lessons").exists()
+#     courseid = topic.coursetopic.course.id
+#     #is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic.coursetopic], name="Unit Lessons").exists()
 
-    return render(request, 'topic_detail.html', {'topic': topic, 'status': 's', 'is_unit': is_unit,  'links': links,'courseid':courseid})
+#     return render(request, 'topic_detail.html', {'topic': topic, 'status': 's',  'links': links,'courseid':courseid})
+
+def stu_topic_detail(request, id,courseid):
+    
+    print(id)
+    unit = MyUnit.objects.filter(id = id)
+
+    unit_ids = []
+    for i in unit:
+        unit_ids.append(i.unit.id)
+    print(unit_ids)
+    lessons = []
+    
+    
+    
+    lessons = MyLesson.objects.filter(unit__id__in =unit_ids)
+    print(lessons)
+    
+
+    
+    #is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic.coursetopic], name="Unit Lessons").exists()
+
+    return render(request, 'topic_detail.html', {'topic': unit,'lessons':lessons, 'status': 's',  'courseid':courseid})
 
 def release_topic(request,obj, topicid, courseid):
     if request.user.profile.status == 't':
@@ -138,6 +271,7 @@ def topic_unit_stats(request, topicid, documentid):
 def course_stats(request, courseid):
     Course = course.objects.get(id=courseid)
     my_courses = Course.mycourses
+
 
     return render(request, "course_stats.html", {'course': Course, 'my_courses': my_courses})
 
@@ -334,7 +468,7 @@ def groups(request):
 
 def enrollstudents(request, courseid):
     coursedet = course.objects.get(id=courseid)
-
+    student_unit = MyUnit.objects.filter(course__id = courseid)
     students = User.objects.filter(profile__status='s', profile__college=request.user.profile.college).exclude(enrolledcourses__courses__in=[coursedet])
     enrolled_students = User.objects.filter(profile__status='s', profile__college=request.user.profile.college, enrolledcourses__courses__in=[coursedet])
     groups = Groups.objects.filter(created_by__profile__college=request.user.profile.college, status='d').exclude(enrolled_courses__in=[coursedet]) | Groups.objects.filter(created_by=request.user).exclude(enrolled_courses__in=[coursedet])
@@ -370,6 +504,23 @@ def enrollcourse(request, courseid, studentid):
     mycourse,_ = mycourses.objects.get_or_create(user=student)
     mycourse.courses.add(addcourse)
     mycourse.save()
+    print(courseid)
+
+    unit = Unit.objects.filter(course = addcourse)
+    print(unit)
+    
+    
+    
+    for i in unit:
+        myunit= MyUnit.objects.create(user = student,unit=i,course = addcourse)
+        myunit.save()
+        
+        lesson = Lesson.objects.filter(unit = i)
+        
+        for j in lesson:
+            mylesson = MyLesson.objects.create(user = student,lesson=j,unit=i)
+            mylesson.save()
+
 
     # topics = courseTopic.objects.filter(course = courseid)
 
@@ -434,14 +585,20 @@ def unenroll_student(request, studentid, courseid):
     mytopics.objects.filter(user=student, coursetopic__course=Course).delete()
     myAssignment.objects.filter(user=student, assignment__course=Course).delete()
     myCourseUnit.objects.filter(user=student, courseunit__course=Course).delete()
-
+    MyUnit.objects.filter(user = student,course__id = courseid).delete()
+    unit = Unit.objects.filter(course__id = courseid)
+    unitid = []
+    for i in unit:
+        unitid.append(i.id)
+    print(unitid)
+    MyLesson.objects.filter(user= student,unit_id__in = unitid).delete()
     messages.success(request, "student unenrolled successfully")
     return redirect('enroll-students', courseid=courseid)
         
 
 
 def courseDetail(request, courseid):
-
+    print(courseid)
     if request.user.profile.status == 't':
         coursedet = course.objects.get(id=courseid)
         courseunits = courseUnit.objects.filter(course__id = courseid)
@@ -456,21 +613,56 @@ def courseunit(request, courseid):
     
     mycourseunits = myCourseUnit.objects.filter(user=request.user, courseunit__course__id=courseid)
     
+    units = MyUnit.objects.filter(user = request.user,course__id = courseid)
+    print(units)
+    for i in mycourseunits:
+    
+        
+        if i.courseunit.name == 'Announcement':
+            
+            assign=  i.coursetopics.all()
+        
+    
+    
+    return render(request, 'course_units.html', {'units':units,'courseid':courseid,'assignments':assign})
+    
+def student_learning_page(request, courseid):
+    mycourseunits = myCourseUnit.objects.filter(user=request.user, courseunit__course__id=courseid)
+    units = Unit.objects.filter(course__id = courseid)
+    lessons = []
+    for unit in units:
+        lesson = unit.lessons.all()
+        lessons.append(lesson)
+    
+    mylist = zip(units, lessons)
+    
+
+    return render(request, 'student_learning_page.html', {"units":units,"courseid":courseid,'lessons':lessons,'mylist':mylist})
+
+def test_assign_page(request, courseid):
+    mycourseunits = myCourseUnit.objects.filter(user=request.user, courseunit__course__id=courseid)
     
     for i in mycourseunits:
-        if i.courseunit.name == 'Unit Lessons':
-            units = i.coursetopics.all()
         
         if i.courseunit.name == 'Assignment':
             
             assign=  i.course_assignments.all()
-                
+    
+
+    return render(request, 'test_assignment.html', {"assign":assign})
+
+def student_files(request, courseid):
+    mycourseunits = myCourseUnit.objects.filter(user=request.user, courseunit__course__id=courseid)
+    
+    
+    for i in mycourseunits:
+        
+        if i.courseunit.name == 'Assignment':
             
-    for j in assign:
-        print(j.assignment.title)
+            assign=  i.course_assignments.all()
     
-    
-    return render(request, 'course_units.html', {'units':units,'courseid':courseid,'assignments':assign})
+
+    return render(request, 'student_files.html', {"assign":assign})
 
 def assignDetail(request,obj,courseid):
     
@@ -483,6 +675,20 @@ def assignDetail(request,obj,courseid):
 
     mycourseunits = myCourseUnit.objects.filter(user=request.user)
     return render(request, 'course-detail.html', {'mycourseunits': mycourseunits})
+
+def unitDetail(request,obj,courseid):
+    if request.user.profile.status == 't':
+        coursedet = course.objects.get(id=courseid)
+        
+       
+        units = Unit.objects.filter(course__id = courseid)
+        
+        return render(request, 'units.html', {'units': units, 'course': coursedet,"obj":obj,'courseid':courseid})
+
+    mycourseunits = myCourseUnit.objects.filter(user=request.user)
+    units = Unit.objects.filter(course__id = courseid)
+    
+    return render(request, 'course-detail.html', {'mycourseunits': mycourseunits,'units':units})
 
 def announceDetail(request,obj,courseid):
     
@@ -527,10 +733,12 @@ def create_course(request):
         title = request.POST['title']
         next = request.POST.get('next', '/')
         print(next)
+        price = request.POST['price']
+        level = request.POST['level']
         category = request.POST['category']
         image = request.FILES['image']
         
-        instance = course(title=title, category=category, created_by=user, image=image)
+        instance = course(title=title, category=category, created_by=user, image=image,course_price = price, course_level = level)
         # instance.image = image
         print(instance)
         instance.save()
@@ -597,6 +805,30 @@ def create_course_unit(request):
     messages.error('something went wrong')
     return redirect('home')
 
+def create_unit(request,obj):
+    
+    user = request.user
+    if(user.profile.status != 't'):
+        messages.error(request, "You are not the staff so you can't create a course topic")
+        return redirect('home')
+
+    if request.method == 'POST':
+        if obj == 'Unit':
+            
+            courseid = request.POST['courseunitid']
+            title = request.POST['title']
+            brief = request.POST.get('brief', None)
+            cours = course.objects.get(id = courseid)
+            due = request.POST.get('due')
+
+            instance = Unit(title=title,brief =brief, due = due, course = cours)
+
+
+            instance.save()
+            return redirect("unitDetail", courseid=courseid,obj = obj )
+
+
+        
 
 def create_topic(request,obj):
 
@@ -826,6 +1058,25 @@ def topiComp(request, coursetopic):
     }
 
     return JsonResponse(data)
+
+def lessonComp(request, lessonid):
+    print(lessonid)
+    lesson = MyLesson.objects.get(id=lessonid)
+    isdone = True
+    print(lesson)
+    if(lesson.isdone == True):
+        MyLesson.objects.filter(id=lessonid).update(isdone = False)
+        isdone = False
+    else:
+       MyLesson.objects.filter(id=lessonid).update(isdone=True)
+       isdone=True
+
+    data = {
+        'done': isdone,
+    }
+
+    return JsonResponse(data)
+
 
 def unitTopiComp(request, documentid):
     file = myFiles.objects.get(id=documentid)

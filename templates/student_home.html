@@ -195,7 +195,7 @@
                                             <p>{{course.category}}</p>
                                             
                                             <a href="{% url 'courseUnits' course.id %}" target="_blank">Units</a>
-                                            <p>{{course.id|get_percentage:request.user.id }}%</p>
+                                            {% comment %} <p>{{course.id|get_percentage:request.user.id }}%</p> {% endcomment %}
 
                                         </div>
                                     </div>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Learning Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "styles/all.css" %}">
+    <link rel="stylesheet" href="{% static "styles/course_learning_page_style.css"%}">
+    <!----===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <header class="header">
+        <div class="first-header">
+            <div class="left-header">
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+
+                <img id="logo" src="{% static "images/logo.png" %}">
+            </div>
+
+            <div class="right-header">
+                <div class="all-apps-container">
+                    <div class="right-header-icons">
+                        <img class="all-apps-icon icon" src="{% static "images/Apps.png" %}">
+                    </div>
+                </div>
+    
+                <div class="notification-container">
+                    <div class="right-header-icons">
+                        <img class="notify-icon icon" src="{% static "images/notification.png" %}">
+                    </div>
+                    <div class="dropdown">
+                        <div class="notify_item">
+                            <div class="notify_img">
+                                <img src="{% static "images/User.png" %}" alt="profile_pic" style="width: 50px">
+                            </div>
+                            <div class="notify_info">
+                                <p>You have submitted your assignment submission for<span>Assignment-1</span></p>
+                                <button class="notify-btn">Explore All</button>
+                            </div>
+                            <div class="notify_time">
+                                <p>2h</p>
+                                <h1>...</h1>
+                            </div>
+                        </div>
+                        <div class="notify_item">
+                            <div class="notify_img">
+                                <img src="{% static "images/User.png" %}" alt="profile_pic" style="width: 50px">
+                            </div>
+                            <div class="notify_info">
+                                <p>You have submitted your assignment submission for<span>Assignment-1</span></p>
+                                <button class="notify-btn">Explore All</button>
+                            </div>
+                            <div class="notify_time">
+                                <p>2h</p>
+                                <h1>...</h1>
+                            </div>
+                        </div>
+                        <div class="notify_See_All">
+                            <button class="see-All">See All Notifications</button>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="profile-container">
+                    <div class="right-header-icons">
+                        <img class="profile-icon icon" src="{% static "images/User.png" %}">
+                    </div>
+                    <div class="dropdown-content">
+                        <a href="#"><span><i class="fa-solid fa-gauge"></i>Dashboard</span></a>
+                        <a href="#"><span><i class="fa-solid fa-table"></i>Grades</span></a>
+                        <a href="#"><span><i class="fa-solid fa-comment"></i>Messages</span></a>
+                        <a href="#"><span><i class="fa-solid fa-wrench"></i>Preferences</span></a>
+                        <a href="#"><span><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="second-header">
+            <nav class="nav-bar">
+                <ul class="navigation">
+                    <li><a href="#" class="first">Course Home</a></li>
+                    <li><a href="#">Content</a></li>
+                    <li><a href="#">Test & Assignments</a></li>
+                    <li><a href="communication_page.html">Communication</a></li>
+                    <li><a href="course_tools_page.html">Course Tools</a></li>
+                    <li><a href="#">E - Library</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="content-container">
+        <nav class="sidebar close">
+            <header>
+                <i class='bx bx-chevron-right toggle'></i>
+            </header>
+
+            <div class="menu-bar">
+                <div class="menu">
+
+
+
+                    <ul class="menu-links">
+                        <li class="nav-link">
+                            <a href="index.html">
+                                <i class='bx bx-home-alt icon' ></i>
+                                <span class="text nav-text">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="all_courses_page.html">
+                                <i class='bx bx-bar-chart-alt-2 icon' ></i>
+                                <span class="text nav-text">All courses</span>
+                            </a>
+
+
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="#">
+                                <i class='bx bx-bell icon'></i>
+                                <span class="text nav-text">Calender</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="notifications_page.html">
+                                <i class='bx bx-pie-chart-alt icon' ></i>
+                                <span class="text nav-text">Notifications</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="{% url 'student-files' courseid %}">
+                                <i class='bx bx-heart icon' ></i>
+                                <span class="text nav-text">Your Files</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="#">
+                                <i class='bx bx-wallet icon' ></i>
+                                <span class="text nav-text">Events</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="bottom-content">
+                    <li class="">
+                        <a href="#">
+                            <i class='bx bx-log-out icon' ></i>
+                            <span class="text nav-text">Logout</span>
+                        </a>
+                    </li>
+
+                    <li class="mode">
+                        <div class="sun-moon">
+                            <i class='bx bx-moon icon moon'></i>
+                            <i class='bx bx-sun icon sun'></i>
+                        </div>
+                        <span class="mode-text text">Dark mode</span>
+
+                        <div class="toggle-switch">
+                            <span class="switch"></span>
+                        </div>
+                    </li>
+
+                </div>
+            </div>
+        </nav>
+
+        <section class="home">
+            <div class="top-section">
+                <div class="course-card">
+                    <div class="file-icon">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+
+                    <h1>PDF - Complex Numbers</h1>
+
+                    <button type="button" value="Continue">Continue</button>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="topics-cards">
+                    
+                    <ul>
+                        {% for unit,lessons in mylist  %}
+                        <li>
+                            <input type="checkbox" id="topic-{{forloop.counter}}">
+                            <label for="topic-{{forloop.counter}}">{{unit.title}}<span><i class="fa-solid fa-angle-down"></i></span></label>
+                            
+                            <div class="tutorials">
+                                {% comment %} <button type="button" value="Launch Unit">Launch Unit</button> {% endcomment %}
+                                <ul>
+                                {% for lesson in lessons %}
+                                    
+                                    
+                                     <li>
+                                        <input type="checkbox" id="t1-tutorial-{{forloop.counter}}">
+                                        <label for="t1-tutorial-{{forloop.counter}}">{{lesson.title}}<span>0/36 &nbsp; &nbsp;<i class="fa-solid fa-angle-down"></i></span></label>
+                                        <div class="tutorials">
+                                            
+                                                <p>Link: {{lesson.resource_link}}</p>
+                                                {% comment %} {% if lesson.isdone %}
+                                                    <a target="{% url 'unit-complete' lesson.id %}" documentid="{{lesson.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{lesson.id}} fas fa-check-square"></i></a>
+                                                {% else %}
+                                                    <a target="{% url 'unit-complete' lesson.id %}" documentid="{{lesson.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{lesson.id}} fas fa-square"></i></a>
+                                                {% endif %} {% endcomment %}
+                                                    <div style="display:flex">
+                                                        {% for file in lesson.files.all %}
+                                                        <div style="display:flex">
+                                                        <p> File{{forloop.counter}} : {{file.file|cut:'resources/'}} </p>
+                                                        </div>
+                                                        <div style="display: flex;justify-content: space-between;" class="p-3">
+                                                        
+                                                        </div>
+                                                        {% endfor %}
+                                                      </div>
+                                                
+                                        </div> 
+                                        
+                                      {% comment %}  {% endcomment %}
+                                    
+                                    </li>
+                                
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                        {% endfor %}   
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+    <script src="{% static "js/app.js" %}"></script>
+</body>
+
+</html>

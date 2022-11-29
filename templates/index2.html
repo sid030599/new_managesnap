@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> 
-     {% block css %}{% endblock css %}
      <link rel="stylesheet" href="{% static "styles/view-style.css"%}">
     
     
@@ -45,7 +44,13 @@
                         </div>
                         <div class="right-item">
                             <input type="text" name="category" id="" placeholder="course category">
-                            
+                            <select style="width:300px" name = "level">
+                                {% for choice in choices %}
+                                <option value={{choice.0}}>{{choice.1}}</option>
+                                {{choice}}
+                                {% endfor %}
+                              </select>
+                            <input type="text" name="price" id="" placeholder="course price" >                            
                             <label for="img">Select image:</label>
                             <input type="file" id="img" name="image" accept="image/*">
                             
@@ -278,15 +283,17 @@
                                 <h3 class="course-name cd">{{course.title}}</h3>
                                 <h3 class="course-name cd">{{course.category}}</h3>
 
-                                <a href="{% url 'delete-course' course.id %}">
+                                {% comment %} <a href="{% url 'delete-course' course.id %}">
                                     <button class="delete-btn">Delete</button>
-                                </a>
-                                <a href={% url 'courseDetail' course.id %}>
-                                    <button class="preview-btn">Details</button>
-                                </a>
+                                </a> {% endcomment %}
+                                
                                 <div class="diff-preview cd">
                                     <div class="course-container">
+                                        <a href={% url 'courseDetail' course.id %}>
+                                            <button class="preview-btn">Details</button>
+                                        </a>
                                         <div class="filter fs-item">
+                                            
                                             <a href="/enroll_students/{{course.id}}/">
                                                 <button class="filter-btn">Enroll students</button>
                                             </a>
@@ -299,7 +306,13 @@
                                                 <button class="filter-btn">Student stats</button>
                                             </a>
                                         </div>
-                                    </div>
+                                    
+                                    
+
+                                        
+                                            
+                                        
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -308,7 +321,49 @@
                 </div>
             </div>
         </div>
-
+        <div class="modal fade" id="coursemodal" tabindex="-1" aria-labelledby="coursemodal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="coursemodaltitle">create your course</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form action={% url 'create-course' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="form-group">
+                      <label for="title">Title</label>
+                      <input type="text" class="form-control" id="title" name="title"
+                        placeholder="Enter title" required>
+                    </div>
+                    <input type="hidden" value={{request.path}} name="next" id="next" />
+                    <div class="form-group">
+                      <label for="category">Category</label>
+                      <input type="text" class="form-control" id="category" name="category"
+                        placeholder="Enter category" required>
+                        
+                    </div>
+                    <div class="form-group">
+                      <label for="category">Course Level</label>
+                      <input type="text" class="form-control" id="level" name="level"
+                        placeholder="Enter Level" required>
+                        
+                    </div>
+                    <div class="form-group">
+                      <label for="image" class="form-label">Image</label>
+                      <input type="file" class="form-control" id="image" name="image" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      
+                </div>
+              </div>
+            </div>
+          </div>
 </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

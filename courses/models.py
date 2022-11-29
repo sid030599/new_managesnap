@@ -106,9 +106,72 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
+class course(models.Model):
+    title = models.CharField(max_length=200)
+    category = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='courseImg', null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_courses', null=True)
+    course_price = models.CharField(default='FREE', max_length=100)
+    course_level = models.CharField(max_length=20, choices=[
+            ('Beginner', 'Beginner'),
+            ('Intermediate', 'Intermediate'),
+            ('Advanced', 'Advanced')
+        ],
+        default='Beginner'
+    )
+    def __str__(self):
+        return self.title 
+
+class Unit(models.Model):
+    course = models.ForeignKey(course, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    brief = models.TextField()
+    due = models.DateField(null=True)
+    released  = models.BooleanField(default = False)
+    slug = models.SlugField(null=True, max_length=300, unique=False)
+
+    def __str__(self):
+        return self.title 
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title+self.course.title)
+        super(Unit, self).save(*args, **kwargs)
+
+class MyUnit(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    course = models.ForeignKey(course,on_delete=models.CASCADE,default=1)
+    unit = models.ForeignKey(Unit,on_delete=models.CASCADE,related_name='units',blank=True,default='unit1')
+
+    def __str__(self):
+        return self.user.username
+
+class Lesson(models.Model):
+    order = models.IntegerField(null=False, default=1)
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE,related_name='lessons')
+    title = models.CharField(max_length=200)
+    resource = models.FileField(upload_to='resources/', null=True, blank=True)
+    resource_name = models.CharField(max_length=100, null=False, default='Resource')
+    resource_link = models.URLField(max_length=300, null=True, blank=True)
+    isdone = models.BooleanField(default=False)
+    def __str__(self):
+        return self.title
+
+class MyLesson(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    unit = models.ForeignKey(Unit,on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson,on_delete=models.CASCADE,related_name='lessons',blank=True,default='lesson1')
+    isdone = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
 
 
-
+class LessonFile(models.Model):
+    lesson = models.ForeignKey(Lesson , on_delete = models.CASCADE,related_name='files')
+    file = models.FileField(upload_to='resources/', null=True, blank=True)
+    isdone  = models.BooleanField(default=False)
+    def __str__(self):
+        return self.lesson.title
 
 # class profile(models.Model):
 #     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -117,22 +180,26 @@ def save_user_profile(sender, instance, **kwargs):
 
 #     def __str__(self) -> str:
 #         return self.user.username + '-' + self.status
-
-class course(models.Model):
-    title = models.CharField(max_length=200)
-    category = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='courseImg', null=True, blank=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_courses', null=True)
+class UserLessonCompletion(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+    unlocked = models.BooleanField(default=False)
+    timer_min_left = models.IntegerField(default=0)
+    timer_sec_left = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.title 
+        return f"{self.user.user.username} with {self.lesson.title}"
+
+
+
 
 
 
 def create_course_units(sender, instance, created, **kwargs):
     if created:
         course = instance
-        units = ['Announcement', 'Time Table', 'Syllabus', 'Assignment', 'Quiz', 'Caes', 'semester', 'Unit Lessons']
+        units = ['Announcement', 'Time Table', 'Syllabus', 'Assignment', 'Quiz', 'Caes', 'semester']
         for unit in units:
             course_unit = courseUnit.objects.create(course=course, name=unit)
             if unit in ['Assignment', 'Quiz', 'Caes', 'semester']:
@@ -177,7 +244,6 @@ class Assignment(models.Model):
     documents = models.ManyToManyField(Files, blank=True)
     max_grades = models.PositiveIntegerField()
     deadline = models.DateTimeField()
-
     info   = models.CharField(max_length=500, null=True, blank=True)
     link  = models.URLField(max_length=200, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
