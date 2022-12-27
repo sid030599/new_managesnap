@@ -155,6 +155,7 @@
                     <img src="{% static "rsc/icons8-chevron-down-30.png"%}" alt="" class="down" id="arrow">
                 </div>
                 <div class="details">
+                    {{course}}
                     <div class="detail announcements">
                         <img src="{% static "rsc/icons8-commercial-48.png"%}" alt="" class="item">
                         <p class="name"><a href="{% url 'announceDetail' 'Announcement' courseid %}">Announcements</a></p>
@@ -238,6 +239,12 @@
                         <p class="heading-name">
                             {{topic.title}}
                         </p>
+                        <p>Mode: 
+                            {%if topic.released == True %}
+                                Released
+                            {% else %}
+                                Draft
+                            {%endif%} <p/>
                     </div>
                     <div class="add-item heading-item">
                         <div class="add">
@@ -284,7 +291,7 @@
                                 {% for link in links %}
                                     <div style="display:flex">
                                         <p>Link {{forloop.counter}}:<a href="{{link}}"><button class="btn btn-link">{{link}}</button></a></p>
-                                        <a href="{% url 'delete-link-topic' topic.id forloop.counter courseid %}" ><button class="btn btn-danger">Delete link</button></a>
+                                        <a href="{% url 'delete-link-topic' 'topic'  topic.id forloop.counter courseid %}" ><button class="btn btn-danger">Delete link</button></a>
                                     </div>
                                 {% endfor %}
                             {% endif %}
@@ -313,7 +320,7 @@
                                         <div style="display:flex">
                                             <li> <p>File {{forloop.counter}}: <a href='{{document.document.url}}' ><button class="btn btn-link">{{document.document.name|cut:'documents/'}}</button></a></p>
                                             <button data-toggle="modal" data-target="#renamefile{{document.id}}" class="btn btn-primary mb-3 ml-2">rename file</button>
-                                            <a href={% url 'delete-file' document.id topic.id courseid %} ><button class="btn btn-danger mb-3 ml-2">delete file</button></a> </li>
+                                            <a href={% url 'delete-file' 'Announcement' document.id topic.id courseid %} ><button class="btn btn-danger mb-3 ml-2">delete file</button></a> </li>
                                             {% if is_unit %}
                                                 <a href={% url 'topic-unit-stats' topic.id document.id %}><button class="btn btn-outline-primary mx-3">See student stats</button> <br/></a>
                                             {% endif %}
@@ -416,6 +423,7 @@
                             </div>
                             <input type="hidden" value={{topic.id}} name="assignmentid" id="assignmentid">
                             <input type="hidden" value='False' name="isassignment" id="isassignment">
+                            <input type="hidden" value='False' name="islesson" id="islesson">
                             <button type="submit" class="btn btn-primary">Add</button>
                         </form>
                     </div>
@@ -445,6 +453,7 @@
                             </div>
                             <input type="hidden" value={{topic.id}} name="assignmentid" id="assignmentid">
                             <input type="hidden" value='False' name="isassignment" id="isassignment">
+                            <input type="hidden" value='True' name="islesson" id="islesson">
                             <button type="submit" class="btn btn-primary">Add</button>
                         </form>
                     </div>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Assignment,Groups, College, Files, courseTopic, course, grades, myAssignment,MyUnit,MyLesson, myFiles, mytopics, mycourses, courseUnit, myCourseUnit, Profile,Lesson,LessonFile,Unit
+from .models import Assignment,Groups,Payment, College, Files, courseTopic, course, grades, myAssignment,MyUnit,MyLesson, myFiles, mytopics, mycourses, courseUnit, myCourseUnit, Profile,Lesson,LessonFile,Unit
 
 # Register your models here.
 
@@ -22,5 +22,5 @@ admin.site.register(LessonFile)
 admin.site.register(Unit)
 admin.site.register(MyUnit)
 admin.site.register(MyLesson)
-
+admin.site.register(Payment)
 admin.site.register(Profile)

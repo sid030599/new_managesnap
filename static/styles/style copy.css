@@ -1,0 +1,418 @@
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Nunito', sans-serif;
+}
+
+body {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+.main_conatiner {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.order_section {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.order_leftSectio {
+  width: 60%;
+  background-color: #fff;
+  padding: 30px;
+}
+
+@media (max-width: 800px) {
+  .order_leftSectio {
+    width: 100%;
+  }
+}
+
+.order_leftSectio .order_details {
+  width: 100%;
+  height: 150px;
+}
+
+.order_leftSectio .order_details .title {
+  font-weight: 600;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+}
+
+.order_leftSectio .order_details .course_details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.order_leftSectio .order_details .course_details img {
+  width: 90px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  margin-right: 20px;
+}
+
+.order_leftSectio .order_details .course_details .descprition {
+  height: 100%;
+}
+
+.order_leftSectio .order_details .course_details .descprition .name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.order_leftSectio .order_details .course_details .descprition .course_descprition {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 60%;
+}
+
+.order_leftSectio .order_details .course_details .descprition .course_descprition .item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.order_leftSectio .order_details .course_details .descprition .course_descprition .item img {
+  width: 15px;
+  margin: 0;
+}
+
+.order_leftSectio .order_details .course_details .descprition .course_descprition .item p {
+  font-size: 0.6rem;
+  margin: 0 10px;
+  white-space: nowrap;
+}
+
+.order_leftSectio .payment_details {
+  width: 100%;
+  height: 200px;
+}
+
+.order_leftSectio .payment_details .title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.order_leftSectio .payment_details .offer {
+  width: 80%;
+  height: 40px;
+  background-color: #cc00ff;
+  color: #fff;
+  font-weight: 500;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0 10px;
+}
+
+.order_leftSectio .payment_bill .title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.order_leftSectio .payment_bill .bill_section {
+  width: 100%;
+  position: relative;
+}
+
+.order_leftSectio .payment_bill .bill_section p {
+  font-size: 0.7rem;
+  margin-top: 10px;
+}
+
+.order_leftSectio .payment_bill .bill_section::before {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 1px;
+  background-color: #333;
+  bottom: 40px;
+}
+
+.order_leftSectio .payment_bill .bill_section .bill_item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 40px;
+}
+
+.order_leftSectio .payment_bill .bill_section .bill_item #Total {
+  font-weight: 600;
+}
+
+.order_leftSectio .payment_bill .bill_section .bill_item .bill_item_name {
+  width: 60%;
+  position: relative;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.order_leftSectio .payment_bill .bill_section .bill_item .bill_item_name #offer {
+  position: absolute;
+  right: 20%;
+  background-color: #f2ed70;
+}
+
+.order_leftSectio .payment_bill .bill_section .bill_item .bill_item_price {
+  width: 40%;
+}
+
+.order_leftSectio .button {
+  width: 100%;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+.order_leftSectio .button #submit {
+  width: 150px;
+  height: 40px;
+  color: #fff;
+  background-color: #111563;
+  border: none;
+  outline: none;
+  margin: 5px auto;
+  cursor: pointer;
+}
+
+.order_leftSectio .button #submit:hover {
+  background-color: #0a0d42;
+}
+
+.select {
+  position: relative;
+  margin-bottom: 15px;
+  width: 60%;
+  -webkit-box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+          box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+}
+
+.select .selectBtn {
+  background: var(--bg1);
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 3px;
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background: #fff;
+}
+
+.select .selectBtn:after {
+  content: '';
+  position: absolute;
+  top: 45%;
+  right: 15px;
+  width: 6px;
+  height: 6px;
+  -webkit-transform: translateY(-50%) rotate(45deg);
+  transform: translateY(-50%) rotate(45deg);
+  border-right: 2px solid #666;
+  border-bottom: 2px solid #666;
+  -webkit-transition: 0.2s ease;
+  transition: 0.2s ease;
+}
+
+.select .selectBtn.toggle {
+  border-radius: 3px 3px 0 0;
+}
+
+.select .selectBtn.toggle:after {
+  -webkit-transform: translateY(-50%) rotate(-135deg);
+  transform: translateY(-50%) rotate(-135deg);
+}
+
+.select .selectDropdown {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  border-radius: 0 0 3px 3px;
+  overflow: hidden;
+  background: var(--bg1);
+  border-top: 1px solid #eee;
+  z-index: 1;
+  background: #fff;
+  -webkit-transform: scale(1, 0);
+  transform: scale(1, 0);
+  -webkit-transform-origin: top center;
+  transform-origin: top center;
+  visibility: hidden;
+  -webkit-transition: 0.2s ease;
+  transition: 0.2s ease;
+  -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+.select .selectDropdown .option {
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  cursor: pointer;
+}
+
+.select .selectDropdown .option:hover {
+  background: #f8f8f8;
+}
+
+.select .selectDropdown.toggle {
+  visibility: visible;
+  -webkit-transform: scale(1, 1);
+  transform: scale(1, 1);
+}
+
+.order_rightSection {
+  width: 40%;
+  min-height: 100vh;
+  background-color: #111563;
+}
+
+@media (max-width: 800px) {
+  .order_rightSection {
+    display: none;
+  }
+}
+
+.order_rightSection .close {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding: 15px;
+}
+
+.order_rightSection .close p {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.order_rightSection .title {
+  width: 100%;
+  padding: 20px;
+}
+
+.order_rightSection .title h1 {
+  font-size: 2.5rem;
+  color: #fff;
+  text-align: center;
+}
+
+.order_rightSection .image {
+  width: 100%;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+.order_rightSection .image img {
+  -o-object-fit: contain;
+     object-fit: contain;
+  width: 350px;
+}
+
+.order_rightSection .coins {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  margin: 10px 0;
+}
+
+.order_rightSection .coins span {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.order_rightSection .coins .coins_item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.order_rightSection .coins .coins_item img {
+  width: 50px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.button_redeem {
+  margin-bottom: 10px;
+  width: 100%;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+.button_redeem button {
+  width: 150px;
+  height: 35px;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  outline: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button_redeem button:hover {
+  background-color: #c2bdbd;
+}
+/*# sourceMappingURL=style.css.map */

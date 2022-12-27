@@ -137,6 +137,9 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
+RAZORPAY_API_KEY = 'rzp_test_IwuEtHj38h9yj9'
+RAZORPAY_API_SECRET_KEY = 'OPaMBDNvE8Ic0QhHLKwvNf1M'
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')

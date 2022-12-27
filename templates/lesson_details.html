@@ -237,6 +237,10 @@
                     </div>
                 </div>
                 <div class="tabs ann-item">
+                    <div class="tab dra not-current">
+                        <img src="{% static "rsc/icons8-draft-48.png" %}" alt="" class="icon">
+                        <p>Drafts</p>
+                    </div>
                     <div class="tab rel current">
                         <img src="{% static "rsc/icons8-sent-50.png"%}" alt="" class="icon">
                         <p>Released</p>
@@ -244,9 +248,15 @@
                 </div>
                 <div class="ann-item released-container">
                 {% for lesson in lessons %}
+                
                     <div class="released">
                         <div class="ann-content">
-                            <h3 class="ann-heading rd-item">{{lesson.title}}</h3>
+                            {% if lesson.released %}
+                            <div style="display: flex;justify-content: space-between;" class="p-3">
+                                <a href={% url 'lesson-detail' courseid lesson.id %}><button class="btn btn-link">{{lesson.title}}</button></a>
+                                <a href=# ><button class="btn btn-danger">Delete lesson</button></a>
+                            </div>
+                            {% comment %} <h3 class="ann-heading rd-item">{{lesson.title}}</h3>
                             <div class="ann-links-docs rd-item">
                                 <a href="{% url 'show-links' lesson.id %}" class="links">
                                     <img src="{% static "rsc/icons8-link-24 (1).png"%}" alt="" class="icon">
@@ -256,7 +266,45 @@
                                     <img src="{% static "rsc/icons8-documents-24.png"%}" alt="" class="icon">
                                     <p class="docs-num w3-text-grey">Documents</p>
                                 </a>
+                            </div> {% endcomment %}
+                            {% endif %}
+                        </div>
+                        
+                        
+                        
+                        <div class="filter fs-item">
+                            <a href="{% url "update-lesson" obj lesson.id unit.id courseid %}">Edit</a>
+                        </div> 
+                        <div class="filter fs-item">
+                            <a href="{% url "delete-lesson" obj lesson.id unit.id courseid %}">Delete</a>
+                        </div> 
+                    </div>
+                               <!--  update course modal -->
+                    
+                    {% endfor %}
+                </div>
+                <div class="ann-item drafts-container">
+                    {% for lesson in lessons %}
+
+                    <div class="drafts">
+                        <div class="ann-content">
+                            {% if lesson.released == False %}
+                            <div style="display: flex;justify-content: space-between;" class="p-3">
+                                <a href={% url 'lesson-detail' courseid lesson.id %}><button class="btn btn-link">{{lesson.title}}</button></a>
+                                <a href=# ><button class="btn btn-danger">Delete lesson</button></a>
                             </div>
+                            {% comment %} <h3 class="ann-heading rd-item">{{lesson.title}}</h3>
+                            <div class="ann-links-docs rd-item">
+                                <a href="{% url 'show-links' lesson.id %}" class="links">
+                                    <img src="{% static "rsc/icons8-link-24 (1).png"%}" alt="" class="icon">
+                                    <p class="link-num w3-text-grey">Links</p>
+                                </a>
+                                <a href="{% url 'show-documents' lesson.id %}" class="docs">
+                                    <img src="{% static "rsc/icons8-documents-24.png"%}" alt="" class="icon">
+                                    <p class="docs-num w3-text-grey">Documents</p>
+                                </a>
+                            </div> {% endcomment %}
+                            {% endif %}
                         </div>
                         
                         
@@ -272,7 +320,9 @@
                             
                     {% endfor %}
                 </div>
+                <div/>
             </div>
+            
         </div>
     </div>
     <script src="{% static "scripts/script.js"%}"></script>

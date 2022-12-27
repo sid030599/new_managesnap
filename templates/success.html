@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     {% if status %}
+    <h2 style="text-align: center; color: greenyellow">Success!</h2>
+    {{status}}
+    <a href="{% url 'home'  %}" style="text-align: center">Go to Home</a>
+    {% else %}
+    <h2 style="text-align: center; color: red">Failure!</h2>
+    
+    {% endif %} 
+    {% if status %}
+    <h2>Success</h2>
+    {% endif %}
+    
+</body>
+</html>

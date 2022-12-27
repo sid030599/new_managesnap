@@ -4,7 +4,10 @@ from . import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('courses/', views.coursepage, name='course'),
-    
+    #payment
+    path('success/<int:courseid>', views.success, name='payment_status'),
+    path('payment/<int:courseid>', views.payment1, name='make-payment'),
+
     path('<courseid>/coursedetail/', views.courseDetail, name='courseDetail'),
     path('<courseid>/courseunits/', views.courseunit, name='courseUnits'),
     path('<courseid>/student_learning_page/', views.student_learning_page, name='student_learning_page'),
@@ -43,7 +46,7 @@ urlpatterns = [
     path('delete/<str:obj>/<int:lessonid>/<int:unitid>/<int:courseid>', views.delete_lesson, name='delete-lesson'),
     path('topic/<int:id>/<courseid>', views.stu_topic_detail, name='stu-topic-detail'),
     path('announce/<int:topicid>/<courseid>', views.stu_announce_detail, name='stu-announce-detail'),
-    
+    path('lesson_detail/<courseid>/<int:lessonid>',views.lesson_detail,name = 'lesson-detail'),
     path('topic/<str:obj>/<int:topicid>/<courseid>/release', views.release_topic, name='release-topic'),
 
     path('assignment/<str:obj>/<assignmentid>/<courseid>/release', views.release_assignment, name='release-assignment'),
@@ -67,11 +70,11 @@ urlpatterns = [
     path('search_students/', views.search_students, name='search-students'),
     path('edit_course/', views.edit_course, name='edit-course'),
     path('rename_file/', views.rename_file, name='rename-file'),
-    path('delete_file/<documentid>/<topicid>/<courseid>', views.delete_file, name='delete-file'),
+    path('delete_file/<obj>/<documentid>/<topicid>/<courseid>', views.delete_file, name='delete-file'),
     path('delete_assignment_file/<documentid>/<assignmentid>/<courseid>', views.delete_assignment_file, name='delete-assignment-file'),
     path('add_link/<courseid>', views.add_link, name='add-link'),
     path('delete_link_assignment/<assignmentid>/<link>/<courseid>', views.delete_link_assignment, name='delete-link-assignment'),
-    path('delete_link_topic/<topicid>/<str:link>/<courseid>', views.delete_link_topic, name='delete-link-topic'),
+    path('delete_link_topic/<obj>/<topicid>/<str:link>/<courseid>', views.delete_link_topic, name='delete-link-topic'),
     path('topic_stats/<topicid>/', views.topic_stats, name='topic-stats'),
     path('assignment_stats/<assignmentid>/', views.assignment_stats, name='assignment-stats'),
     path('topic_unit_stats/<topicid>/<documentid>/', views.topic_unit_stats, name='topic-unit-stats'),

@@ -5,10 +5,81 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import userform,LessonForm,LessonFileForm
-from .models import Assignment,Profile, College, Files, course, courseTopic, myAssignment, myFiles, mycourses, mytopics, courseUnit, myCourseUnit, Groups, Unit,Lesson,Lesson,LessonFile,MyUnit,MyLesson, grades as marks
+from .models import Assignment,Profile, College,Payment, Files, course, courseTopic, myAssignment, myFiles, mycourses, mytopics, courseUnit, myCourseUnit, Groups, Unit,Lesson,Lesson,LessonFile,MyUnit,MyLesson, grades as marks
 from django.http import JsonResponse
 from django.db.models import Q
 
+
+import razorpay
+from django.utils.translation import get_language
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+
+import json
+import requests
+razorpay_client= razorpay.Client(
+                        auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET_KEY))
+
+def payment1(request,courseid):
+    
+    
+    profile = Profile.objects.get(user=request.user)
+    user = profile
+    course_name = course.objects.get(pk=courseid)
+    
+    bill_amount = (course_name.course_price)
+    
+    if bill_amount == 'FREE':
+        bill_amount = "200"
+    bill_amount = int(bill_amount)
+    lessons = Lesson.objects.filter(unit__course=course_name)
+
+    razorpay_payment = razorpay_client.order.create(
+        dict(amount=(bill_amount), currency='INR'))
+
+    order_id = razorpay_payment['id']
+    order_status = razorpay_payment['status']
+    data = {
+        
+        'title': course_name.title,
+        'img': course_name.image,
+        'lessons': len(lessons),
+        'price': bill_amount,
+        'razorpay_price':bill_amount
+
+    }
+    
+    return render(request, "payment.html",{'course' : course_name,'id':order_id,'status':order_status,"data":data})
+
+
+@csrf_exempt
+def success(request,courseid):
+    response = request.POST
+
+    params_dict = {
+        'razorpay_order_id': response['razorpay_order_id'],
+        'razorpay_payment_id': response['razorpay_payment_id'],
+        'razorpay_signature': response['razorpay_signature'],
+    }
+
+    client = razorpay.Client(
+        auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET_KEY))
+    cours = course.objects.get(pk = courseid)
+    payment = Payment(student = request.user,course = cours,razorpay_order_id =response['razorpay_order_id'],razorpay_payment_id = response['razorpay_payment_id'],razorpay_signature= response['razorpay_signature'])
+    payment.save()
+
+    status = client.utility.verify_payment_signature(params_dict)
+    if status:
+        cours = mycourses.objects.get(user = request.user,courses__id = courseid)
+        cours.paid = True
+        cours.save()
+        
+        return redirect('home')
+
+
+
+
+    return render(request, "success.html", {'status': False})
 
 # Create your views here.
 def home(request):
@@ -26,6 +97,20 @@ def home(request):
             courses = course.objects.filter(created_by=request.user)
             Totalcourse = len(courses)
             return render(request, 'dashboard.html', {'college_choices': college_choices,'numberofcourses':Totalcourse})
+
+        if request.user.profile.status == 's':
+            courses = mycourses.objects.filter(user=request.user)
+            #print(courses)
+            all_courses = mycourses.objects.all()
+            course=[]
+            for i in courses:
+                course.append(i.courses)
+
+            return render(request, 'student_home.html', {'courses': course, 'user':request.user,'all_courses':all_courses})
+        if request.user.profile.status == 'm':
+            Student = Profile.objects.filter(status = "s")
+            return render(request,'manager.html',{'Student':Student})
+
     return render(request, 'index.html', {'college_choices': college_choices})
 
 
@@ -77,13 +162,13 @@ def update_lesson(request,obj,lessonid, unitid,courseid):
             #     latest_order = 0
             
             form = LessonForm(request.POST, request.FILES,instance=lesson)
-            print(request.POST)
+            #print(request.POST)
             if form.is_valid():
                 files = request.FILES.getlist('resource')
                 print(files)
                 lesson = form.save(commit=False)
                 lesson.unit = unit
-                # lesson.order = latest_order + 1
+                #lesson.order = latest_order + 1
                 lesson.save()
                 lesson_form = LessonForm()
                 for f in files:
@@ -170,20 +255,36 @@ def show_document(request,slug):
         lesson = Lesson.objects.get(id = slug)
         documents = LessonFile.objects.filter(lesson = lesson)
         return render(request,'documents.html',{'documents':documents,'obj':'document','slug':'slug'})
+
+def lesson_detail(request, lessonid,courseid):
+    if request.user.profile.status == 't':
         
+        lesson = Lesson.objects.get(id=lessonid)
+        #courseid = topic.course.id
+        #is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic], name="Unit Lessons").exists()
+        file = LessonFile.objects.filter(lesson = lesson)
+        links = []
+        if lesson.resource_link:
+            links = lesson.resource_link.split(",")
+        #print(file)
+
+        return render(request, 'lesson_view.html', {'lesson': lesson, 'status': 't', 'links': links,'courseid':courseid,'file':file})
+
+
 def topic_detail(request,obj, topicid,courseid):
     if request.user.profile.status == 't':
         
         topic = courseTopic.objects.get(id=topicid)
         courseid = topic.course.id
+        course = topic.course
         is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic], name="Unit Lessons").exists()
-        print(courseid)
+        
         links = []
         if topic.link:
             links = topic.link.split(",")
 
 
-        return render(request, 'view.html', {'topic': topic, 'status': 't', 'links': links, 'is_unit': is_unit,'courseid':courseid,'obj':obj})
+        return render(request, 'view.html', {'course':course,'topic': topic, 'status': 't', 'links': links, 'is_unit': is_unit,'courseid':courseid,'obj':obj})
 
     topic = mytopics.objects.get(id=topicid)
 
@@ -233,11 +334,18 @@ def stu_topic_detail(request, id,courseid):
 
 def release_topic(request,obj, topicid, courseid):
     if request.user.profile.status == 't':
-        print(topicid)
+        if obj == 'lesson':
+           
+            lesson = Lesson.objects.get(id = topicid)
+            lesson.released = True
+            lesson.save()
+
+            return redirect('lesson-detail', courseid = courseid, lessonid = topicid)
+       
         topic = courseTopic.objects.get(id=topicid)
         topic.released = True
         topic.save()
-        print(topic)
+        
         courseid = topic.course.id
         is_unit = courseUnit.objects.filter(course__id=courseid, topics__in=[topic], name="Unit Lessons").exists()
 
@@ -305,10 +413,14 @@ def rename_file(request):
     
 
 
-def delete_file(request, documentid, topicid,courseid):
+def delete_file(request,obj, documentid, topicid,courseid):
+    if obj == 'lesson':
+        LessonFile.objects.filter(id = documentid).delete()
+        return redirect('lesson-detail',courseid,topicid)
+
     Files.objects.filter(id=documentid).delete()
 
-    return redirect('topic-detail', topicid=topicid,courseid=courseid)
+    return redirect('topic-detail',obj = obj, topicid=topicid,courseid=courseid)
 
 def delete_assignment_file(request, documentid, assignmentid,courseid):
     Files.objects.filter(id=documentid).delete()
@@ -324,15 +436,15 @@ def assignment_detail(request,obj, assignmentid,courseid):
     if request.user.profile.status == 't':
         assignment = Assignment.objects.get(id=assignmentid)
         links = []
-
+        cours = course.objects.get(id = courseid)
         if assignment.link :
             links = assignment.link.split(",")
 
         submissions = myAssignment.objects.filter(assignment=assignment)
-        for document in assignment.documents.all():
-            print(document.document.name)
+        # for document in assignment.documents.all():
+        #     print(document.document.name)
 
-        return render(request, 'assignment_view.html', {'assignment': assignment, 'submissions': submissions, 'links': links,'courseid':courseid,'obj':obj})
+        return render(request, 'assignment_view.html', {'course':cours,'assignment': assignment, 'submissions': submissions, 'links': links,'courseid':courseid,'obj':obj})
     links = []
     assignment = myAssignment.objects.get(id=assignmentid)
     if assignment.assignment.link :
@@ -846,6 +958,7 @@ def create_topic(request,obj):
         info = request.POST.get('info', None)
         document = request.FILES.getlist('document', None)
         link = request.POST.get('link', None)
+        
 
         if courseunit.is_assignment == False:
   
@@ -862,15 +975,19 @@ def create_topic(request,obj):
 
             if link:
                 instance.link = link
- 
+                links = []
+                links = instance.link.split(",")
+            
             
             instance.save()
 
             courseunit.topics.add(instance)
             courseunit.save()
+            is_unit = courseUnit.objects.filter(course__id=courseunit.course.id, topics__in=[instance], name="Unit Lessons").exists()
 
             messages.success(request, "Your topic to the unit has been added.")
-            return redirect("announceDetail", courseid=courseunit.course.id,obj = obj )
+            #return redirect("announceDetail", courseid=courseunit.course.id,obj = obj )
+            return render(request, 'view.html', {'course':courseunit.course,'topic': instance, 'status': 't', 'links': links, 'is_unit': is_unit,'courseid':courseunit.course.id,'obj':obj})
 
         max_grades = request.POST['grades']
         deadline = request.POST['deadline']
@@ -891,14 +1008,17 @@ def create_topic(request,obj):
 
         if link:
             instance.link = link
+            links = []
+            links = instance.link.split(",")
         
         instance.save()
         courseunit.assignments.add(instance)
         courseunit.save()
+        submissions = myAssignment.objects.filter(assignment=instance)
 
         messages.success(request, "Your Work to the unit has been added.")
-        return redirect("assignDetail", courseid=courseunit.course.id,obj = obj)
-
+        #return redirect("assignDetail", courseid=courseunit.course.id,obj = obj)
+        return render(request, 'assignment_view.html', {'course':courseunit.course,'assignment': instance, 'submissions': submissions, 'links': links,'courseid':courseunit.course.id,'obj':obj})
     
     messages.error(request, 'something went wrong')
     return redirect('home')
@@ -1116,10 +1236,20 @@ def assignmentComp(request, assignmentid):
 
 def add_file(request,courseid):
     if request.method == 'POST':
+        islesson  = request.POST['islesson']
         document = request.FILES.getlist('document', None)
         assignmentid = request.POST['assignmentid']
         isassignment = request.POST['isassignment']
 
+        if islesson == 'True':
+
+            lesson = Lesson.objects.get(id = assignmentid)
+            for doc in document:
+                file = LessonFile.objects.create(file = doc,lesson = lesson)
+                file.save()
+            messages.success(request, "You have added the file successfully")
+
+            return redirect('lesson-detail', courseid = courseid, lessonid = assignmentid)
         if isassignment == 'True':
             assignment = Assignment.objects.get(id=assignmentid)
             for doc in document:
@@ -1156,9 +1286,21 @@ def add_file(request,courseid):
 
 def add_link(request,courseid):
     if request.method == 'POST':
+        islesson  = request.POST['islesson']
         link = request.POST['link']
         assignmentid = request.POST['assignmentid']
         isassignment = request.POST['isassignment']
+
+        if islesson == 'True':
+            lesson = Lesson.objects.get(id = assignmentid)
+            if not lesson.resource_link :
+                lesson.resource_link = link
+            else:
+                lesson.resource_link = str(lesson.resource_link) + "," + link
+            lesson.save()
+
+            messages.success(request, "You Link have been added successfully")
+            return redirect('lesson-detail', lessonid=lesson.id,courseid=courseid)
 
         if isassignment == 'True':
             assignment = Assignment.objects.get(id=assignmentid)
@@ -1181,7 +1323,7 @@ def add_link(request,courseid):
 
             topic.save()
             messages.success(request, "You Link have been added successfully")
-            return redirect('topic-detail', topicid=assignmentid,courseid=courseid)
+            return redirect('topic-detail',obj = 'Announcement', topicid=assignmentid,courseid=courseid)
         
     return HttpResponse("Something went wrong", status=404)   
 
@@ -1201,18 +1343,32 @@ def delete_link_assignment(request, assignmentid, link,courseid):
     return redirect('assignment-detail', assignmentid=assignmentid,courseid=courseid,obj='Assignment')
 
 
-def delete_link_topic(request, topicid, link,courseid):
-    topic = courseTopic.objects.get(id=topicid)
-    links = topic.link.split(",")
+def delete_link_topic(request,obj, topicid, link,courseid):
+    if obj == 'topic':
+        topic = courseTopic.objects.get(id=topicid)
+        links = topic.link.split(",")
 
 
-    links.remove(links[int(link)-1])
-    
-    topic.link = ",".join(links)
-    topic.save()
+        links.remove(links[int(link)-1])
+        
+        topic.link = ",".join(links)
+        topic.save()
 
-    messages.success(request, "link deleted")
-    return redirect('topic-detail', topicid=topicid,courseid=courseid)
+        messages.success(request, "link deleted")
+        return redirect('topic-detail',obj = 'Announcement', topicid=topicid,courseid=courseid)
+    if obj == 'lesson':
+        topic = Lesson.objects.get(id = topicid)
+        links = topic.resource_link.split(",")
+        #print(links)
+
+        links.remove(links[int(link)-1])
+        
+        topic.resource_link = ",".join(links)
+        topic.save()
+
+        messages.success(request, "link deleted")
+        return redirect('lesson-detail', lessonid=topic.id,courseid=courseid)
+        
 
 
 

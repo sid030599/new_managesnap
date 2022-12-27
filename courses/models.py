@@ -12,7 +12,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 status_choices = [
     ('p', 'Principal'),
     ('t', 'Teacher'),
-    ('s', 'Student')
+    ('s', 'Student'),
+    ('m','Management')
 ]
 
 class College(models.Model):
@@ -145,16 +146,26 @@ class MyUnit(models.Model):
     def __str__(self):
         return self.user.username
 
+
 class Lesson(models.Model):
     order = models.IntegerField(null=False, default=1)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE,related_name='lessons')
     title = models.CharField(max_length=200)
     resource = models.FileField(upload_to='resources/', null=True, blank=True)
+    #Files = models.ManyToManyField(LessonFile, blank=True)
     resource_name = models.CharField(max_length=100, null=False, default='Resource')
     resource_link = models.URLField(max_length=300, null=True, blank=True)
     isdone = models.BooleanField(default=False)
+    released = models.BooleanField(default = False)
     def __str__(self):
         return self.title
+
+class LessonFile(models.Model):
+    lesson = models.ForeignKey(Lesson , on_delete = models.CASCADE,related_name='files')
+    file = models.FileField(upload_to='resources/', null=True, blank=True)
+    isdone  = models.BooleanField(default=False)
+    def __str__(self):
+        return self.lesson.title 
 
 class MyLesson(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -166,12 +177,6 @@ class MyLesson(models.Model):
         return self.user.username
 
 
-class LessonFile(models.Model):
-    lesson = models.ForeignKey(Lesson , on_delete = models.CASCADE,related_name='files')
-    file = models.FileField(upload_to='resources/', null=True, blank=True)
-    isdone  = models.BooleanField(default=False)
-    def __str__(self):
-        return self.lesson.title
 
 # class profile(models.Model):
 #     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -224,6 +229,16 @@ class courseTopic(models.Model):
     released = models.BooleanField(default=False)
     def __str__(self):
         return self.title
+
+class Payment(models.Model):
+    student = models.ForeignKey(User, on_delete=models.RESTRICT)
+    course = models.ForeignKey(course, on_delete=models.RESTRICT)
+    razorpay_order_id = models.CharField(max_length=100,null=True)
+    razorpay_payment_id = models.CharField(max_length=100,null=True)
+    razorpay_signature =  models.CharField(max_length=100,null=True)
+
+    def __str__(self):
+        return self.razorpay_order_id
 
 def create_my_files(sender, instance,action="post_add", reverse=False ,*args, **kwargs):
     topic = instance
@@ -341,16 +356,17 @@ class Groups(models.Model):
 
 
 class mycourses(models.Model):
-    user  = models.OneToOneField(User, on_delete=models.CASCADE, related_name='enrolledcourses')
-    courses = models.ManyToManyField(course, related_name="mycourses", blank=True)
-
+    user  = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrolledcourses')
+    courses = models.ForeignKey(course, on_delete=models.RESTRICT,related_name='courses',default=course.objects.all().first().id)
+    #courses = models.ManyToManyField(course, related_name="mycourses", blank=True)
+    paid = models.BooleanField(default = False)
     def __str__(self):
         return self.user.username
 
 class myFiles(models.Model):
     document = models.ForeignKey(Files, on_delete=models.CASCADE)
     done     = models.BooleanField(default=False)
-
+    
 
 class mytopics(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -395,6 +411,8 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         mycourses.objects.create(user=instance)
         Profile.objects.create(user=instance)
+
+
 
 # def save_user_profile(sender, instance, **kwargs):
 #     instance.profile.save()

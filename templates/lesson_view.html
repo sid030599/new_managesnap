@@ -155,12 +155,10 @@
                     <img src="{% static "rsc/icons8-chevron-down-30.png"%}" alt="" class="down" id="arrow">
                 </div>
                 <div class="details">
-                    {{course}}
                     <div class="detail announcements">
                         <img src="{% static "rsc/icons8-commercial-48.png"%}" alt="" class="item">
                         <p class="name"><a href="{% url 'announceDetail' 'Announcement' courseid %}">Announcements</a></p>
                     </div>
-                    
                     <div class="detail timetable">
                         <img src="{% static "rsc/icons8-calendar-48.png"%}" alt="" class="item">
                         <p class="name"><a href="{% url 'announceDetail' 'Timetable' courseid %}">Timetable</a></p>
@@ -217,7 +215,9 @@
             </div>
         </div>
     </div>
-    {% for message in messages %}
+    
+    <div class="body">
+        {% for message in messages %}
         <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
           <strong>Message!-</strong> {{ message }}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -225,101 +225,74 @@
           </button>
         </div>
     {% endfor %}
-    <div class="body">
         <div class="view-container">
+            
             <div class="view">
                 <div style="display:flex">
-                    <a href={% url 'usercourse' %}><button class="btn btn-link ">All Courses</button></a>
+                    {% comment %} <a href={% url 'usercourse' %}><button class="btn btn-link ">All Courses</button></a>
                     <a href={% url 'courseDetail' courseid %}><button class="btn btn-link ">Course detail</button></a>
-                    <a href={% url 'assignDetail' obj courseid %}><button class="btn btn-link ">{{obj}}</button></a>
-                    <a href={% url 'assignment-detail' obj assignment.id courseid %}><button class="btn btn-link ">{{obj}} Details</button></a>
-                    
+                    <a href={% url 'announceDetail' obj courseid %}><button class="btn btn-link ">{{obj}}</button></a>
+                    <a href={% url 'topic-detail' obj topic.id courseid %}><button class="btn btn-link ">{{obj}} Details</button></a>
+                     {% endcomment %}
               </div>
                 <div class="heading view-item">
                     <div class="head heading-item">
-                        
-                        <h2>{{assignment.title}}</h2>
-                        <p class="badge badge-primary text-wrap">
-                            Info
+                        <p class="heading-name">
+                            {{lesson.title}}
                         </p>
-                        
-                    
-                        {% if assignment.info %}
-                                <p>{{assignment.info}}</p>
-                        {% endif %}
-                        <a href={% url 'assignment-stats' assignment.id %}><button class="btn btn-outline-primary mb-3">See student stats</button> <br/></a>
-                        
-                        <p>Mode: 
-                        {%if assignment.released 
-                             %}
-                            Released
-                        {%else%}
-                            Draft
-                        {%endif%} <p/>
-                        
-                        <p>{{assignment.max_grades}} points</p>
-                        <p>Created at: {{assignment.created_at}}</p>
-                        <p>Deadline: {{assignment.deadline}}</p>
                     </div>
-                    <div class="head heading-item">
-                        <div class="add-item heading-item">
-                            <div class="add">
-                                <button class="add-btn" data-toggle="modal" data-target="#updatemodel">
-                                    <p>Update</p>
-                                </button>
-                            </div>
+                    {% comment %} <div class="add-item heading-item">
+                        <div class="add">
+                            <button class="add-btn" data-toggle="modal" data-target="#updatemodel">
+                                <p>Update</p>
+                            </button>
                         </div>
-                    </div>
-                    {% if assignment.released == False %}
+                    </div> {% endcomment %}
+                    {% if lesson.released == False %}
                     <div class="release-edit heading-item">
+                        
                         <div class="release">
-                            <a href="{% url 'release-assignment' obj assignment.id courseid %}"> <button class="release-btn">   
+                            <a href="{% url 'release-topic' 'lesson' lesson.id courseid %}"> <button class="release-btn">   
                                 <img src="{% static "rsc/icons8-telegram-app-30.png" %}" alt="" class="icon">
                                 <p>Release</p>
                             </button></a>
                         </div>
-                        {% comment %} <div class="edit">
-                            <button class="edit-btn">
-                                <img src="rsc/icons8-edit-26.png" alt="" class="icon">
-                                <p>Edit</p>
-                            </button>
-                        </div> {% endcomment %}
                     </div>
                     {% endif %}
                 </div>
                 <div class="announcement view-item">
-                    
-                
-                    <div class="links view-item">
-                        <div class="heading links-item">
-                            <div class="head heading-item">
-                                <p class="heading-name">
-                                    Links
-                                </p>
-                            </div>
-                            <div class="add-item heading-item">
-                                <div class="add">
-                                    <button class="add-btn" data-toggle="modal" data-target="#addLink">
-                                        <p>Add +</p>
-                                    </button>
-                                </div>
-                            </div>
+                    {% if topic.info %}
+                        <p>{{topic.info}}</p>
+                    {% endif %}
+                </div>
+                <div class="links view-item">
+                    <div class="heading links-item">
+                        <div class="head heading-item">
+                            <p class="heading-name">
+                                Links
+                            </p>
                         </div>
-                        <div class="links-item">
-                            <ol class="links-list">
-                                {% if links %}
-                                    {% for link in links %}
-                                        <div style="display:flex">
-                                            <p>Link {{forloop.counter}}:  <button class="btn btn-link">{{link}}</button></p>
-                                            <a href={% url 'delete-link-assignment' assignment.id forloop.counter courseid %} ><button class="btn btn-danger mb-3 ml-2">delete link</button></a>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                                
-                                
-                            </ol>
+                        <div class="add-item heading-item">
+                            <div class="add">
+                                <button class="add-btn" data-toggle="modal" data-target="#addLink">
+                                    <p>Add +</p>
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    <div class="links-item">
+                        <ol class="links-list">
+                            {% if links %}
+                                {% for link in links %}
+                                    <div style="display:flex">
+                                        <p>Link {{forloop.counter}}:<a href="{{link}}"><button class="btn btn-link">{{link}}</button></a></p>
+                                        <a href="{% url 'delete-link-topic' 'lesson' lesson.id forloop.counter courseid %}" ><button class="btn btn-danger">Delete link</button></a>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </ol>
+                    </div>
+                </div>
                 <div class="docs view-item">
                     <div class="heading docs-item">
                         <div class="head heading-item">
@@ -337,15 +310,17 @@
                     </div>
                     <div class="docs-item">
                         <ol class="links-list">
-                            {% if assignment.documents %}
-                                    {% for document in assignment.documents.all %}
+                            {% if file %}
+                                    {% for i in file %}
                                         <div style="display:flex">
-                                            <p>File {{forloop.counter}}: <a href={{document.document.url}} target='_blank'><button class="btn btn-link">{{document.document.name|cut:'documents/'}}</button></a></p>
-                                            <button data-toggle="modal" data-target="#renamefile{{document.id}}" class="btn btn-primary mb-3 ml-5">rename file</button>
-                                            <a href={% url 'delete-assignment-file' document.id assignment.id courseid%} ><button class="btn btn-danger mb-3 ml-2">delete file</button></a>
+                                            <li> <p>File {{forloop.counter}}: <a href='{{i.file.url}}' ><button class="btn btn-link">{{i.file|cut:'resources/'}}</button></a></p>
+                                            <button data-toggle="modal" data-target="#renamefile{{document.id}}" class="btn btn-primary mb-3 ml-2">rename file</button>
+                                            <a href={% url 'delete-file' 'lesson' i.id lesson.id courseid %} ><button class="btn btn-danger mb-3 ml-2">delete file</button></a> </li>
+                                            {% if is_unit %}
+                                                <a href={% url 'topic-unit-stats'  topic.id document.id %}><button class="btn btn-outline-primary mx-3">See student stats</button> <br/></a>
+                                            {% endif %}
                                         </div>
-                                        
-                                                    <!-- rename file modal  -->
+                                        <!-- rename file modal  -->
                                         <div class="modal fade" id="renamefile{{document.id}}" tabindex="-1" aria-labelledby="renamefile{{document.id}}" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
@@ -368,206 +343,153 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
+                                
                                                 </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        
+                                        
 
                                     {% endfor %}
-                                {% endif %}
+                            {% endif %}
 
                         </ol>
                     </div>
-                
-                    <h3 class="mt-5 mb-4">Submissions</h3>
-                    <a href= {% url 'submitted' assignment.id %}><button class="btn btn-primary mb-4">Submitted</button></a>
-                    <a href= {% url 'not-submitted' assignment.id %}><button class="btn btn-primary mx-2 mb-4">Not Submitted</button></a>
-                    <a href= {% url 'graded' assignment.id %}><button class="btn btn-primary mx-2 mb-4">Graded</button></a>
-                    <a href= {% url 'not-graded' assignment.id %}><button class="btn btn-primary mx-2 mb-4">Not Graded</button></a>
-                
-                    {% for submission in submissions %}
+                </div>
 
-                        {% if submission.upload %}
-                            <p>Submitted</p>
-                            <div>
-                                <p>By: {{submission.user.username}}</p>
-                                <p>Submitted File is <a href={{submission.upload.url}}>here</a></p>
-                                {% if submission.grades.is_graded %}
-
-                                    <p>Graded: {{ submission.grades.grades }} out of {{ submission.assignment.max_grades }}</p>
-
+            </div>
+        </div>
+    </div>
+        <!-- update content modal  -->
+            <div class="modal fade" id="updatemodel" tabindex="-1" aria-labelledby="updatemodel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addLinktitle">update model</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action={% url 'edit-topic' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" value={{topic.title}} class="form-control" id="title" name="title" placeholder="Enter title">
+                            </div>
+                            <div class="form-group">
+                                <label for="info">Info</label>
+                                {% if topic.info %}
+                                    <input type="text" value='{{topic.info}}' class="form-control" id="info" name="info" placeholder="Add Info if any" >
                                 {% else %}
-
-                                    <button data-toggle="modal" data-target="#grades{{submission.id}}" class="btn btn-primary mb-5">Add grades</button>
-
+                                    <input type="text" class="form-control" id="info" name="info" placeholder="Add Info if any" >
                                 {% endif %}
-
+                                
                             </div>
-                            <p>Submitted at: {{submission.uploaded_at}}</p>
+                            <input type="hidden" value={{topic.id}} name="assignmentid" id="assignmentid">
+                            <input type="hidden" value='False' name="isassignment" id="isassignment">
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            
+                    </div>
+                    </div>
+                </div>
+            </div>
+          
 
-                                <!-- Add Grades Modal -->
-                            <div class="modal fade" id="grades{{submission.id}}" tabindex="-1" aria-labelledby="grades{{submission.id}}" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="grades{{submission.id}}title">Add grades to {{ submission.user.username }}</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action={% url 'add-grades' %} method="post" enctype="multipart/form-data">{% csrf_token %}
-                                            <div class="form-group">
-                                                <label for="grades">Grades</label>
-                                                <input type="number" class="form-control" id="grades" name="grades" placeholder="Add grades" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="remark">Remark</label>
-                                                <input type="text" class="form-control" id="remark" name="remark" placeholder="Give remark if any">
-                                            </div>
-                                            <input type="hidden" value={{submission.id}} name="assignmentid" id="assignmentid">
-                                            <button type="submit" class="btn btn-primary">Grade</button>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                                    </div>
-                                    </div>
-                                </div>
+<!-- add link modal  -->
+            <div class="modal fade" id="addLink" tabindex="-1" aria-labelledby="addLink" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addLinktitle">Add Link</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action={% url 'add-link' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                            <div class="form-group">
+                                <label for="link">Link</label>
+                                <input type="link" class="form-control" id="link" name="link" placeholder="Add Link">
                             </div>
+                            <input type="hidden" value={{lesson.id}} name="assignmentid" id="assignmentid">
+                            <input type="hidden" value='False' name="isassignment" id="isassignment">
+                            <input type="hidden" value='True' name="islesson" id="islesson">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-                        {% endif %}
-
-                    {% endfor %}
-
-
+                    </div>
+                    </div>
                 </div>
+            </div>
 
-                
-           
-
-<!-- update modal  -->
-<div class="modal fade" id="updatemodel" tabindex="-1" aria-labelledby="addFile" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="addFiletitle">Add file</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form action={% url 'edit-topic' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
-                <fieldset>
-                    <div class="form-group">
-                        <label for="title">Title</label>
-                        <input type="text" value={{assignment.title}} class="form-control" id="title" name="title" placeholder="Enter title">
+  <!-- add file modal  -->
+            <div class="modal fade" id="addFile" tabindex="-1" aria-labelledby="addFile" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addFiletitle">Add file</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label for="max_grades">Max Grades</label>
-                        <input type="number" value={{assignment.max_grades}} class="form-control" id="max_grades" name="max_grades" placeholder="Max grades">
+                    <div class="modal-body">
+                        <form action={% url 'add-file' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                            <div class="form-group">
+                                <label for="document">Add multiple files</label>
+                                <input type="file" class="form-control" id="document" name="document" placeholder="Add Files" multiple>
+                            </div>
+                            <input type="hidden" value={{lesson.id}} name="assignmentid" id="assignmentid">
+                            <input type="hidden" value='False' name="isassignment" id="isassignment">
+                            <input type="hidden" value='True' name="islesson" id="islesson">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="deadline">Deadline</label>
-                        <input type="datetime-local" class="form-control" value="{{assignment.deadline|date:'Y-m-d'}}T{{assignment.deadline|time:'H:i'}}" id="deadline" name="deadline" placeholder="Submission Deadline" required>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
                     </div>
-                    <div class="form-group">
-                        <label for="info">Info</label>
-                        {% if assignment.info %}
-                            <input type="text" value='{{assignment.info}}' class="form-control" id="info" name="info" placeholder="Add Info if any" >
-                        {% else %}
-                            <input type="text" class="form-control" id="info" name="info" placeholder="Add Info if any" >
-                        {% endif %}
-                        
                     </div>
-                    <input type="hidden" value={{assignment.id}} name="assignmentid" id="assignmentid">
-                    <input type="hidden" value='True' name="isassignment" id="isassignment">
-                    <button type="submit" class="btn btn-primary">Edit</button>
-                </fieldset>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-        </div>
-        </div>
-    </div>
-  </div>
-
-
-<!-- add file modal  -->
-<div class="modal fade" id="addFile" tabindex="-1" aria-labelledby="addFile" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="addFiletitle">Add file</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form action={% url 'add-file' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
-                <div class="form-group">
-                    <label for="document">Add multiple Files</label>
-                    <input type="file" class="form-control" id="document" name="document" placeholder="Add Files" multiple>
                 </div>
-                <input type="hidden" value={{assignment.id}} name="assignmentid" id="assignmentid">
-                <input type="hidden" value='True' name="isassignment" id="isassignment">
-                <input type="hidden" value='True' name="islesson" id="islesson">
-                <button type="submit" class="btn btn-primary">Add</button>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        
 
-        </div>
-        </div>
-    </div>
-  </div>
-
-
-
-  <!-- add link modal  -->
-  <div class="modal fade" id="addLink" tabindex="-1" aria-labelledby="addLink" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="addLinktitle">Add Link</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form action={% url 'add-link' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
-                <div class="form-group">
-                    <label for="link">Link</label>
-                    <input type="link" class="form-control" id="link" name="link" placeholder="Add Link">
-                </div>
-                <input type="hidden" value={{assignment.id}} name="assignmentid" id="assignmentid">
-                <input type="hidden" value='True' name="isassignment" id="isassignment">
-                <button type="submit" class="btn btn-primary">Add</button>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-        </div>
-        </div>
-    </div>
-  </div>
-
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-  crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-  crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script> 
+    <script>
+        var donebtn = document.querySelectorAll(".doneBtn")
+        donebtn.forEach(function(btn) {
+            var url = btn.getAttribute('target');
+            var documentid = btn.getAttribute('documentid');
+            var doneIcon = document.querySelector(".doneIcon" + documentid);
+            btn.addEventListener("click", function(){
+                if(doneIcon.classList.contains('fa-check-square') == true){
+                    doneIcon.classList.remove('fa-check-square');
+                    doneIcon.classList.add('fa-square');
+                }
+                else if (doneIcon.classList.contains('fa-square') == true){
+                    doneIcon.classList.remove('fa-square');
+                    doneIcon.classList.add('fa-check-square');
+                }
+                fetch(url)
+                .then(response => response.json())
+            });
+        });
+    </script>
 <script src="{% static "scripts/script.js"%}"></script>
 <script src="{% static "scripts/add-course.js"%}"></script>
 <script src="{% static "scripts/groups-script.js"%}"></script>
@@ -575,6 +497,10 @@ crossorigin="anonymous"></script>
 <script src="{% static "scripts/announcements-script.js"%}"></script>
 </body>
 
-
 </html>
 
+
+
+
+
+  

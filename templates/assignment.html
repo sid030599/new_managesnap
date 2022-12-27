@@ -154,7 +154,9 @@
                     <h3>Course Details</h3>
                     <img src="{% static "rsc/icons8-chevron-down-30.png"%}" alt="" class="down" id="arrow">
                 </div>
+                    
                 <div class="details">
+                    {{course}}
                     <div class="detail announcements">
                         <img src="{% static "rsc/icons8-commercial-48.png"%}" alt="" class="item">
                         <p class="name"><a href="{% url 'announceDetail' 'Announcement' courseid %}">Announcements</a></p>
