@@ -187,7 +187,7 @@
                     </div>
                     <div class="detail units">
                         <img src="{% static "rsc/icons8-unit-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'announceDetail' 'Unit' courseid %}">Units</a></p>
+                        <p class="name"><a href="{% url 'unitDetail' 'Unit' courseid %}">Units</a></p>
                     </div>
                 </div>
             </div>
@@ -250,12 +250,11 @@
                         <a href={% url 'assignment-stats' assignment.id %}><button class="btn btn-outline-primary mb-3">See student stats</button> <br/></a>
                         
                         <p>Mode: 
-                        {%if assignment.released 
-                             %}
+                        {%if assignment.released %}
                             Released
-                        {%else%}
+                        {% else %}
                             Draft
-                        {%endif%} <p/>
+                        {% endif %} <p/>
                         
                         <p>{{assignment.max_grades}} points</p>
                         <p>Created at: {{assignment.created_at}}</p>

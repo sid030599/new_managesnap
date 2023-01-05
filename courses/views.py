@@ -102,11 +102,11 @@ def home(request):
             courses = mycourses.objects.filter(user=request.user)
             #print(courses)
             all_courses = mycourses.objects.all()
-            course=[]
+            cours=[]
             for i in courses:
-                course.append(i.courses)
+                cours.append(i.courses)
 
-            return render(request, 'student_home.html', {'courses': course, 'user':request.user,'all_courses':all_courses})
+            return render(request, 'student_home.html', {'courses': cours, 'user':request.user,'all_courses':all_courses})
         if request.user.profile.status == 'm':
             Student = Profile.objects.filter(status = "s")
             return render(request,'manager.html',{'Student':Student})
@@ -128,7 +128,7 @@ def usercourse(request):
     
     courses , _ = mycourses.objects.get_or_create(user=request.user)
     all_courses = mycourses.objects.all()
-    courses = courses.courses.all()
+    #courses = courses.courses.all()
     if request.user.profile.status == 't':
         courses = course.objects.filter(created_by=request.user)
         choices=[
