@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "styles/style.css" %}">
+    <link rel="stylesheet" href="{% static "styles/requests-style.css" %}">
+    <link rel="stylesheet" href="{% static "styles/filter-popup.css" %}">
+    <link rel="icon" type="image/x-icon" href="{% static "rsc/icons8-project-management-48.png" %}">
+    <title>Requests</title>
+</head>
+<body>
+    <div class="filter-popup">
+        <div class="filters-cont">
+            <div class="filter-heading">
+                <p class="filters">Filters</p>
+                <img src="rsc/icons8-close-50.png" alt="" class="filter-close">
+            </div>
+            <div class="filter-options">
+                <div class="filter-option">
+                    <p class="filter-option-heading">
+                        Recency
+                    </p>
+                    <p class="options">
+                        <span class="option">
+                            Last 30 days
+                        </span>
+                        <span class="option">
+                            Last 7 days
+                        </span>
+                        <span class="option">
+                            Today
+                        </span>
+                    </p>
+                </div>
+                <div class="filter-option">
+                    <p class="filter-option-heading">
+                        My Activity
+                    </p>
+                    <p class="options">
+                        <span class="option">
+                            Commented
+                        </span>
+                        <span class="option">
+                            Published
+                        </span>
+                        <span class="option">
+                            Viewed
+                        </span>
+                    </p>
+                </div>
+                <div class="filter-option">
+                    <p class="filter-option-heading">
+                        Author
+                    </p>
+                    <p class="options">
+                        <span class="option">
+                            Admin
+                        </span>
+                    </p>
+                </div>
+                <div class="filter-apply">
+                    <button class="filter-apply-btn">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="notification-list-container noti-notdisplay">
+        <div class="notification-list">
+            <div class="notification-heading">
+                <h3>Notifications</h3>
+                <img src="rsc/icons8-expand-50.png" alt="" class="expand">
+            </div>
+            <div class="notifications">
+                <div class="notification">
+                    <div class="noti-details">
+                        <div class="noti-image">
+                            <img src="rsc/paul-castanie-WZB_ZOqR4dA-unsplash.jpg" alt="">
+                        </div>
+                        <div class="noti-detail">
+                            <p class="det">Paul updated the syllabus for Python</p>
+                            <p class="time">5 min ago</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification">
+                    <div class="noti-details">
+                        <div class="noti-image">
+                            <img src="rsc/joshua-earle-ICE__bo2Vws-unsplash.jpg" alt="">
+                        </div>
+                        <div class="noti-detail">
+                            <p class="det">Josh assigned a test for you</p>
+                            <p class="time">2 days ago</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification">
+                    <div class="noti-details">
+                        <div class="noti-image">
+                            <img src="rsc/radu-florin-4_QFycgpC4c-unsplash.jpg" alt="">
+                        </div>
+                        <div class="noti-detail">
+                            <p class="det">Jim added you to python classroom</p>
+                            <p class="time">10 days ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="mark">Mark all as read</p>
+        </div>
+    </div>
+    <div class="profile-container prof-notdisplay">
+        <div class="profile">
+            <div class="user-info profile-item">
+                <div class="user-image">
+                    <img src="rsc/kristina-v-hYdikKrex4U-unsplash.jpg" alt="">
+                </div>
+                <div class="user-details">
+                    <p class="user-fullname">Emily Rose</p>
+                    <p class="user-name">@rose_emily003</p>
+                </div>
+            </div>
+            <div class="settings profile-item">
+                <img src="rsc/icons8-settings-48.png" alt="">
+                <p>Account Settings</p>
+            </div>
+            <div class="logout profile-item">
+                <img src="rsc/icons8-logout-48.png" alt="">
+                <a href="{% url "handlelogout" %}">Logout</a>
+                <p>Logout</p>
+                
+            </div>
+        </div>
+    </div>
+    <div class="side-panel-container">
+        <div class="side-panel">
+            <div class="panel-item logo-item">
+                <div class="logo">
+                    <img src="{% static "rsc/icons8-project-management-48.png" %}" alt="" class="logo-image">
+                    <p class="logo-name">managesnap</p>
+                </div>
+                <img src="rsc/icons8-close-30 (1).png" alt="" id="close">
+            </div>
+            <div class="dashboard panel-item">
+                <img src="{% static "rsc/icons8-dashboard-layout-48.png" %}" alt="" class="item">
+                <p class="name"><a href="#">Dashboard</a></p>
+            </div>
+            
+            <div class="requests panel-item">
+                <img src="{% static "rsc/icons8-request-service-48.png" %}" alt="" class="item">
+                <p class="name"><a href="{% url "home" %}">Requests</a></p>
+            </div>
+            
+            <div class="course-details panel-item">
+                <div class="panel-heading">
+                    <h3>Course Details</h3>
+                    <img src="{% static "rsc/icons8-chevron-down-30.png" %}" alt="" class="down" id="arrow">
+                </div>
+                <div class="details">
+                    <div class="detail announcements">
+                        <img src="{% static "rsc/icons8-commercial-48.png" %}" alt="" class="item">
+                        <p class="name"><a href="{% url 'announceDetail' 'Announcement' 'manager' %}">Announcements</a></p>
+                    </div>
+                    <div class="detail announcements">
+                        <img src="{% static "rsc/icons8-commercial-48.png" %}" alt="" class="item">
+                        <p class="name"><a href="{% url "manager_noti" %}">Notifications</a></p>
+                    </div>
+
+                    <div class="detail announcements">
+                        <img src="{% static "rsc/icons8-commercial-48.png" %}" alt="" class="item">
+                        <p class="name"><a href="">Events</a></p>
+                    </div>
+
+                    <div class="detail announcements">
+                        <img src="{% static "rsc/icons8-commercial-48.png" %}" alt="" class="item">
+                        <p class="name"><a href="{% url "manager_noti" %}">News</a></p>
+                    </div>
+
+                    <div class="detail announcements">
+                        <img src="{% static "rsc/icons8-commercial-48.png" %}" alt="" class="item">
+                        <p class="name"><a href="{% url "teacher_profile" %}">Teacher Profile</a></p>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="panel-item support">
+                <button>
+                    <img src="{% static "rsc/icons8-support-60.png" %}" alt="">
+                    <p>Get Support</p>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="navigation">
+        <div class="navi">
+            <div class="nav-logo">
+                <img src="{% static "rsc/icons8-menu-50.png" %}" alt="" id="menu" class="nav-logo-item">
+                <img src="{% static "rsc/icons8-project-management-48.png" %}" alt="" class="nav-logo-item nav-logo-image">
+                <p class="nav-logo-item nav-logo-text">managesnap</p>
+            </div>
+            <div class="nav-rest">
+                <div class="nav-item">
+                    <img src="{% static "rsc/icons8-notification-48 (1).png" %}" alt="" class="noti-icon">
+                </div>
+                <div class="profile-image nav-item">
+                    <img src="{% static "rsc/kristina-v-hYdikKrex4U-unsplash.jpg" %}" alt="" class="image">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="groups-container">
+            <div class="gp">
+                <div class="heading groups-item">
+                    <div class="head heading-item">
+                        <p class="heading-name">
+                            Requests
+                        </p>
+                    </div>
+                    <div class="filter-search heading-item">
+                        <div class="search fs-item">
+                            <input type="text" name="" id="" placeholder="search courses" class="search-item searchbar">
+                            <img src="{% static "rsc/icons8-search-50 (4).png" %}" alt="" class="search-icon search-item">
+                        </div>
+                        <div class="filter fs-item">
+                            <button class="filter-btn"><img src="rsc/icons8-settings-34.png" alt=""><p>Filter</p></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs groups-item">
+                    <div class="tab default current">
+                        <img src="{% static "rsc/icons8-clock-48.png" %}" alt="" class="icon">
+                        <p class="default-hov">New</p>
+                    </div>
+                    <div class="tab private not-current">
+                        <img src="{% static "rsc/icons8-checkmark-32.png" %}" alt="" class="icon">
+                        <p class="private-hov">Accepted</p>
+                    </div>
+                    <div class="tab public not-current">
+                        <img src="{% static "rsc/icons8-close-30 (2).png" %}" alt="" class="icon">
+                        <p class="public-hov">Rejected</p>
+                    </div>
+                </div>
+                <div class="table groups-item default-table">
+                    <div class="table-item">
+                        <table>
+                            <tr>
+                                <th class="invisible"></th>
+                                <th class="invisible">Roll No.</th>
+                                <th>Full Name</th>
+                                <th class="invisible">Email</th>
+                                <th class="invisible">Requested On</th>
+                                <th>Profile</th>
+                            </tr>
+                        {% comment %} {% for i in request %}
+                            Name: {{i.user}}<br/>
+                            College: {{i.college}}<br/>
+                            Semester: {{i.semester}}<br/>
+                            Section: {{i.section}}<br/>
+                            Year: {{i.Year}}<br/>
+                            Roll Number: {{i.roll_number}}<br/>
+                            Department: {{i.department}}<br/>
+
+                            <br/>
+                            <button> <a href="{% url 'accept_req' i.user.id  %}" >Grant Request</a></button>
+                            <button> <a href="#" >Reject Request</a></button>
+                            
+                        {% endfor %} {% endcomment %}
+                        {% for i in request %}
+                            <tr>
+                                {% if i.user.profile.profile_pic %}
+                                <td class="invisible"><img src={{i.user.profile.profile_pic.url}} alt="" class="icon"></td>
+                                {% else %}
+                                <td class="invisible"><img src="" alt="" class="icon"></td>
+                                {% endif %}
+                                <td class="invisible">{{i.roll_number}}</td>
+                                <td>{{i.user}}</td>
+                                <td class="invisible">{{i.user.email}}</td>
+                                <td class="invisible">{{i.Year}}</td>
+                                <td><button class="view-btn"><a href="{% url "profile" i.user.profile.id %}">view</a></button></td>
+                            </tr>
+                            {% endfor %}
+                            
+                            
+                        </table>
+                        <div class="page-num">
+                            <p class="bracket"><</p>
+                            <p class="num">1</p>
+                            <p class="num">2</p>
+                            <p class="num">3</p>
+                            <p class="num">4</p>
+                            <p class="num">5</p>
+                            <p class="num">6</p>
+                            <p class="bracket">></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="table groups-item private-table">
+                    <div class="table-item">
+                        <table>
+                            <tr>
+                                <th class="invisible"></th>
+                                <th class="invisible">Roll No.</th>
+                                <th>Full Name</th>
+                                <th class="invisible">Email</th>
+                                <th class="invisible">Requested On</th>
+                                <th>Profile</th>
+                            </tr>
+                            {% for j in verified %}
+                            <tr>
+                                {% if i.user.profile.profile_pic %}
+                                <td class="invisible"><img src={{j.user.profile.profile_pic.url}} alt="" class="icon"></td>
+                                {% else %}
+                                <td class="invisible"><img src="" alt="" class="icon"></td>
+                                {% endif %}
+                                <td class="invisible">{{j.roll_number}}</td>
+                                <td>{{j.user}}</td>
+                                <td class="invisible">{{j.user.email}}</td>
+                                <td class="invisible">{{j.Year}}</td>
+                                <td><button class="view-btn"><a href="{% url "profile" j.user.profile.id %}">view</a></button></td>
+                            </tr>
+                            {% endfor %}
+                            
+                        </table>
+                        <div class="page-num table-item">
+                            <p class="bracket"><</p>
+                            <p class="num">1</p>
+                            <p class="num">2</p>
+                            <p class="num">3</p>
+                            <p class="num">4</p>
+                            <p class="num">5</p>
+                            <p class="num">6</p>
+                            <p class="bracket">></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="table groups-item public-table">
+                    <div class="table-item">
+                        <table>
+                            <tr>
+                                <th class="invisible"></th>
+                                <th class="invisible">Roll No.</th>
+                                <th>Full Name</th>
+                                <th class="invisible">Email</th>
+                                <th class="invisible">Requested On</th>
+                                <th>Profile</th>
+                            </tr>
+                            {% for j in rejected %}
+                            <tr>
+                                {% if i.user.profile.profile_pic %}
+                                <td class="invisible"><img src={{j.user.profile.profile_pic.url}} alt="" class="icon"></td>
+                                {% else %}
+                                <td class="invisible"><img src="" alt="" class="icon"></td>
+                                {% endif %}
+                                <td class="invisible">{{j.roll_number}}</td>
+                                <td>{{j.user}}</td>
+                                <td class="invisible">{{j.user.email}}</td>
+                                <td class="invisible">{{j.Year}}</td>
+                                <td><button class="view-btn"><a href="{% url "profile" j.user.profile.id %}">view</a></button></td>
+                            </tr>
+                            {% endfor %}
+                            
+                        </table>
+                        <div class="page-num table-item">
+                            <p class="bracket">&lt;</p>
+                            <p class="num">1</p>
+                            <p class="num">2</p>
+                            <p class="num">3</p>
+                            <p class="num">4</p>
+                            <p class="num">5</p>
+                            <p class="num">6</p>
+                            <p class="bracket">&gt;</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static "scripts/script.js" %}"></script>
+    <script src="{% static "scripts/requests-script.js" %}"></script>
+    <script src="scripts/filter-popup.js"></script>
+</body>
+</html>

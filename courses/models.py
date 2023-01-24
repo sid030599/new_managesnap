@@ -7,105 +7,8 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from account.models import *
 # Create your models here.
-status_choices = [
-    ('p', 'Principal'),
-    ('t', 'Teacher'),
-    ('s', 'Student'),
-    ('m','Management')
-]
-
-class College(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-#User._meta.get_field('email')._unique = True
-
-def current_year():
-        return datetime.date.today().year
-
-def max_value_current_year(value):
-    return MaxValueValidator(current_year()+10)(value)
-
-    
-gender_choices = (('M', 'MALE'),
-('F', 'FEMALE'),
-('O', 'OTHER'))
-class Profile(models.Model):
-    
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-
-    # personal details
-    bio = models.CharField(max_length=500, null=True, blank=True)
-    profile_pic = models.ImageField(upload_to='profile_pics', null=True, blank=True)
-    full_name               =       models.CharField(max_length=100, blank=True, null=True)
-    gender                  =       models.CharField(choices=gender_choices, max_length=2, blank=True, null=True)
-    country = models.CharField(max_length=200, null=True, blank=True)
-    state                   =       models.CharField(max_length=40, null=True, blank=True)
-    city                    =       models.CharField(max_length=40, null=True, blank=True)
-    linkedin                =       models.URLField(max_length=200, null=True, blank=True)
-    github                  =       models.URLField(max_length=200, null=True, blank=True)
-    email = models.EmailField(max_length=50, null=True, blank=True)
-    ph_num = models.CharField(max_length=15, null=True, blank=True)
-    skills = models.CharField(max_length=400, null=True, blank=True)
-    languages = models.CharField(max_length=400, null=True, blank=True)
-    default_coding_lang = models.CharField(max_length=100, null=True, blank=True)
-    resume = models.FileField(upload_to='profile_resumes', null=True, blank=True)
-
-    # educational info
-    institute_name          =       models.CharField(max_length=100, null=True, blank=True)
-    institute_location = models.CharField(max_length=100, null=True, blank=True)
-    yearOfPassing           =       models.PositiveIntegerField(default=current_year(), validators=[MinValueValidator(1980), max_value_current_year], null=True, blank=True)
-    current_cgpa       =       models.FloatField(null=True, validators=[MaxValueValidator(100), MinValueValidator(0)], blank=True)
-    out_of        =       models.FloatField(null=True, validators=[MaxValueValidator(100), MinValueValidator(0)], blank=True)
-    # professional info
-    workExp                 =       models.FloatField(null=True, validators=[MinValueValidator(0), MaxValueValidator(50)], blank=True)
-    current_CTC             =       models.FloatField(null=True, blank=True)
-    notice_period = models.IntegerField(null=True, blank=True)
-    willing_to_relocate = models.BooleanField(default=True, null=True, blank=True)
-    expected_CTC            =       models.FloatField(null=True, blank=True)
-    current_company         =       models.CharField(max_length=200, null=True, blank=True)
-    dream_company           =       models.CharField(max_length=200, null=True, blank=True)
-    designation             =       models.CharField(max_length=100, null=True, blank=True)
-    xp = models.IntegerField(null=True, default=100, blank=True)
-    techsnap_cash = models.IntegerField(null=True, default=999, blank=True)
-    college = models.ForeignKey(College,on_delete = models.CASCADE,null=True, blank=True)
-    slug = models.SlugField(max_length=200, editable=False, null=True, blank=True)
-    status = models.CharField(choices=status_choices, max_length=5, default='s')
-    # is_student = models.BooleanField(default=True)
-    # is_creator = models.BooleanField(default=False)
-    # is_hr = models.BooleanField(default=False)
-    teammates = models.ManyToManyField(User, related_name='teammates', blank=True)
-    followers = models.ManyToManyField(User, related_name='followers', blank=True)
-
-    def __str__(self):
-        return str(self.user)
-
-    def save(self, *args, **kwargs):
-        super(Profile, self).save()
-        self.slug = slugify(self.user.username)
-        super(Profile, self).save()
-
-    def courseprofile(self):
-        return self.course_profile.all()
-
-    # @property
-    # def num_ForumPosts(self):
-    #     return ForumPost.objects.filter(user=self).count()
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
 
 class course(models.Model):
     title = models.CharField(max_length=200)
@@ -221,12 +124,19 @@ class Files(models.Model):
 
 
 class courseTopic(models.Model):
-    course = models.ForeignKey(course, on_delete=models.CASCADE, related_name='courseTopics')
+    posted_by = models.ForeignKey(Profile, on_delete=models.CASCADE,blank=True,null=True)
+    course = models.ForeignKey(course, on_delete=models.CASCADE, related_name='courseTopics',blank=True,null=True)
     title = models.CharField(max_length=500)
     documents = models.ManyToManyField(Files, blank=True)
     info   = models.CharField(max_length=500, null=True, blank=True)
     link  = models.URLField(max_length=200, null=True, blank=True)
     released = models.BooleanField(default=False)
+    created_by = models.CharField(max_length=20, choices=[
+            ('M', 'Manager'),
+            ('T', 'Teacher')
+        ],
+        default='T'
+    )
     def __str__(self):
         return self.title
 
@@ -343,8 +253,9 @@ group_statuses = [
 ]
 
 class Groups(models.Model):
+    
     name    = models.CharField(max_length=50)
-    students = models.ManyToManyField(User, related_name="enrolled_groups")
+    students = models.ManyToManyField(Profile, related_name="enrolled_groups")
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_groups')
     status    = models.CharField(choices=group_statuses, max_length=5, default='d')
     enrolled_courses = models.ManyToManyField(course)
@@ -358,7 +269,7 @@ class Groups(models.Model):
 class mycourses(models.Model):
     user  = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrolledcourses')
     courses = models.ForeignKey(course, on_delete=models.RESTRICT,related_name='courses',default=course.objects.all().first().id)
-    #courses = models.ManyToManyField(course, related_name="mycourses", blank=True)
+    courses = models.ManyToManyField(course, related_name="mycourses", blank=True)
     paid = models.BooleanField(default = False)
     def __str__(self):
         return self.user.username
@@ -402,9 +313,27 @@ class myCourseUnit(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     coursetopics = models.ManyToManyField(mytopics, blank=True)
     course_assignments = models.ManyToManyField(myAssignment, blank=True)
+    is_done = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username + "-" + self.courseunit.name
+
+class News_feed(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    news = models.CharField(max_length=200,blank=True,null=True)
+    created_at = models.DateTimeField(default = datetime.datetime.now())
+
+    def __str__(self):
+        return self.user.username
+
+class Manager_notification(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    notification = models.CharField(max_length=200,blank=True,null=True)
+    created_at = models.DateTimeField(default = datetime.datetime.now())
+
+    def __str__(self):
+        return self.user.username
+
 
 
 def create_user_profile(sender, instance, created, **kwargs):

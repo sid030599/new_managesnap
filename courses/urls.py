@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views 
-
+import courses.views as views 
+import account.views as vi
 urlpatterns = [
     path('', views.home, name='home'),
     path('courses/', views.coursepage, name='course'),
@@ -12,14 +12,14 @@ urlpatterns = [
     path('<courseid>/courseunits/', views.courseunit, name='courseUnits'),
     path('<courseid>/student_learning_page/', views.student_learning_page, name='student_learning_page'),
     path('<courseid>/test-assign-page/', views.test_assign_page, name='test-assign-page'),
-    path('<courseid>/student-files/', views.student_files, name='student-files'),
+    path('lms<courseid>/student-files/', views.student_files, name='student-files'),
     path('assignedetail/<str:obj>/<courseid>', views.assignDetail, name='assignDetail'),
     path('announcedetail/<str:obj>/<courseid>', views.announceDetail, name='announceDetail'),
     path('unitedetail/<str:obj>/<courseid>', views.unitDetail, name='unitDetail'),
-    path('signup', views.handlesignup, name='handlesignup'),
+    path('signup', vi.handlesignup, name='handlesignup'),
     path('<courseid>/<studentid>/enroll/', views.enrollcourse, name='enroll'),
-    path('logout/', views.handlelogout, name='handlelogout'),
-    path('login', views.handlelogin, name='handlelogin'),
+    path('logout/', vi.handlelogout, name='handlelogout'),
+    path('login', vi.handlelogin, name='handlelogin'),
     path('<coursetopic>/topiccomplete/', views.topiComp, name='topic-complete'),
     path('<assignmentid>/assignment_complete/', views.assignmentComp, name='assignment-complete'),
     path('mycourses/', views.usercourse, name='usercourse'),
@@ -29,7 +29,7 @@ urlpatterns = [
     path('create_topic/<str:obj>', views.create_topic, name='create-topic'),
     path('create_unit/<str:obj>', views.create_unit, name='create-unit'),
     path('enroll_students/<courseid>/', views.enrollstudents, name='enroll-students'),
-    path('teacher_signup', views.handleteachersignup, name='teacher-signup'),
+    path('teacher_signup', vi.handleteachersignup, name='teacher-signup'),
     path('groups/', views.groups, name='groups'),
     path('groups_students/<int:pk>', views.group_student, name='group_student'),
     path('student_profile/<int:pk>', views.profile, name='profile'),
@@ -81,5 +81,13 @@ urlpatterns = [
     path('course_stats/<courseid>/', views.course_stats, name='course-stats'),
     path('my_grades/', views.my_grades, name='my-grades'),
     path('delete_course/<courseid>/', views.delete_course, name='delete-course'),
+
+
+    path('lms/stud_setting/',views.student_setting,name='stu-setting'),
+    path('managesnap/verify_request/<userid>',views.accept_req,name = 'accept_req'),
+    path('managesnap/verify_request/<userid>',views.reject_req,name = 'reject_req'),
+    path('managesnap/manager_noti/',views.manager_noti,name = 'manager_noti'),
+
+    path('managesnap/teacher_profile/',views.teacher_profile,name = 'teacher_profile'),
 
 ]

@@ -106,9 +106,11 @@
     <div class="profile-container prof-notdisplay">
         <div class="profile">
             <div class="user-info profile-item">
+                {% if reqest.user.profile.profile_pic %}
                 <div class="user-image">
                     <img src="{{request.user.profile.profile_pic.url}}" alt="">
                 </div>
+                {% endif %}
                 <div class="user-details">
                     <p class="user-fullname">{{request.user.username}}</p>
                     <p class="user-name">@{{request.user.username}}</p>
@@ -211,9 +213,11 @@
                 <div class="nav-item">
                     <img src="{% static "rsc/icons8-notification-48 (1).png"%}" alt="" class="noti-icon">
                 </div>
+                {% if reqest.user.profile.profile_pic %}
                 <div class="profile-image nav-item">
                     <img src="{{request.user.profile.profile_pic.url}}" alt="" class="image">
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -233,7 +237,7 @@
             <div class="ann">
                 <div style="display:flex">
                     <a href={% url 'usercourse' %}><button class="btn btn-link ">All Courses</button></a>
-                    <a href={% url 'courseDetail' course.id %}><button class="btn btn-link ">Course detail</button></a>
+                    <a href={% url 'courseDetail' course.id %}><button class="btn btn-link ">{{course.title}}</button></a>
                     <a href={% url 'assignDetail' obj courseid %}><button class="btn btn-link ">{{obj}}</button></a>
                     
               </div>

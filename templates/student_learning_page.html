@@ -7,11 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Learning Page</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css"
+    {% comment %} <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> {% endcomment %}
+    {% comment %} <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"> {% endcomment %}
+    <link rel="stylesheet" href="{% static "styles/course_detail_style.css"%}">
     <link rel="stylesheet" href="{% static "styles/all.css" %}">
     <link rel="stylesheet" href="{% static "styles/course_learning_page_style.css"%}">
     <!----===== Boxicons CSS ===== -->
@@ -221,11 +222,12 @@
                                         <div class="tutorials">
                                             
                                                 <p>Link: {{lesson.resource_link}}</p>
-                                                {% comment %} {% if lesson.isdone %}
-                                                    <a target="{% url 'unit-complete' lesson.id %}" documentid="{{lesson.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{lesson.id}} fas fa-check-square"></i></a>
-                                                {% else %}
-                                                    <a target="{% url 'unit-complete' lesson.id %}" documentid="{{lesson.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{lesson.id}} fas fa-square"></i></a>
-                                                {% endif %} {% endcomment %}
+                                                    {% if lesson.isdone %}
+                                                    {% comment %} <a target="{% url 'topic-complete' assign.coursetopic.id %}" topicid="{{assign.coursetopic.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{assign.coursetopic.id}} fas fa-check-square"></i></a> {% endcomment %}
+                                                        <a target="{% url 'unit-complete' lesson.id %}" documentid="{{lesson.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{lesson.id}} fas fa-check-square"></i></a>
+                                                    {% else %}
+                                                        <a target="{% url 'unit-complete' lesson.id %}" documentid="{{lesson.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{lesson.id}} fas fa-square"></i></a>
+                                                    {% endif %}
                                                     <div style="display:flex">
                                                         {% for file in lesson.files.all %}
                                                         <div style="display:flex">
@@ -265,6 +267,7 @@
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
     <script src="{% static "js/app.js" %}"></script>
+    <script src="{% static "js/course_detail.js" %}"></script>
 </body>
 
 </html>

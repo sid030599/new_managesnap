@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> 
+     <link rel="stylesheet" href="{% static "styles/view-style.css"%}">
+    <link rel="stylesheet" href="{% static "styles/style.css"%}">
+   <link rel="stylesheet" href="{% static "styles/announcements-style.css"%}">
+    <link rel="stylesheet" href="{% static "styles/groups-style.css" %}">
+    <link rel="stylesheet" href="{% static "styles/courses-style.css"%}">
+    <link rel="stylesheet" href="{% static "styles/add-popup.css"%}">
+    <link rel="stylesheet" href="{% static "styles/profile-style.css"%}">
+    <link rel="stylesheet" href="{% static "css/w3.css"%}">
+    
+    <link rel="icon" type="image/x-icon" href="rsc/icons8-project-management-48.png">
+    <title>Courses</title>
+</head>
+
+<body>
+    <div class="add-course">
+        <div class="popup">
+            <div class="left">
+                <div class="left-cont">
+                    <img src="{% static "rsc/icons8-project-management-48.png"%}" alt="">
+                    <h3>managessnap</h3>
+                </div>
+            </div>
+            <div class="right">
+                <div class="right-cont">
+                    <form action={% url 'create-course' %} method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="right-item">
+                            <h3>
+                                Course Title
+                            </h3>
+                            <input type="text" name="title" id="" method="POST" placeholder="enter course title">
+                        </div>
+                        <div class="right-item">
+                            <input type="text" name="category" id="" placeholder="course category">
+                            
+                            <label for="img">Select image:</label>
+                            <input type="file" id="img" name="image" accept="image/*">
+                            
+                            
+                        </div>
+                        <div class="right-item ac-btn">
+                            <button class="a" type="submit" >Upload</button>
+                            <button class="cancel">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <img src="{% static "rsc/icons8-close-50.png"%}" alt="" class="cancel-icon">
+        </div>
+    </div>
+    
+    <div class="notification-list-container noti-notdisplay">
+        <div class="notification-list">
+            <div class="notification-heading">
+                <h3>Notifications</h3>
+                <img src="{% static "rsc/icons8-expand-50.png"%}" alt="" class="expand">
+            </div>
+            <div class="notifications">
+                <div class="notification">
+                    <div class="noti-details">
+                        <div class="noti-image">
+                            <img src="{% static "rsc/paul-castanie-WZB_ZOqR4dA-unsplash.jpg"%}" alt="">
+                        </div>
+                        <div class="noti-detail">
+                            <p class="det">Paul updated the syllabus for Python</p>
+                            <p class="time">5 min ago</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification">
+                    <div class="noti-details">
+                        <div class="noti-image">
+                            <img src="{% static "rsc/joshua-earle-ICE__bo2Vws-unsplash.jpg"%}" alt="">
+                        </div>
+                        <div class="noti-detail">
+                            <p class="det">Josh assigned a test for you</p>
+                            <p class="time">2 days ago</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification">
+                    <div class="noti-details">
+                        <div class="noti-image">
+                            <img src="{% static "rsc/radu-florin-4_QFycgpC4c-unsplash.jpg"%}" alt="">
+                        </div>
+                        <div class="noti-detail">
+                            <p class="det">Jim added you to python classroom</p>
+                            <p class="time">10 days ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="mark">Mark all as read</p>
+        </div>
+    </div>
+    <div class="profile-container prof-notdisplay">
+        <div class="profile">
+            <div class="user-info profile-item">
+                <div class="user-image">
+                    <img src="{{request.user.profile.profile_pic.url}}" alt="">
+                </div>
+                <div class="user-details">
+                    <p class="user-fullname">{{request.user.username}}</p>
+                    <p class="user-name">@{{request.user.username}}</p>
+                </div>
+            </div>
+            <div class="settings profile-item">
+                <img src="{% static "rsc/icons8-settings-48.png"%}" alt="">
+                <p>Account Settings</p>
+            </div>
+            <div class="logout profile-item">
+                <img src="{% static "rsc/icons8-logout-48.png"%}" alt="">
+                <p> <a href="/logout"><button class="btn btn-link"> Logouts</button></p>
+            </div>
+        </div>
+    </div>
+    <div class="side-panel-container">
+        <div class="side-panel">
+            <div class="panel-item logo-item">
+                <div class="logo">
+                    <img src="{% static "rsc/icons8-project-management-48.png"%}" alt="" class="logo-image">
+                    <p class="logo-name">managessnap</p>
+                </div>
+                <img src="{% static "rsc/icons8-close-30 (1).png"%}" alt="" id="close">
+            </div>
+            <div class="dashboard panel-item">
+                <img src="{% static "rsc/icons8-dashboard-layout-48.png"%}" alt="" class="item">
+                <p class="name"><a href="dashboard.html">Dashboard</a></p>
+            </div>
+            <div class="courses panel-item">
+                <img src="{% static "rsc/icons8-e-learning-48.png"%}" alt="" class="item">
+                <p class="name"><a href="{% url 'usercourse' %}">Courses</a></p>
+            </div>
+            <div class="requests panel-item">
+                <img src="{% static "rsc/icons8-request-service-48.png"%}" alt="" class="item">
+                <p class="name"><a href="{% url "home" %}">Requests</a></p>
+            </div>
+            <div class="groups panel-item">
+                <img src="{% static "rsc/icons8-user-groups-48.png"%}" alt="" class="item">
+                <p class="name"><a href="{% url 'groups' %}">Groups</a></p>
+            </div>
+            <div class="course-details panel-item">
+                <div class="panel-heading">
+                    <h3>Course Details</h3>
+                    <img src="{% static "rsc/icons8-chevron-down-30.png"%}" alt="" class="down" id="arrow">
+                </div>
+                <div class="details">
+                    
+                    <div class="detail announcements">
+                        <img src="{% static "rsc/icons8-commercial-48.png"%}" alt="" class="item">
+                        <p class="name"><a href="{% url 'announceDetail' 'Announcement' courseid %}">Announcements</a></p>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="panel-item support">
+                <button>
+                    <img src="{% static "rsc/icons8-support-60.png"%}" alt="">
+                    <p>Get Support</p>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="navigation">
+        <div class="navi">
+            <div class="nav-logo">
+                <img src="{% static "rsc/icons8-menu-50.png"%}" alt="" id="menu" class="nav-logo-item">
+                <img src="{% static "rsc/icons8-project-management-48.png"%}" alt=""
+                    class="nav-logo-item nav-logo-image">
+                <p class="nav-logo-item nav-logo-text">managesnap</p>
+            </div>
+            <div class="nav-rest">
+                <div class="nav-item">
+                    <img src="{% static "rsc/icons8-notification-48 (1).png"%}" alt="" class="noti-icon">
+                </div>
+                <div class="profile-image nav-item">
+                    <img src="{{request.user.profile.profile_pic.url}}" alt="" class="image">
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <strong>Message!-</strong> {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    {% endfor %}
+    <div class="body">
+        <div class="view-container">
+            <div class="view">
+                <div style="display:flex">
+                    
+              </div>
+                <div class="heading view-item">
+                    <div class="head heading-item">
+                        <p class="heading-name">
+                            {{topic.title}}
+                        </p>
+                        <p>Mode: 
+                            {%if topic.released == True %}
+                                Released
+                            {% else %}
+                                Draft
+                            {%endif%} <p/>
+                    </div>
+                    <div class="add-item heading-item">
+                        <div class="add">
+                            <button class="add-btn" data-toggle="modal" data-target="#updatemodel">
+                                <p>Update</p>
+                            </button>
+                        </div>
+                    </div>
+                    {% if topic.released == False %}
+                    <div class="release-edit heading-item">
+                        
+                        <div class="release">
+                            <a href="{% url 'release-topic' "Announcement" topic.id None %}"> <button class="release-btn">   
+                                <img src="{% static "rsc/icons8-telegram-app-30.png" %}" alt="" class="icon">
+                                <p>Release</p>
+                            </button></a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="announcement view-item">
+                    {% if topic.info %}
+                        <p>{{topic.info}}</p>
+                    {% endif %}
+                </div>
+                <div class="links view-item">
+                    <div class="heading links-item">
+                        <div class="head heading-item">
+                            <p class="heading-name">
+                                Links
+                            </p>
+                        </div>
+                        <div class="add-item heading-item">
+                            <div class="add">
+                                <button class="add-btn" data-toggle="modal" data-target="#addLink">
+                                    <p>Add +</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="links-item">
+                        <ol class="links-list">
+                            {% if links %}
+                                {% for link in links %}
+                                    <div style="display:flex">
+                                        <p>Link {{forloop.counter}}:<a href="{{link}}"><button class="btn btn-link">{{link}}</button></a></p>
+                                        <a href="{% url 'delete-link-topic' 'topic'  topic.id forloop.counter courseid %}" ><button class="btn btn-danger">Delete link</button></a>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </ol>
+                    </div>
+                </div>
+                <div class="docs view-item">
+                    <div class="heading docs-item">
+                        <div class="head heading-item">
+                            <p class="heading-name">
+                                Files
+                            </p>
+                        </div>
+                        <div class="add-item heading-item">
+                            <div class="add">
+                                <button class="add-btn" data-toggle="modal" data-target="#addFile">
+                                    <p>Add +</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="docs-item">
+                        <ol class="links-list">
+                            {% if topic.documents %}
+                                    {% for document in topic.documents.all %}
+                                        <div style="display:flex">
+                                            <li> <p>File {{forloop.counter}}: <a href='{{document.document.url}}' ><button class="btn btn-link">{{document.document.name|cut:'documents/'}}</button></a></p>
+                                            <button data-toggle="modal" data-target="#renamefile{{document.id}}" class="btn btn-primary mb-3 ml-2">rename file</button>
+                                            <a href={% url 'delete-file' 'Announcement' document.id topic.id courseid %} ><button class="btn btn-danger mb-3 ml-2">delete file</button></a> </li>
+                                            {% if is_unit %}
+                                                <a href={% url 'topic-unit-stats' topic.id document.id %}><button class="btn btn-outline-primary mx-3">See student stats</button> <br/></a>
+                                            {% endif %}
+                                        </div>
+                                        <!-- rename file modal  -->
+                                        <div class="modal fade" id="renamefile{{document.id}}" tabindex="-1" aria-labelledby="renamefile{{document.id}}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="renamefile{{document.id}}title">Rename file</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action={% url 'rename-file' %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                                                        <div class="form-group">
+                                                            <label for="filename">File name</label>
+                                                            <input type="text" value="{{document.document.name|cut:'documents/'}}" class="form-control" id="filename" name="filename" placeholder="rename File">
+                                                        </div>
+                                                        <input type="hidden" value={{document.id}} name="documentid" id="documentid">
+                                                        <input type="hidden" value={{request.path}} name="next" id="next">
+                                                        <button type="submit" class="btn btn-primary">Rename</button>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
+
+                                    {% endfor %}
+                            {% endif %}
+
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+        <!-- update content modal  -->
+            <div class="modal fade" id="updatemodel" tabindex="-1" aria-labelledby="updatemodel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addLinktitle">update model</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action={% url 'edit-topic' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" value={{topic.title}} class="form-control" id="title" name="title" placeholder="Enter title">
+                            </div>
+                            <div class="form-group">
+                                <label for="info">Info</label>
+                                {% if topic.info %}
+                                    <input type="text" value='{{topic.info}}' class="form-control" id="info" name="info" placeholder="Add Info if any" >
+                                {% else %}
+                                    <input type="text" class="form-control" id="info" name="info" placeholder="Add Info if any" >
+                                {% endif %}
+                                
+                            </div>
+                            <input type="hidden" value={{topic.id}} name="assignmentid" id="assignmentid">
+                            <input type="hidden" value='False' name="isassignment" id="isassignment">
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            
+                    </div>
+                    </div>
+                </div>
+            </div>
+          
+
+<!-- add link modal  -->
+            <div class="modal fade" id="addLink" tabindex="-1" aria-labelledby="addLink" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addLinktitle">Add Link</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action={% url 'add-link' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                            <div class="form-group">
+                                <label for="link">Link</label>
+                                <input type="link" class="form-control" id="link" name="link" placeholder="Add Link">
+                            </div>
+                            <input type="hidden" value={{topic.id}} name="assignmentid" id="assignmentid">
+                            <input type="hidden" value='False' name="isassignment" id="isassignment">
+                            <input type="hidden" value='False' name="islesson" id="islesson">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+  <!-- add file modal  -->
+            <div class="modal fade" id="addFile" tabindex="-1" aria-labelledby="addFile" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addFiletitle">Add file</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action={% url 'add-file' courseid %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                            <div class="form-group">
+                                <label for="document">Add multiple files</label>
+                                <input type="file" class="form-control" id="document" name="document" placeholder="Add Files" multiple>
+                            </div>
+                            <input type="hidden" value={{topic.id}} name="assignmentid" id="assignmentid">
+                            <input type="hidden" value='False' name="isassignment" id="isassignment">
+                            <input type="hidden" value='True' name="islesson" id="islesson">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+        
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script> 
+    <script>
+        var donebtn = document.querySelectorAll(".doneBtn")
+        donebtn.forEach(function(btn) {
+            var url = btn.getAttribute('target');
+            var documentid = btn.getAttribute('documentid');
+            var doneIcon = document.querySelector(".doneIcon" + documentid);
+            btn.addEventListener("click", function(){
+                if(doneIcon.classList.contains('fa-check-square') == true){
+                    doneIcon.classList.remove('fa-check-square');
+                    doneIcon.classList.add('fa-square');
+                }
+                else if (doneIcon.classList.contains('fa-square') == true){
+                    doneIcon.classList.remove('fa-square');
+                    doneIcon.classList.add('fa-check-square');
+                }
+                fetch(url)
+                .then(response => response.json())
+            });
+        });
+    </script>
+<script src="{% static "scripts/script.js"%}"></script>
+<script src="{% static "scripts/add-course.js"%}"></script>
+<script src="{% static "scripts/groups-script.js"%}"></script>
+<script src="{% static "scripts/profile-script.js"%}"></script>
+<script src="{% static "scripts/announcements-script.js"%}"></script>
+</body>
+
+</html>
+
+
+
+
+
+  

@@ -4,12 +4,13 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import userform,LessonForm,LessonFileForm
-from .models import Assignment,Profile, College,Payment, Files, course, courseTopic, myAssignment, myFiles, mycourses, mytopics, courseUnit, myCourseUnit, Groups, Unit,Lesson,Lesson,LessonFile,MyUnit,MyLesson, grades as marks
+from .forms import userform,LessonForm,LessonFileForm, ManagerNotificationForm,NewsFeedForm
+
+from .models import Assignment,Payment, Files, course, courseTopic, myAssignment, myFiles, mycourses, mytopics, courseUnit, myCourseUnit, Groups, Unit,Lesson,Lesson,LessonFile,MyUnit,MyLesson, grades as marks
 from django.http import JsonResponse
 from django.db.models import Q
-
-
+from account.models import *
+from account.forms import *
 import razorpay
 from django.utils.translation import get_language
 from django.views.decorators.csrf import csrf_exempt
@@ -82,6 +83,7 @@ def success(request,courseid):
     return render(request, "success.html", {'status': False})
 
 # Create your views here.
+from .models import Manager_notification,News_feed
 def home(request):
 
     college_choices = College.objects.all()
@@ -92,7 +94,7 @@ def home(request):
             courses = course.objects.filter(created_by__profile__college=college)
             return render(request, 'index.html', {'teachers': User.objects.filter(profile__status='t', profile__college=college), 'courses': courses, 'students': User.objects.filter(profile__status='s', profile__college=college)})
 
-        if request.user.profile.status == 't':
+        if request.user.profile.status == 't' :
 
             courses = course.objects.filter(created_by=request.user)
             Totalcourse = len(courses)
@@ -101,15 +103,68 @@ def home(request):
         if request.user.profile.status == 's':
             courses = mycourses.objects.filter(user=request.user)
             #print(courses)
+            announcements = courseTopic.objects.filter(created_by = "M")
+            print(announcements) 
+            notification = Manager_notification.objects.all()
+            news  = News_feed.objects.all()
             all_courses = mycourses.objects.all()
             cours=[]
             for i in courses:
                 cours.append(i.courses)
 
-            return render(request, 'student_home.html', {'courses': cours, 'user':request.user,'all_courses':all_courses})
+            return render(request, 'student_home.html', {"announcements":announcements , 'courses': cours, 'user':request.user,'all_courses':all_courses,"news":news,"notification":notification})
         if request.user.profile.status == 'm':
             Student = Profile.objects.filter(status = "s")
-            return render(request,'manager.html',{'Student':Student})
+            not_veri = temp_verification.objects.filter(is_varified = False,is_rejected = False)
+            veri_req = temp_verification.objects.filter(is_varified = True)
+            rejected = temp_verification.objects.filter(is_rejected = True)
+            # form = ManagerNotificationForm()
+            # news_form = NewsFeedForm()
+            
+            # if request.method == "POST":
+            #     if request.POST.get('announce') == 'T':
+            #         print('asdf')
+            #         title = request.POST['title']
+            #         info = request.POST.get('info', None)
+            #         document = request.FILES.getlist('document', None)
+            #         link = request.POST.get('link', None)
+            #         instance = courseTopic(title=title,created_by = 'M')
+
+            #         if info:
+            #             instance.info = info
+            #             instance.save()
+            #             if document:
+            #                 for doc in document:
+            #                     file = Files.objects.create(document=doc)
+            #                     instance.documents.add(file)
+
+            #             if link:
+            #                 instance.link = link
+
+            #             instance.save()
+            #     if request.POST.get('notification')=='True':
+                    
+            #         form = ManagerNotificationForm(request.POST)
+                
+            #         if form.is_valid():
+            #             form = form.save(commit=False)
+            #             form.user = request.user
+            #             form.save()
+            #     elif request.POST.get('notification')=='False':
+                    
+            #         news_form = NewsFeedForm(request.POST)
+            #         if news_form.is_valid():
+            #             form = news_form.save(commit=False)
+            #             form.user = request.user
+            #             form.save()
+            #     news_form = NewsFeedForm()
+            #     form = ManagerNotificationForm()
+            #     return render(request,'manager.html',{'Student':Student,'request':veri_req,"not_form":form,"news_form":news_form})
+
+            # return render(request,'manager.html',{'Student':Student,'request':veri_req,"not_form":form,"news_form":news_form})
+
+            print(veri_req)
+            return render(request, 'requests.html', {'Student':Student,'request':not_veri,'verified':veri_req,'rejected':rejected})
 
     return render(request, 'index.html', {'college_choices': college_choices})
 
@@ -214,10 +269,10 @@ def unit_detail(request,obj, unitid,courseid):
             #     latest_order = 0
             
             form = LessonForm(request.POST, request.FILES)
-            print(request.POST)
+            #print(request.POST)
             if form.is_valid():
                 files = request.FILES.getlist('resource')
-                print(files)
+                #print(files)
                 lesson = form.save(commit=False)
                 lesson.unit = unit
                 # lesson.order = latest_order + 1
@@ -272,7 +327,17 @@ def lesson_detail(request, lessonid,courseid):
 
 
 def topic_detail(request,obj, topicid,courseid):
-    if request.user.profile.status == 't':
+    if request.user.profile.status == 'm':
+        print('asd')
+        topic = courseTopic.objects.get(id=topicid)
+        links = []
+        if topic.link:
+            links = topic.link.split(",")
+        
+        return render(request, 'manager_announce_detail.html', {'course':None,'topic': topic, 'status': 'm', 'links': links, 'is_unit': None,'courseid':None,'obj':"Announcement"})
+
+    if request.user.profile.status == 't' :
+        
         
         topic = courseTopic.objects.get(id=topicid)
         courseid = topic.course.id
@@ -333,6 +398,17 @@ def stu_topic_detail(request, id,courseid):
     return render(request, 'topic_detail.html', {'topic': unit,'lessons':lessons, 'status': 's',  'courseid':courseid})
 
 def release_topic(request,obj, topicid, courseid):
+    if request.user.profile.status == 'm':
+        if obj == 'Announcement':
+               
+            course_topic = courseTopic.objects.get(id = topicid)
+            course_topic.released = True
+            course_topic.save()
+
+            links = []
+            if course_topic.link:
+                links = course_topic.link.split(",")
+            return render(request, 'manager_announce_detail.html', {'topic': course_topic, 'status': 't','obj':"Announcement", 'links': links, 'is_unit': None,'courseid':None})
     if request.user.profile.status == 't':
         if obj == 'lesson':
            
@@ -545,21 +621,32 @@ def assignment_delete(request, assignmentid):
     messages.success(request ,'Your ' + title + ' is deleted')
     return redirect('courseDetail', courseid=courseid)
 
+from account.forms import GroupsStudentForm
+
+
 
 def group_student(request,pk):
     
-    # created_default_groups = Groups.objects.filter(created_by__profile__college=college, status='d', created_by=request.user)
+    #created_default_groups = Groups.objects.filter(created_by__profile__college = college, status='d', created_by=request.user)
     default_groups_students = Groups.objects.get(id=pk)
-
+    form = GroupsStudentForm()
     students = default_groups_students.students.all()
-    return render(request, 'students.html', {'students':students})
+    
+    if request.method == 'POST':
+        default_groups_students.students.add(request.POST['students'])
+        
+        default_groups_students = Groups.objects.get(id=pk)
+        form = GroupsStudentForm()
+        students = default_groups_students.students.all()
+        
+        return render(request, 'students.html', {'students':students,"group_name":default_groups_students,"form":form})
+
+    return render(request, 'students.html', {'students':students,"group_name":default_groups_students,"form":form})
 
 def profile(request,pk):
-    print(pk)
     # created_default_groups = Groups.objects.filter(created_by__profile__college=college, status='d', created_by=request.user)
-    
     profile = Profile.objects.get(id=pk)
-    print(profile)
+    #print(profile)
     
     
     return render(request, 'profile.html', {'students':profile})
@@ -573,11 +660,11 @@ def groups(request):
         return HttpResponse("You don't have permission to perform this action")
     college = request.user.profile.college
 
-    # created_default_groups = Groups.objects.filter(created_by__profile__college=college, status='d', created_by=request.user)
+    #created_default_groups = Groups.objects.filter(created_by__profile__college=college, status='d', created_by=request.user)
     default_groups = Groups.objects.filter(created_by__profile__college=college, status='d')
     custom_groups = Groups.objects.filter(created_by=request.user, status='c')
 
-    return render(request, 'groups.html', {'default_groups': default_groups, 'custom_groups': custom_groups})
+    return render(request, 'groups.html', {'default_groups': default_groups, 'private_groups': custom_groups})
     
 
 def enrollstudents(request, courseid):
@@ -670,7 +757,9 @@ def enroll_group(request, courseid, groupid):
     units = courseUnit.objects.filter(course__id=courseid)
 
     for student in group.students.all():
-        mycourse = mycourses.objects.get(user=student)
+        user = User.objects.get(profile = student)
+        
+        mycourse = mycourses.objects.get(user=user)
 
         if addcourse not in mycourse.courses.all():
             mycourse.courses.add(addcourse)
@@ -728,7 +817,7 @@ def courseunit(request, courseid):
     mycourseunits = myCourseUnit.objects.filter(user=request.user, courseunit__course__id=courseid)
     
     units = MyUnit.objects.filter(user = request.user,course__id = courseid)
-    print(units)
+    #print(units)
     for i in mycourseunits:
     
         
@@ -810,10 +899,36 @@ def announceDetail(request,obj,courseid):
         obj='Time Table'
     if obj=='Unit':
         obj='Unit Lessons'
-    
+
+    if request.user.profile.status == 'm':
+        courseunits = courseTopic.objects.filter(created_by = 'M')
+        if request.method == 'POST':
+            print('yes')
+            if request.POST.get('announce') == 'T':
+                        print('asdf')
+                        title = request.POST['title']
+                        info = request.POST.get('info', None)
+                        document = request.FILES.getlist('document', None)
+                        link = request.POST.get('link', None)
+                        instance = courseTopic(title=title,created_by = 'M')
+
+                        if info:
+                            instance.info = info
+                            instance.save()
+                            if document:
+                                for doc in document:
+                                    file = Files.objects.create(document=doc)
+                                    instance.documents.add(file)
+
+                            if link:
+                                instance.link = link
+
+                        instance.save()
+        return render(request, 'manager_announce.html', {'courseunits': courseunits})
+        
     if request.user.profile.status == 't':
         coursedet = course.objects.get(id=courseid)
-        print(coursedet)
+        #print(coursedet)
        
         courseunits = courseUnit.objects.filter(course__id = courseid)
         return render(request, 'announcements.html', {'courseunits': courseunits, 'course': coursedet,"obj":obj,'courseid':courseid})
@@ -843,7 +958,7 @@ def create_course(request):
         return redirect('usercourse')
 
     if request.method == 'POST':
-        print("SDF",request.POST)
+       
         title = request.POST['title']
         next = request.POST.get('next', '/')
         print(next)
@@ -950,6 +1065,8 @@ def create_topic(request,obj):
     if(user.profile.status != 't'):
         messages.error(request, "You are not the staff so you can't create a course topic")
         return redirect('home')
+
+    
 
     if request.method == 'POST':
         courseunitid = request.POST['courseunitid']
@@ -1090,80 +1207,6 @@ def remove_student_to_group(request, studentid, groupid):
     return redirect('home')
 
 
-def handlesignup(request):
-    if request.method == 'POST':
-        # Get the Post parametres
-        username = request.POST['username']
-        email = request.POST['email']
-        pass1 = request.POST['password']
-        pass2 = request.POST['pass2']
-        college = request.POST['college']
-
-
-        # check for errorneous input
-        if len(username) > 20:
-            messages.error(request, "Username must be under 20 characters")
-            return redirect('home')
-
-        if " " in username:
-            messages.error(request, "Username cannot contain spaces")
-            return redirect('home')
-        if pass1 != pass2:
-            messages.error(request, "Passwords do not match")
-            return redirect('home')
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "Uername already exists. Choose unique username")
-            return redirect('home')
-        if User.objects.filter(email=email).exists():
-            messages.error(request, "email already exists. Please Log in")
-            return redirect('home')
-
-        # Create the user
-        form1 = userform(request.POST)
-
-        if form1.is_valid():
-            form1.save()
-
-            user = User.objects.get(username=username)
-            user.profile.college = college
-            user.save()
-
-            messages.success(request, "Your account has created.")
-            return redirect('home')
-
-        else:
-            form1 = userform()
-
-
-    return HttpResponse("404 - Not Found")
-
-
-def handlelogin(request):
-    if request.method == 'POST':
-        # Get the Post parametres
-        loginusername = request.POST['loginusername']
-        loginpassword = request.POST['loginpass']
-
-        user = authenticate(username=loginusername, password=loginpassword)
-        user_verify = User.objects.get(username=loginusername)
-
-        if user is not None:
-            login(request, user)
-            messages.success(request, "Successfully logged in")
-            return redirect('home')
-        elif user_verify.is_active == False:
-            messages.error(request, "Please verify your email first to login.")
-            return redirect('home')
-        else:
-            messages.error(request, "Invalid Credentials: Please try again")
-            return redirect('home')
-    return HttpResponse('404 not found')
-
-
-def handlelogout(request):
-    logout(request)
-    messages.success(request, "Successfully logged out")
-    return redirect('home')
 
 def topiComp(request, coursetopic):
     Topic = mytopics.objects.get(user=request.user, id=coursetopic)
@@ -1182,10 +1225,10 @@ def topiComp(request, coursetopic):
     return JsonResponse(data)
 
 def lessonComp(request, lessonid):
-    print(lessonid)
+    #print(lessonid)
     lesson = MyLesson.objects.get(id=lessonid)
     isdone = True
-    print(lesson)
+    #print(lesson)
     if(lesson.isdone == True):
         MyLesson.objects.filter(id=lessonid).update(isdone = False)
         isdone = False
@@ -1395,54 +1438,94 @@ def edit_topic(request,courseid):
             messages.success(request, "Updated!!")
             return redirect('topic-detail', topicid=assignmentid,courseid=courseid)
 
+from account.forms import student_verificationform
+def student_setting(request):
+    
+    student = Profile.objects.get(user = request.user)
+    is_verified = False
+    if student.is_verified:
+        is_verified = True
+    #print(student)
+    form = student_verificationform()
+    if request.method == "POST":
+        #print(request.POST)
+        form = student_verificationform(request.POST, request.FILES)
+        if form.is_valid():
+            mod  = form.save(commit=False)
+            
+            mod.user = request.user
+            mod.save()
+        form = student_verificationform
+        return render(request,'student_setting.html' ,{"student":student,"form":form,"is_ver":is_verified})
 
-def handleteachersignup(request):
-    if request.method == 'POST':
-        # Get the Post parametres
-        username = request.POST['username']
-        email = request.POST['email']
-        pass1 = request.POST['password']
-        pass2 = request.POST['pass2']
+    return render(request,'student_setting.html' ,{"student":student,"form":form,"is_ver":is_verified})
 
-        if request.user.profile.status != 'p':
-            messages.error(request, "You don't have permission to add a teacher.")
-            return redirect('home')
+from account.serializer import temp_verification_ser
 
-        # check for errorneous input
-        if len(username) > 20:
-            messages.error(request, "Username must be under 20 characters")
-            return redirect('home')
+def accept_req(request,userid):
+    profile  = Profile.objects.get(user_id = userid)
+    data = temp_verification.objects.filter(user_id = userid).first()
+    profile.section = data.section
+    profile.semester = data.semester
+    profile.Year = data.Year
+    profile.roll_number = data.roll_number
+    profile.is_verified = True
+    profile.department = data.department
+    profile.college = data.college
 
-        if " " in username:
-            messages.error(request, "Username cannot contain spaces")
-            return redirect('home')
-        if pass1 != pass2:
-            messages.error(request, "Passwords do not match")
-            return redirect('home')
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "Uername already exists. Choose unique username")
-            return redirect('home')
-        if User.objects.filter(email=email).exists():
-            messages.error(request, "email already exists. Please Log in")
-            return redirect('home')
+    profile.save()
 
-        # Create the user
-        form1 = userform(request.POST)
+    data.is_varified=True
+    data.save()
+    return render(request,'profile.html',{'student':profile})
+    
+def reject_req(request,userid):
+    profile  = Profile.objects.get(user_id = userid)
+    profile.is_rejected = True
+    data = temp_verification.objects.filter(user_id = userid).first()
+    data.is_rejected = True
+    data.save()
+    profile.save()
+    
 
-        if form1.is_valid():
-            form1.save()
+    return render(request,'profile.html',{'student':profile})
 
-            teacher = User.objects.get(username=username)
-            teacher.profile.status = 't'
-            teacher.profile.college = request.user.profile.college
+def manager_noti(request):
+    form = ManagerNotificationForm()
+    
+    news_form = NewsFeedForm()
+    
+    if request.method == "POST":
+        
+        if request.POST.get('noti')=='True':
+            
+            form = ManagerNotificationForm(request.POST)
+        
+            if form.is_valid():
+                form = form.save(commit=False)
+                form.user = request.user
+                form.save()
+        elif request.POST.get('noti')=='False':
+            
+            news_form = NewsFeedForm(request.POST)
+            if news_form.is_valid():
+                form = news_form.save(commit=False)
+                form.user = request.user
+                form.save()
+        news_form = NewsFeedForm()
+        form = ManagerNotificationForm()
+        return render(request,'manager.html',{"not_form":form,"news_form":news_form})
 
-            teacher.save()
-
-            messages.success(request, "Your have successfully added the teacher " + username)
-            return redirect('home')
-
-        else:
-            form1 = userform()
+    return render(request,'manager.html',{"not_form":form,"news_form":news_form})
 
 
-    return HttpResponse("404 - Not Found")
+def teacher_profile(request):
+    if request.user.profile.status == 'm':
+        teacher  = Profile.objects.filter(status = 't')
+
+        return render(request , 'teacher_profile.html', {'teacher':teacher})
+
+    if request.user.profile.status == 's':
+        teacher  = Profile.objects.filter(status = 't',semester = request.user.profile.semester)
+
+        return render(request , 'student_preference.html', {'teacher':teacher})

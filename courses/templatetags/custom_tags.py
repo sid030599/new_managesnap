@@ -74,6 +74,6 @@ def unit_status(mytopicid , documentid):
     documents = my_topic.documents
     done = documents.get(document__id=documentid).done
 
-    print(done)
+    #print(done)
 
     return done

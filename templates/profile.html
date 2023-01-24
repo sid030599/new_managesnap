@@ -12,30 +12,47 @@
                 <div class="prof-item prof-details">
                     <div class="image-details">
                         <div class="prof-image">
-                            <img src="{{students.profile_pic.url}}" alt="sad">
+                            {% if students.profile_pic %}
+                                <img src="{{students.profile_pic.url}}" alt="">
+                                {% else %}
+                                <img src="" alt="">
+                            {% endif %}
+                            
                         </div>
                         <div class="details">
                             <p class="prof-name">{{students.full_name}}</p>
                             <p class="prof-mail">{{students.email}}</p>
+                            {% if students.is_verified %}
+                            <p class="status"><b>Status : </b><span>Verifed</span></p>
+                            {% endif %}
+                            {% if students.is_rejected %}
+                            <p class="status"><b>Status : </b><span>Rejected</span></p>
+                            {% endif %}
+                            {% if students.is_rejected == False and students.is_verified == False%}
                             <p class="status"><b>Status : </b><span>Pending</span></p>
+                            {% endif %}
                         </div>
                     </div>
+                    {% if students.is_verified == False and students.is_rejected == False%}
                     <div class="prof-buttons">
                         <div class="accept">
+                            
                             <button class="accept-btn">
-                                <img src="rsc/icons8-double-tick-30.png" alt="" class="icon">
-                                <p>Accept</p>
+                                 
+                                <img src="{% static "rsc/icons8-double-tick-30.png" %}" alt=""  class="icon">
+                                <a href="{% url 'accept_req' students.user.id  %}">Accept</a>
                             </button>
                         </div>
                         <div class="reject">
                             <button class="reject-btn">
-                                <img src="rsc/icons8-close-30 (3).png" alt="" class="icon">
-                                <p>Reject</p>
+                                <img src="{% static "rsc/icons8-close-30 (3).png" %}" alt="" class="icon">
+                                <a href="{% url 'reject_req' students.user.id  %}">Reject</a>
                             </button>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
-                <div class="tabs prof-item">
+                {% comment %} <div class="tabs prof-item">
                     <div class="tab personal current">
                         <img src="rsc/icons8-person-30.png" alt="" class="icon">
                         <p>Personal</p>
@@ -138,7 +155,7 @@
                         <img src="rsc/icons8-code-24.png" alt="" class="icon">
                         <p class="info-name">Programming Languages : </p>
                     </div>
-                </div>
+                </div> {% endcomment %}
             </div>
         </div>
 {% endblock content %}

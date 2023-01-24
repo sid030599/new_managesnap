@@ -256,7 +256,7 @@
                                               <circle cx="30" cy="30" r="30"></circle>
                                             </svg>
                                             <div class="num">
-                                            <p>{{unit.id|get_unit_percentage:request.user.id  }}%</p>
+                                            <p>{{unit.id|get_unit_percentage:request.user.id }}%</p>
                                         
                                               {% comment %} <h2>87<span>%</span></h2> {% endcomment %}
                                             </div>
@@ -271,7 +271,7 @@
                         </div>
                         
                         <div class="Activity-Feed-container part">
-                            <button type="button" class="collapsible">Activity Feed<span><i class="fa-solid fa-angle-down"></i>
+                            <button type="button" class="collapsible">Activity Feed1<span><i class="fa-solid fa-angle-down"></i>
                                 <i class="fa-solid fa-angle-up"></i></span></button>
                             <div class="content">
                                 <h1>Latest Posts</h1>
@@ -296,7 +296,7 @@
                                             <a href={% url 'stu-announce-detail' assign.coursetopic.id courseid %}><p style="display: inline;">{{assign.coursetopic.title}}</p></a>
                                            
                                        </div>
-                                       {% if courseTopic.done %}
+                                       {% if assign.courseTopic.done %}
                                                <a target="{% url 'topic-complete' assign.coursetopic.id %}" topicid="{{assign.coursetopic.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{assign.coursetopic.id}} fas fa-check-square"></i></a>
                                            {% else %}
                                                <a target="{% url 'topic-complete' assign.coursetopic.id %}" topicid="{{assign.coursetopic.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{assign.coursetopic.id}} fas fa-square"></i></a>

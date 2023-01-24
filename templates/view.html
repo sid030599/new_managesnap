@@ -229,9 +229,9 @@
             <div class="view">
                 <div style="display:flex">
                     <a href={% url 'usercourse' %}><button class="btn btn-link ">All Courses</button></a>
-                    <a href={% url 'courseDetail' courseid %}><button class="btn btn-link ">Course detail</button></a>
+                    <a href={% url 'courseDetail' courseid %}><button class="btn btn-link ">{{course.title}}</button></a>
                     <a href={% url 'announceDetail' obj courseid %}><button class="btn btn-link ">{{obj}}</button></a>
-                    <a href={% url 'topic-detail' obj topic.id courseid %}><button class="btn btn-link ">{{obj}} Details</button></a>
+                    <a href={% url 'topic-detail' obj topic.id courseid %}><button class="btn btn-link ">{{topic.title}}</button></a>
                     
               </div>
                 <div class="heading view-item">

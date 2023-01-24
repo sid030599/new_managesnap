@@ -238,7 +238,7 @@
         <div class = "col-md-4">
             <div style="display:flex">
                 <a href={% url 'usercourse' %}><button class="btn btn-link ">All Courses</button></a>
-                <a href={% url 'courseDetail' course.id %}><button class="btn btn-link ">Course detail</button></a>
+                <a href={% url 'courseDetail' course.id %}><button class="btn btn-link ">{{course.title}}</button></a>
           </div>
         <h2 class="mr-5">{{ course.title }}</h2>
         <img src = {{course.image.url}}>

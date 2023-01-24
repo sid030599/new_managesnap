@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <p>Name: {{student.full_name}}</p> 
+    <p>Email: {{student.email}}</p> 
+    <form class="my-class" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit">Ask Access</button>
+    </form>
+
+    {% if is_ver %}
+    <h3>Profile_status:Verifed</h3>
+    <p>college name :  {{student.college}}</p>
+    <p>department :  {{student.department}}</p>
+    <p>section : {{student.section}}</p>
+    <p>roll number : {{student.roll_number}}</p>
+
+    {% else %}
+    <h3>Profile_status:UnVerifed</h3>
+    {% endif %}
+</body>
+</html>

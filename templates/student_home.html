@@ -41,20 +41,24 @@
                     <img class="notify-icon icon" src="{% static "images/notification.png"%}">
                 </div>
                 <div class="dropdown">
+                    {% for noti in notification %}
                     <div class="notify_item">
+                        
                         <div class="notify_img">
-                            <img src="{% static "images/User.png"%}" alt="profile_pic" style="width: 50px">
+                            <img src={{noti.user.profile.profile_pic.url}} alt="profile_pic" style="width: 50px">
                         </div>
+                        
                         <div class="notify_info">
-                            <p>You have submitted your assignment submission for<span>Assignment-1</span></p>
+                            <p>{{noti.notification}}<span></span></p>
                             <button class="notify-btn">Explore All</button>
                         </div>
                         <div class="notify_time">
-                            <p>2h</p>
+                            <p>{{noti.created_at}}</p>
                             <h1>...</h1>
                         </div>
                     </div>
-                    <div class="notify_item">
+                    {% endfor %}
+                    {% comment %} <div class="notify_item">
                         <div class="notify_img">
                             <img src="{% static "images/User.png"%}" alt="profile_pic" style="width: 50px">
                         </div>
@@ -69,7 +73,7 @@
                     </div>
                     <div class="notify_See_All">
                         <button class="see-All">See All Notifications</button>
-                    </div>
+                    </div> {% endcomment %}
                 </div>
             </div>
 
@@ -78,10 +82,10 @@
                     <img class="profile-icon icon" src="{% static "images/User.png"%}">
                 </div>
                 <div class="dropdown-content">
-                    <a href="#"><span><i class="fa-solid fa-gauge"></i>Settings</span></a>
+                    <a href="{% url 'stu-setting' %}"><span><i class="fa-solid fa-gauge"></i>Settings</span></a>
                     <a href="#"><span><i class="fa-solid fa-table"></i>Grades</span></a>
                     <a href="#"><span><i class="fa-solid fa-comment"></i>Messages</span></a>
-                    <a href="#"><span><i class="fa-solid fa-wrench"></i>Preferences</span></a>
+                    <a href="{% url 'teacher_profile' %}"><span><i class="fa-solid fa-wrench"></i>Preferences</span></a>
                     <a href="/logout"><span><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</span></a>
                 </div>
             </div>
@@ -213,7 +217,7 @@
                     </div>
 
                     <div class="announcment-container">
-                        <button type="button" class="collapsible">Announcments<span><i
+                        <button type="button" class="collapsible">Announcment<span><i
                                     class="fa-solid fa-angle-down"></i>
                                 <i class="fa-solid fa-angle-up"></i></span></button>
                         <div class="content">
@@ -222,28 +226,33 @@
                                 <div class="row-1">
                                     <h1>{{announcment.title}} <span><i class="fa-solid fa-xmark"></i></span></h1>
 
-                                    <p>Posted by {{announcment.posted_by.username}}
+                                    <p>Posted by: {{announcment.posted_by.full_name}}
                                         &#x2022;
                                         <span><i class="fa-solid fa-globe"></i></span>
-                                        Global
+                                        {% comment %} Global
                                         &#x2022;
                                         <span><i class="fa-solid fa-clock-rotate-left"></i></span>
                                         Edited
                                         &#x2022;
                                         <span><i class="fa-solid fa-sitemap"></i></span>
-                                        Confidentially Released
+                                        Confidentially Released {% endcomment %}
                                     </p>
                                 </div>
 
                                 <div class="row-2">
-                                    <img src="{{announcment.img.url}}">
-                                    <p>{{announcment.text}}</p>
+                                    
+                                    <p>{{announcment.info}}</p>
                                 </div>
 
                                 <div class="row-3">
-                                    <i class="fa-solid fa-thumbs-up"></i>
-                                    <i class="fa-solid fa-share-nodes"></i>
-                                    <button class="btn-subscribe">Subscribe</button>
+                                    <p>{{announcment.links}}</p>
+                                    
+                                </div>
+                                <div class="row-4">
+                                    {% for i in announcment.documents.all %}
+                                    <a href={{i.document.url}}> {{i.document}}</a>
+                                    <br/>
+                                    {% endfor %}
                                 </div>
                             </div>
                             {% endfor %}
@@ -325,7 +334,8 @@
             </div>
         </section>
     </div>
-    
+
+       
 
     
     
