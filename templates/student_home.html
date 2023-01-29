@@ -194,13 +194,13 @@
                                         <img
                                             src="{{course.image.url}}">
                                         <div class="details">
-                                            <a href="{% url 'courseDetail' course.id %}" target="_blank">{{course.title}}</a>
+                                            <h4>{{course.title}}</h4>
                                             
                                             <p>{{course.category}}</p>
                                             
                                             <a href="{% url 'courseUnits' course.id %}" target="_blank">Units</a>
-                                            {% comment %} <p>{{course.id|get_percentage:request.user.id }}%</p> {% endcomment %}
-                                            {{course.id}}
+                                            <p>{{course.id|get_percentage:request.user.id }}%</p>
+                                            
                                             <a href="{% url 'make-payment' course.id %}" target="_blank">Enroll course</a>
                                         </div>
                                     </div>
