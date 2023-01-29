@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Lesson,LessonFile,News_feed,Manager_notification
+from .models import Lesson,LessonFile,News_feed,Manager_notification,Manager_Eveng
 
 
 class userform(forms.ModelForm):
@@ -47,3 +47,8 @@ class NewsFeedForm(forms.ModelForm):
     class Meta:
         model = News_feed
         fields = ('news',)
+
+class ManagerEventForm(forms.ModelForm):
+    class Meta:
+        model = Manager_Eveng
+        fields = ('event',)

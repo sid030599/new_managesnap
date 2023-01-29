@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-    
+    {% if  is_ver == False %}
     <p>Name: {{student.full_name}}</p> 
     <p>Email: {{student.email}}</p> 
     <form class="my-class" method="post">
@@ -16,7 +16,7 @@
         {{ form|crispy }}
         <button type="submit">Ask Access</button>
     </form>
-
+    {% endif %}
     {% if is_ver %}
     <h3>Profile_status:Verifed</h3>
     <p>college name :  {{student.college}}</p>

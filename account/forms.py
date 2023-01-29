@@ -14,10 +14,11 @@ class Profile_form(ModelForm):
         model = Profile
         fields = ('college','roll_number','department','Year','section','semester')
 
-class GroupsStudentForm(ModelForm):
-    class Meta:
-        model = Groups
-        fields = ('students',)
-
-        def __init__ (self):
-            self.fields["students"].queryset = Groups.objects.filter(students=Profile.objects.filter(status = 's'))
+class GroupsStudentForm(forms.Form):
+    students = forms.ModelMultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple,
+        queryset=Profile.objects.filter(status="s"),
+        required=True
+    )
+    
+       

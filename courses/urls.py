@@ -28,6 +28,7 @@ urlpatterns = [
     path('create_course_unit', views.create_course_unit, name='create-course-unit'),
     path('create_topic/<str:obj>', views.create_topic, name='create-topic'),
     path('create_unit/<str:obj>', views.create_unit, name='create-unit'),
+    path('update_unit/<str:obj>/<int:unitid>', views.update_unit, name='update-unit'),
     path('enroll_students/<courseid>/', views.enrollstudents, name='enroll-students'),
     path('teacher_signup', vi.handleteachersignup, name='teacher-signup'),
     path('groups/', views.groups, name='groups'),
@@ -87,7 +88,10 @@ urlpatterns = [
     path('managesnap/verify_request/<userid>',views.accept_req,name = 'accept_req'),
     path('managesnap/verify_request/<userid>',views.reject_req,name = 'reject_req'),
     path('managesnap/manager_noti/',views.manager_noti,name = 'manager_noti'),
+    path('managesnap/manager_event/',views.manager_event,name = 'manager_event'),
 
     path('managesnap/teacher_profile/',views.teacher_profile,name = 'teacher_profile'),
+    path('managesnap/update_noti/<str:obj>/',views.update_man_not,name = 'noti-news'),
+    path('managesnap/del_noti/<str:obj>/<int:id>/',views.del_man_not,name = 'del_noti-news'),
 
 ]

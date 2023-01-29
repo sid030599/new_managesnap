@@ -268,7 +268,7 @@ class Groups(models.Model):
 
 class mycourses(models.Model):
     user  = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrolledcourses')
-    courses = models.ForeignKey(course, on_delete=models.RESTRICT,related_name='courses',default=course.objects.all().first().id)
+    #courses = models.ForeignKey(course, on_delete=models.RESTRICT,related_name='courses',default=course.objects.all().first().id)
     courses = models.ManyToManyField(course, related_name="mycourses", blank=True)
     paid = models.BooleanField(default = False)
     def __str__(self):
@@ -334,7 +334,13 @@ class Manager_notification(models.Model):
     def __str__(self):
         return self.user.username
 
+class Manager_Eveng(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    event = models.CharField(max_length=200,blank=True,null=True)
+    created_at = models.DateTimeField(default = datetime.datetime.now())
 
+    def __str__(self):
+        return self.user.username
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

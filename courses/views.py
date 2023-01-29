@@ -3,10 +3,12 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from .forms import userform,LessonForm,LessonFileForm, ManagerNotificationForm,NewsFeedForm
+from django.contrib.auth.forms import UserCreationForm  
 
-from .models import Assignment,Payment, Files, course, courseTopic, myAssignment, myFiles, mycourses, mytopics, courseUnit, myCourseUnit, Groups, Unit,Lesson,Lesson,LessonFile,MyUnit,MyLesson, grades as marks
+from django.contrib.auth import authenticate, login, logout
+from .forms import userform,LessonForm,LessonFileForm, ManagerNotificationForm,NewsFeedForm,ManagerEventForm
+
+from .models import Assignment,Payment, Files, course, courseTopic, myAssignment, myFiles, mycourses, mytopics, courseUnit, myCourseUnit, Groups, Unit,Lesson,Lesson,LessonFile,MyUnit,Manager_Eveng,MyLesson, grades as marks
 from django.http import JsonResponse
 from django.db.models import Q
 from account.models import *
@@ -101,16 +103,16 @@ def home(request):
             return render(request, 'dashboard.html', {'college_choices': college_choices,'numberofcourses':Totalcourse})
 
         if request.user.profile.status == 's':
-            courses = mycourses.objects.filter(user=request.user)
-            #print(courses)
+            courses = mycourses.objects.get(user=request.user)
+            print(courses)
             announcements = courseTopic.objects.filter(created_by = "M")
-            print(announcements) 
+            
             notification = Manager_notification.objects.all()
             news  = News_feed.objects.all()
             all_courses = mycourses.objects.all()
-            cours=[]
-            for i in courses:
-                cours.append(i.courses)
+            cours=courses.courses.all()
+            # for i in courses:
+            #     cours.append(i.courses)
 
             return render(request, 'student_home.html', {"announcements":announcements , 'courses': cours, 'user':request.user,'all_courses':all_courses,"news":news,"notification":notification})
         if request.user.profile.status == 'm':
@@ -118,6 +120,7 @@ def home(request):
             not_veri = temp_verification.objects.filter(is_varified = False,is_rejected = False)
             veri_req = temp_verification.objects.filter(is_varified = True)
             rejected = temp_verification.objects.filter(is_rejected = True)
+            user_form = userform()
             # form = ManagerNotificationForm()
             # news_form = NewsFeedForm()
             
@@ -163,8 +166,8 @@ def home(request):
 
             # return render(request,'manager.html',{'Student':Student,'request':veri_req,"not_form":form,"news_form":news_form})
 
-            print(veri_req)
-            return render(request, 'requests.html', {'Student':Student,'request':not_veri,'verified':veri_req,'rejected':rejected})
+            
+            return render(request, 'requests.html', {'Student':Student,'request':not_veri,'verified':veri_req,'rejected':rejected,"user_form":user_form})
 
     return render(request, 'index.html', {'college_choices': college_choices})
 
@@ -397,6 +400,8 @@ def stu_topic_detail(request, id,courseid):
 
     return render(request, 'topic_detail.html', {'topic': unit,'lessons':lessons, 'status': 's',  'courseid':courseid})
 
+from django.http import HttpResponseRedirect
+
 def release_topic(request,obj, topicid, courseid):
     if request.user.profile.status == 'm':
         if obj == 'Announcement':
@@ -410,6 +415,16 @@ def release_topic(request,obj, topicid, courseid):
                 links = course_topic.link.split(",")
             return render(request, 'manager_announce_detail.html', {'topic': course_topic, 'status': 't','obj':"Announcement", 'links': links, 'is_unit': None,'courseid':None})
     if request.user.profile.status == 't':
+        print(obj)
+        if obj == 'Unit':
+        
+            unit = Unit.objects.get(id = topicid)
+            print(unit)
+            unit.released = True
+            unit.save()
+            print(request.path_info)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
         if obj == 'lesson':
            
             lesson = Lesson.objects.get(id = topicid)
@@ -628,6 +643,7 @@ from account.forms import GroupsStudentForm
 def group_student(request,pk):
     
     #created_default_groups = Groups.objects.filter(created_by__profile__college = college, status='d', created_by=request.user)
+    students = Profile.objects.filter(status='s')
     default_groups_students = Groups.objects.get(id=pk)
     form = GroupsStudentForm()
     students = default_groups_students.students.all()
@@ -636,7 +652,8 @@ def group_student(request,pk):
         default_groups_students.students.add(request.POST['students'])
         
         default_groups_students = Groups.objects.get(id=pk)
-        form = GroupsStudentForm()
+        
+        #form = GroupsStudentForm(students)
         students = default_groups_students.students.all()
         
         return render(request, 'students.html', {'students':students,"group_name":default_groups_students,"form":form})
@@ -801,7 +818,7 @@ def unenroll_student(request, studentid, courseid):
 
 
 def courseDetail(request, courseid):
-    print(courseid)
+    
     if request.user.profile.status == 't':
         coursedet = course.objects.get(id=courseid)
         courseunits = courseUnit.objects.filter(course__id = courseid)
@@ -1055,7 +1072,30 @@ def create_unit(request,obj):
 
             instance.save()
             return redirect("unitDetail", courseid=courseid,obj = obj )
+def update_unit(request,obj,unitid):
+    
+    user = request.user
+    if(user.profile.status != 't'):
+        messages.error(request, "You are not the staff so you can't create a course topic")
+        return redirect('home')
 
+    if request.method == 'POST':
+        if obj == 'Unit':
+            print(unitid)
+            print(request.POST)
+            instance = Unit.objects.get(pk = unitid)
+            print(request.POST['courseid'])
+            courseid = request.POST['courseid']
+            title = request.POST['title']
+            brief = request.POST.get('brief', None)
+            cours = course.objects.get(id = courseid)
+            due = request.POST.get('due')
+
+            instance = Unit.objects.filter(id = unitid).update(title=title,brief =brief, due = due, course = cours)
+            
+
+            
+            return redirect("unitDetail", courseid=courseid,obj = obj )
 
         
 
@@ -1490,9 +1530,29 @@ def reject_req(request,userid):
 
     return render(request,'profile.html',{'student':profile})
 
-def manager_noti(request):
-    form = ManagerNotificationForm()
+def manager_event(request):
+    event = Manager_Eveng.objects.filter(user = request.user)
+    event_form = ManagerEventForm()
+
+    if request.method == "POST":
+        if request.POST.get('events') == 'True':
+            event_form = ManagerEventForm(request.POST)
+            if event_form.is_valid():
+                form = event_form.save(commit=False)
+                form.user = request.user
+                form.save() 
+        event_form = ManagerEventForm()
+        return render(request,'events.html',{"event_form":event_form,"events":event}) 
+
+
+    return render(request,'events.html',{"event_form":event_form,"events":event})
     
+def manager_noti(request):
+    notifications = Manager_notification.objects.filter(user = request.user)
+    news = News_feed.objects.filter(user = request.user)
+    event = Manager_Eveng.objects.filter(user = request.user)
+    form = ManagerNotificationForm()
+    event_form = ManagerEventForm()
     news_form = NewsFeedForm()
     
     if request.method == "POST":
@@ -1512,20 +1572,85 @@ def manager_noti(request):
                 form = news_form.save(commit=False)
                 form.user = request.user
                 form.save()
+        elif request.POST.get('events') == 'True':
+            event_form = ManagerEventForm(request.POST)
+            if event_form.is_valid():
+                form = event_form.save(commit=False)
+                form.user = request.user
+                form.save()         
+        
         news_form = NewsFeedForm()
         form = ManagerNotificationForm()
-        return render(request,'manager.html',{"not_form":form,"news_form":news_form})
+        event_form = ManagerEventForm()
+        return render(request,'manager.html',{"not_form":form,"news_form":news_form,"notifications":notifications,"news":news,"event_form":event_form,"events":event})
 
-    return render(request,'manager.html',{"not_form":form,"news_form":news_form})
+    return render(request,'manager.html',{"not_form":form,"news_form":news_form,"notifications":notifications,"news":news,"event_form":event_form,"events":event})
 
 
 def teacher_profile(request):
     if request.user.profile.status == 'm':
         teacher  = Profile.objects.filter(status = 't')
-
-        return render(request , 'teacher_profile.html', {'teacher':teacher})
+        teacher_form = userform()
+        return render(request , 'teacher_profile.html', {'teacher':teacher,"teacher_form":teacher_form})
 
     if request.user.profile.status == 's':
         teacher  = Profile.objects.filter(status = 't',semester = request.user.profile.semester)
 
         return render(request , 'student_preference.html', {'teacher':teacher})
+
+def update_man_not(request, obj):
+    if request.user.profile.status == 'm':
+        
+        #print(request.POST)
+        if obj == 'notification':
+            id = request.POST.get('id')
+           
+            instance = Manager_notification.objects.get(pk = id)
+            form = ManagerNotificationForm(request.POST, instance=instance)
+            if form.is_valid():
+                
+                form.save(commit=False)
+                form.user = request.user
+                form.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 
+    
+        if obj == 'news':
+                id = request.POST.get('id')
+                instance = News_feed.objects.get(pk = id)
+                form = NewsFeedForm(request.POST, instance=instance)
+                if form.is_valid():
+                    form.save(commit=False)
+                    form.user = request.user
+                    form.save()
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+        if obj == 'events':
+                id = request.POST.get('id')
+                instance = Manager_Eveng.objects.get(pk = id)
+                form = ManagerEventForm(request.POST, instance=instance)
+                if form.is_valid():
+                    print('e')
+                    form.save(commit=False)
+                    form.user = request.user
+                    form.save()
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 
+
+
+def del_man_not(request, obj, id):
+    if request.user.profile.status == 'm':
+        
+        if obj == 'notification':
+            instance = Manager_notification.objects.get(pk = id)
+            instance.delete()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 
+    
+    if obj == 'news':
+            instance = News_feed.objects.get(pk = id)
+            instance.delete()
+
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    if obj == 'events':
+            instance = Manager_Eveng.objects.get(pk = id)
+            instance.delete()
+
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 

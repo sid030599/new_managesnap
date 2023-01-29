@@ -20,12 +20,13 @@ from django.conf import settings
 # Create your views here.
 def handlesignup(request):
     if request.method == 'POST':
+        print(request.POST)
         # Get the Post parametres
         username = request.POST['username']
         email = request.POST['email']
         pass1 = request.POST['password']
         pass2 = request.POST['pass2']
-        college = request.POST['college']
+         
 
 
         # check for errorneous input
@@ -50,12 +51,13 @@ def handlesignup(request):
         form1 = userform(request.POST)
 
         if form1.is_valid():
+            
             form1.save()
 
             user = User.objects.get(username=username)
-            user.profile.college = college
+            
             user.save()
-
+            
             messages.success(request, "Your account has created.")
             return redirect('home')
 
@@ -95,12 +97,14 @@ def handlelogout(request):
 def handleteachersignup(request):
     if request.method == 'POST':
         # Get the Post parametres
+        print(request.POST)
         username = request.POST['username']
         email = request.POST['email']
         pass1 = request.POST['password']
         pass2 = request.POST['pass2']
 
-        if request.user.profile.status != 'p':
+        if request.user.profile.status == 's' or request.user.profile.status == 't':
+            print('studk')
             messages.error(request, "You don't have permission to add a teacher.")
             return redirect('home')
 
@@ -126,6 +130,7 @@ def handleteachersignup(request):
         form1 = userform(request.POST)
 
         if form1.is_valid():
+            print('check')
             form1.save()
 
             teacher = User.objects.get(username=username)

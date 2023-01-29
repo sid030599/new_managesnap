@@ -1,223 +1,33 @@
-<!DOCTYPE html>
-{% load static %}
+{% extends "base2.html" %}
 {% load crispy_forms_tags %}
-<html lang="en">
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> 
+{% block content %}
 
-     <link rel="stylesheet" href="{% static "styles/view-style.css"%}">
-    <link rel="stylesheet" href="{% static "styles/style.css"%}">
-   <link rel="stylesheet" href="{% static "styles/announcements-style.css"%}">
-    <link rel="stylesheet" href="{% static "styles/groups-style.css" %}">
-    <link rel="stylesheet" href="{% static "styles/courses-style.css"%}">
-    <link rel="stylesheet" href="{% static "styles/add-popup.css"%}">
-    <link rel="stylesheet" href="{% static "styles/profile-style.css"%}">
-    <link rel="stylesheet" href="{% static "css/w3.css"%}">
-    
-    <link rel="icon" type="image/x-icon" href="rsc/icons8-project-management-48.png">
-    <title>Courses</title>
-</head>
-<body>
-    <div id="add_course" class="add-course">
-        <form class='popup w3-border w3-round-large' enctype='multipart/form-data' method='POST' action="{% url 'unit-detail' obj unit.id courseid %}">
-            <div class="left">
-                <div class="left-cont">
-                    <img src="{% static "rsc/icons8-project-management-48.png"%}" alt="">
-                    <h3>Create new Course</h3>
-                    <div class="left-item ac-btn">
-                        <button type="submit" class="a">Create</button>
-                        <button class="cancel" type="button">Cancel</button>
-                    </div>
+<div id="add_course" class="add-course">
+    <form class='popup w3-border w3-round-large' enctype='multipart/form-data' method='POST' action="{% url 'unit-detail' obj unit.id courseid %}">
+        <div class="left">
+            <div class="left-cont">
+                <img src="{% static "rsc/icons8-project-management-48.png"%}" alt="">
+                <h3>Create new Unit</h3>
+                <div class="left-item ac-btn">
+                    <button type="submit" class="a">Create</button>
+                    <button class="cancel" type="button">Cancel</button>
                 </div>
             </div>
-            <div class="right">
-                <div class="right-cont">
-                    <div class='right-item'>
-                        {% csrf_token %}
-                        {{ lesson_form|crispy }}
-                    </div>
+        </div>
+        <div class="right">
+            <div class="right-cont">
+                <div class='right-item'>
+                    {% csrf_token %}
+                    {{ lesson_form|crispy }}
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
+        
 
-    
-            <img src="{% static "rsc/icons8-close-50.png"%}" alt="" class="cancel-icon">
-        </div>
-    </div>
-    
-    <div class="notification-list-container noti-notdisplay">
-        <div class="notification-list">
-            <div class="notification-heading">
-                <h3>Notifications</h3>
-                <img src="{% static "rsc/icons8-expand-50.png"%}" alt="" class="expand">
-            </div>
-            <div class="notifications">
-                <div class="notification">
-                    <div class="noti-details">
-                        <div class="noti-image">
-                            <img src="{% static "rsc/paul-castanie-WZB_ZOqR4dA-unsplash.jpg"%}" alt="">
-                        </div>
-                        <div class="noti-detail">
-                            <p class="det">Paul updated the syllabus for Python</p>
-                            <p class="time">5 min ago</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <div class="noti-details">
-                        <div class="noti-image">
-                            <img src="{% static "rsc/joshua-earle-ICE__bo2Vws-unsplash.jpg"%}" alt="">
-                        </div>
-                        <div class="noti-detail">
-                            <p class="det">Josh assigned a test for you</p>
-                            <p class="time">2 days ago</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <div class="noti-details">
-                        <div class="noti-image">
-                            <img src="{% static "rsc/radu-florin-4_QFycgpC4c-unsplash.jpg"%}" alt="">
-                        </div>
-                        <div class="noti-detail">
-                            <p class="det">Jim added you to python classroom</p>
-                            <p class="time">10 days ago</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <p class="mark">Mark all as read</p>
-        </div>
-    </div>
-    <div class="profile-container prof-notdisplay">
-        <div class="profile">
-            <div class="user-info profile-item">
-                <div class="user-image">
-                    <img src="{{request.user.profile.profile_pic.url}}" alt="">
-                </div>
-                <div class="user-details">
-                    <p class="user-fullname">{{request.user.username}}</p>
-                    <p class="user-name">@{{request.user.username}}</p>
-                </div>
-            </div>
-            <div class="settings profile-item">
-                <img src="{% static "rsc/icons8-settings-48.png"%}" alt="">
-                <p>Account Settings</p>
-            </div>
-            <div class="logout profile-item">
-                <img src="{% static "rsc/icons8-logout-48.png"%}" alt="">
-                <p> <a href="/logout"><button class="btn btn-link"> Logouts</button></p>
-            </div>
-        </div>
-    </div>
-    <div class="side-panel-container">
-        <div class="side-panel">
-            <div class="panel-item logo-item">
-                <div class="logo">
-                    <img src="{% static "rsc/icons8-project-management-48.png"%}" alt="" class="logo-image">
-                    <p class="logo-name">managessnap</p>
-                </div>
-                <img src="{% static "rsc/icons8-close-30 (1).png"%}" alt="" id="close">
-            </div>
-            <div class="dashboard panel-item">
-                <img src="{% static "rsc/icons8-dashboard-layout-48.png"%}" alt="" class="item">
-                <p class="name"><a href="dashboard.html">Dashboard</a></p>
-            </div>
-            <div class="courses panel-item">
-                <img src="{% static "rsc/icons8-e-learning-48.png"%}" alt="" class="item">
-                <p class="name"><a href="{% url 'usercourse' %}">Courses</a></p>
-            </div>
-            <div class="requests panel-item">
-                <img src="{% static "rsc/icons8-request-service-48.png"%}" alt="" class="item">
-                <p class="name"><a href="requests.html">Requests</a></p>
-            </div>
-            <div class="groups panel-item">
-                <img src="{% static "rsc/icons8-user-groups-48.png"%}" alt="" class="item">
-                <p class="name"><a href="{% url 'groups' %}">Groups</a></p>
-            </div>
-            <div class="course-details panel-item">
-                <div class="panel-heading">
-                    <h3>Course Details</h3>
-                    <img src="{% static "rsc/icons8-chevron-down-30.png"%}" alt="" class="down" id="arrow">
-                </div>
-                <div class="details">
-                    <div class="detail announcements">
-                        <img src="{% static "rsc/icons8-commercial-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'announceDetail' 'Announcement' courseid %}">Announcements</a></p>
-                    </div>
-                    <div class="detail timetable">
-                        <img src="{% static "rsc/icons8-calendar-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'announceDetail' 'Timetable' courseid %}">Timetable</a></p>
-                    </div>
-                    <div class="detail syllabus">
-                        <img src="{% static "rsc/icons8-google-classroom-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'announceDetail' 'Syllabus' courseid %}">Syllabus</a></p>
-                    </div>
-                    <div class="detail assignment">
-                        <img src="{% static "rsc/icons8-audit-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'assignDetail' 'Assignment' courseid %}">Assignment</a></p>
-                    </div>
-                    <div class="detail caesum">
-                        <img src="{% static "rsc/icons8-read-online-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'assignDetail' 'Caes' courseid %}">Caesum</a></p>
-                    </div>
-                    <div class="detail exams">
-                        <img src="{% static "rsc/icons8-hand-with-pen-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="">Exams</a></p>
-                    </div>
-                    <div class="detail quiz">
-                        <img src="{% static "rsc/icons8-help-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'assignDetail' 'Quiz' courseid %}">Quiz</a></p>
-                    </div>
-                    <div class="detail units">
-                        <img src="{% static "rsc/icons8-unit-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'announceDetail' 'Unit' courseid %}">Units</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-item support">
-                <button>
-                    <img src="{% static "rsc/icons8-support-60.png"%}" alt="">
-                    <p>Get Support</p>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div class="navigation">
-        <div class="navi">
-            <div class="nav-logo">
-                <img src="{% static "rsc/icons8-menu-50.png"%}" alt="" id="menu" class="nav-logo-item">
-                <img src="{% static "rsc/icons8-project-management-48.png"%}" alt=""
-                    class="nav-logo-item nav-logo-image">
-                <p class="nav-logo-item nav-logo-text">managesnap</p>
-            </div>
-            <div class="nav-rest">
-                <div class="nav-item">
-                    <img src="{% static "rsc/icons8-notification-48 (1).png"%}" alt="" class="noti-icon">
-                </div>
-                <div class="profile-image nav-item">
-                    <img src="{{request.user.profile.profile_pic.url}}" alt="" class="image">
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="body">
-
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          <strong>Message!-</strong> {{ message }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        {% endfor %}
         <div class="announcements-container">
             <div class="ann">
                 <div class="heading ann-item">
@@ -234,6 +44,27 @@
                         <div class="filter fs-item">
                             <button class="filter-btn" id="add-course-btn">Add</button>
                         </div>
+                    </div>
+
+                    {% if unit.released == False %}
+                    <div class="release-edit heading-item">
+                        
+                        <div class="release">
+                            <a href="{% url 'release-topic' obj unit.id courseid %}"> <button class="release-btn">   
+                                <img src="{% static "rsc/icons8-telegram-app-30.png" %}" alt="" class="icon">
+                                <p>Release</p>
+                            </button></a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="release-edit heading-item">
+                        
+                    <div class="update" >
+                          
+                            
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#topicmodal">Update </button>
+                        
                     </div>
                 </div>
                 <div class="tabs ann-item">
@@ -256,28 +87,17 @@
                                 <a href={% url 'lesson-detail' courseid lesson.id %}><button class="btn btn-link">{{lesson.title}}</button></a>
                                 <a href=# ><button class="btn btn-danger">Delete lesson</button></a>
                             </div>
-                            {% comment %} <h3 class="ann-heading rd-item">{{lesson.title}}</h3>
-                            <div class="ann-links-docs rd-item">
-                                <a href="{% url 'show-links' lesson.id %}" class="links">
-                                    <img src="{% static "rsc/icons8-link-24 (1).png"%}" alt="" class="icon">
-                                    <p class="link-num w3-text-grey">Links</p>
-                                </a>
-                                <a href="{% url 'show-documents' lesson.id %}" class="docs">
-                                    <img src="{% static "rsc/icons8-documents-24.png"%}" alt="" class="icon">
-                                    <p class="docs-num w3-text-grey">Documents</p>
-                                </a>
-                            </div> {% endcomment %}
+                            <div class="filter fs-item">
+                                <a href="{% url "update-lesson" obj lesson.id unit.id courseid %}"><button class="btn btn-primary">Edit</button></a>
+                            
+                                <a href="{% url "delete-lesson" obj lesson.id unit.id courseid %}"><button class="btn btn-primary">Delete</button></a>
+                            </div> 
                             {% endif %}
                         </div>
                         
                         
                         
-                        <div class="filter fs-item">
-                            <a href="{% url "update-lesson" obj lesson.id unit.id courseid %}">Edit</a>
-                        </div> 
-                        <div class="filter fs-item">
-                            <a href="{% url "delete-lesson" obj lesson.id unit.id courseid %}">Delete</a>
-                        </div> 
+                        
                     </div>
                                <!--  update course modal -->
                     
@@ -293,28 +113,17 @@
                                 <a href={% url 'lesson-detail' courseid lesson.id %}><button class="btn btn-link">{{lesson.title}}</button></a>
                                 <a href=# ><button class="btn btn-danger">Delete lesson</button></a>
                             </div>
-                            {% comment %} <h3 class="ann-heading rd-item">{{lesson.title}}</h3>
-                            <div class="ann-links-docs rd-item">
-                                <a href="{% url 'show-links' lesson.id %}" class="links">
-                                    <img src="{% static "rsc/icons8-link-24 (1).png"%}" alt="" class="icon">
-                                    <p class="link-num w3-text-grey">Links</p>
-                                </a>
-                                <a href="{% url 'show-documents' lesson.id %}" class="docs">
-                                    <img src="{% static "rsc/icons8-documents-24.png"%}" alt="" class="icon">
-                                    <p class="docs-num w3-text-grey">Documents</p>
-                                </a>
-                            </div> {% endcomment %}
+                            <div class="filter fs-item">
+                                <a href="{% url "update-lesson" obj lesson.id unit.id courseid %}"><button class="btn btn-primary">Edit</button></a>
+                            
+                                <a href="{% url "delete-lesson" obj lesson.id unit.id courseid %}"><button class="btn btn-primary">Delete</button></a>
+                            </div>
                             {% endif %}
                         </div>
                         
                         
                         
-                        <div class="filter fs-item">
-                            <a href="{% url "update-lesson" obj lesson.id unit.id courseid %}">Edit</a>
-                        </div> 
-                        <div class="filter fs-item">
-                            <a href="{% url "delete-lesson" obj lesson.id unit.id courseid %}">Delete</a>
-                        </div> 
+                         
                     </div>
                                <!--  update course modal -->
                             
@@ -325,12 +134,43 @@
             
         </div>
     </div>
-    <script src="{% static "scripts/script.js"%}"></script>
-    <script src="{% static "scripts/add-course.js"%}"></script>
-    <script src="{% static "scripts/update-lesson.js"%}"></script>
-    <script src="{% static "scripts/groups-script.js"%}"></script>
-    <script src="{% static "scripts/profile-script.js"%}"></script>
-    <script src="{% static "scripts/announcements-script.js"%}"></script>
-    
-</body>
-</html>
+    <div class="modal fade" id="topicmodal" tabindex="-1" aria-labelledby="topicmodal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="topicmodaltitle">Add</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action={% url 'update-unit' obj unit.id %} method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter title" value={{unit.title}} required>
+                </div>
+                <div class="form-group">
+                  <label for="brief">brief</label>
+                  <input type="text" class="form-control" id="brief" name="brief" placeholder="Add Info if any" value= {{unit.brief}} >
+                </div>
+                <div class="form-group">
+                  <label for="due">Due</label>
+                  <input type="date" class="form-control" id="date" name="date" placeholder="due date" value = {{unit.due}} >
+                </div>
+                
+                <input type='hidden' name="courseid" value={{ courseid }} />
+                <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+            </div>
+        </div>
+      </div>
+</div>
+
+{% endblock %}
+
+        
