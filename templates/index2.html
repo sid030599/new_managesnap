@@ -12,7 +12,6 @@
     
     
     <link rel="stylesheet" href="{% static "styles/style.css"%}">
-    {% comment %} <link rel="stylesheet" href="{% static "styles/announcements-style.css"%}"> {% endcomment %}
     <link rel="stylesheet" href="{% static "styles/groups-style.css" %}">
     <link rel="stylesheet" href="{% static "styles/courses-style.css"%}">
     <link rel="stylesheet" href="{% static "styles/add-popup.css"%}">
@@ -145,16 +144,13 @@
             </div>
             <div class="dashboard panel-item">
                 <img src="{% static "rsc/icons8-dashboard-layout-48.png"%}" alt="" class="item">
-                <p class="name"><a href="dashboard.html">Dashboard</a></p>
+                <p class="name"><a href="{% url 'home' %}">Dashboard</a></p>
             </div>
             <div class="courses panel-item">
                 <img src="{% static "rsc/icons8-e-learning-48.png"%}" alt="" class="item">
                 <p class="name"><a href="{% url 'usercourse' %}">Courses</a></p>
             </div>
-            <div class="requests panel-item">
-                <img src="{% static "rsc/icons8-request-service-48.png"%}" alt="" class="item">
-                <p class="name"><a href="requests.html">Requests</a></p>
-            </div>
+            
             <div class="groups panel-item">
                 <img src="{% static "rsc/icons8-user-groups-48.png"%}" alt="" class="item">
                 <p class="name"><a href="{% url 'groups' %}">Groups</a></p>
@@ -167,38 +163,7 @@
                 <div class="details">
 
                     <p>No course Selected</p>
-                    {% comment %} <div class="detail announcements">
-                        <img src="{% static "rsc/icons8-commercial-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'announceDetail' 'Announcement' %}">Announcements</a></p>
-                    </div>
-                    <div class="detail timetable">
-                        <img src="{% static "rsc/icons8-calendar-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'announceDetail' 'Timetable' %}">Timetable</a></p>
-                    </div>
-                    <div class="detail syllabus">
-                        <img src="{% static "rsc/icons8-google-classroom-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'announceDetail' 'Syllabus' %}">Syllabus</a></p>
-                    </div>
-                    <div class="detail assignment">
-                        <img src="{% static "rsc/icons8-audit-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'assignDetail' 'Assignment' %}">Assignment</a></p>
-                    </div>
-                    <div class="detail caesum">
-                        <img src="{% static "rsc/icons8-read-online-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'assignDetail' 'Caes' %}">Caesum</a></p>
-                    </div>
-                    <div class="detail exams">
-                        <img src="{% static "rsc/icons8-hand-with-pen-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="">Exams</a></p>
-                    </div>
-                    <div class="detail quiz">
-                        <img src="{% static "rsc/icons8-help-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'assignDetail' 'Quiz' %}">Quiz</a></p>
-                    </div>
-                    <div class="detail units">
-                        <img src="{% static "rsc/icons8-unit-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'announceDetail' 'Unit' %}">Units</a></p>
-                    </div> {% endcomment %}
+                    
                 </div>
             </div>
 

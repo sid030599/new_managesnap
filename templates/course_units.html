@@ -296,11 +296,7 @@
                                             <a href={% url 'stu-announce-detail' assign.coursetopic.id courseid %}><p style="display: inline;">{{assign.coursetopic.title}}</p></a>
                                            
                                        </div>
-                                       {% if assign.courseTopic.done %}
-                                               <a target="{% url 'topic-complete' assign.coursetopic.id %}" topicid="{{assign.coursetopic.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{assign.coursetopic.id}} fas fa-check-square"></i></a>
-                                           {% else %}
-                                               <a target="{% url 'topic-complete' assign.coursetopic.id %}" topicid="{{assign.coursetopic.id}}" class='doneBtn'><i style="color: black;font-size: 1.2rem;" class="doneIcon{{assign.coursetopic.id}} fas fa-square"></i></a>
-                                           {% endif %}
+                                       
                                         {% comment %} <a href="#">{{assign.coursetopic.title}}</a> {% endcomment %}
                                         {% comment %} <i class="fa-solid fa-xmark"></i> {% endcomment %}
                                     </div>

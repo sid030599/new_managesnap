@@ -150,8 +150,9 @@
                 <div class="details">
                     <div class="detail announcements">
                         <img src="{% static "rsc/icons8-commercial-48.png"%}" alt="" class="item">
-                        <p class="name"><a href="{% url 'courseDetail' course.id %}">Course Details</a></p>
+                        <p class="name"><a href="{% url 'courseDetail' courseid %}">Course Details</a></p>
                     </div>
+                    
                     {% comment %} <a href={% url 'courseDetail' course.id %}>
                         <button class="preview-btn">Details</button>
                     </a> {% endcomment %}

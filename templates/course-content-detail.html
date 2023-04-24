@@ -145,10 +145,7 @@
                 <img src="{% static "rsc/icons8-e-learning-48.png"%}" alt="" class="item">
                 <p class="name"><a href="{% url 'usercourse' %}">Courses</a></p>
             </div>
-            <div class="requests panel-item">
-                <img src="{% static "rsc/icons8-request-service-48.png"%}" alt="" class="item">
-                <p class="name"><a href="requests.html">Requests</a></p>
-            </div>
+            
             <div class="groups panel-item">
                 <img src="{% static "rsc/icons8-user-groups-48.png"%}" alt="" class="item">
                 <p class="name"><a href="{% url 'groups' %}">Groups</a></p>
@@ -159,6 +156,7 @@
                     <img src="{% static "rsc/icons8-chevron-down-30.png"%}" alt="" class="down" id="arrow">
                 </div>
                 <div class="details">
+                    <p class="name" style = "margin-left:12px;">{{ course.title }}</p>
                     <div class="detail announcements">
                         <img src="{% static "rsc/icons8-commercial-48.png"%}" alt="" class="item">
                         <p class="name"><a href="{% url 'announceDetail' 'Announcement' courseid %}">Announcements</a></p>
@@ -240,8 +238,8 @@
                 <a href={% url 'usercourse' %}><button class="btn btn-link ">All Courses</button></a>
                 <a href={% url 'courseDetail' course.id %}><button class="btn btn-link ">{{course.title}}</button></a>
           </div>
-        <h2 class="mr-5">{{ course.title }}</h2>
-        <img src = {{course.image.url}}>
+        <h3 class="mr-5">{{ course.title }}</h3>
+        <img src = {{course.image.url}} alt="Course Image" width="100" height="100">
         <h4>{{course.course_price}}</h4>
         <h4>{{course.course_level}}</h4>
         <a href="{% url 'delete-course' course.id %}">

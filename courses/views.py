@@ -104,7 +104,7 @@ def home(request):
 
         if request.user.profile.status == 's':
             courses = mycourses.objects.get(user=request.user)
-            print(courses)
+            #print(courses)
             announcements = courseTopic.objects.filter(created_by = "M")
             
             notification = Manager_notification.objects.all()
