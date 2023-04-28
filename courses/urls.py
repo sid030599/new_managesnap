@@ -3,6 +3,8 @@ import courses.views as views
 import account.views as vi
 urlpatterns = [
     path('', views.home, name='home'),
+
+    path('dashboard/', views.teacher_home, name='teacher_home'),
     path('courses/', views.coursepage, name='course'),
     #payment
     path('success/<int:courseid>', views.success, name='payment_status'),
@@ -22,7 +24,8 @@ urlpatterns = [
     path('login', vi.handlelogin, name='handlelogin'),
     path('<coursetopic>/topiccomplete/', views.topiComp, name='topic-complete'),
     path('<assignmentid>/assignment_complete/', views.assignmentComp, name='assignment-complete'),
-    path('mycourses/', views.usercourse, name='usercourse'),
+    path('dashboard/mycourses/', views.usercourse, name='usercourse'),
+    path('dashboard/release_course/<courseid>/', views.release_course, name='release_course'),
     path('all_courses/', views.all_courses, name='all-courses'),
     path('create_course', views.create_course, name='create-course'),
     path('create_course_unit', views.create_course_unit, name='create-course-unit'),

@@ -77,6 +77,10 @@ def handlelogin(request):
         user = authenticate(username=loginusername, password=loginpassword)
         user_verify = User.objects.get(username=loginusername)
 
+        if user.profile.status == 't':
+            login(request, user)
+            messages.success(request, "Successfully logged in")
+            return redirect('teacher_home')
         if user is not None:
             login(request, user)
             messages.success(request, "Successfully logged in")

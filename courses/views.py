@@ -86,6 +86,20 @@ def success(request,courseid):
 
 # Create your views here.
 from .models import Manager_notification,News_feed
+
+
+def teacher_home(request):
+    college_choices = College.objects.all()
+
+    if request.user.is_authenticated:
+        if request.user.profile.status == 't' :
+    
+            courses = course.objects.filter(created_by=request.user)
+            Totalcourse = len(courses)
+            return render(request, 'dashboard.html', {'college_choices': college_choices,'numberofcourses':Totalcourse})
+
+
+
 def home(request):
 
     college_choices = College.objects.all()
@@ -95,12 +109,6 @@ def home(request):
             college = request.user.profile.college
             courses = course.objects.filter(created_by__profile__college=college)
             return render(request, 'index.html', {'teachers': User.objects.filter(profile__status='t', profile__college=college), 'courses': courses, 'students': User.objects.filter(profile__status='s', profile__college=college)})
-
-        if request.user.profile.status == 't' :
-
-            courses = course.objects.filter(created_by=request.user)
-            Totalcourse = len(courses)
-            return render(request, 'dashboard.html', {'college_choices': college_choices,'numberofcourses':Totalcourse})
 
         if request.user.profile.status == 's':
             courses = mycourses.objects.get(user=request.user)
@@ -113,9 +121,16 @@ def home(request):
             cours=courses.courses.all()
             # for i in courses:
             #     cours.append(i.courses)
+        
 
             return render(request, 'student_home.html', {"announcements":announcements , 'courses': cours, 'user':request.user,'all_courses':all_courses,"news":news,"notification":notification})
+
+
+        if request.user.profile.status == 't' :
+            print('asd')
+            redirect ('teacher_home')
         if request.user.profile.status == 'm':
+
             Student = Profile.objects.filter(status = "s")
             not_veri = temp_verification.objects.filter(is_varified = False,is_rejected = False)
             veri_req = temp_verification.objects.filter(is_varified = True)
@@ -402,12 +417,20 @@ def stu_topic_detail(request, id,courseid):
 
 from django.http import HttpResponseRedirect
 
+def release_course(request,courseid):
+    if request.user.profile.status == 't':
+        cours = course.objects.get(pk = courseid)
+        cours.released = True
+        cours.save()
+        return redirect('usercourse')
+
+
 def release_topic(request,obj, topicid, courseid):
     if request.user.profile.status == 'm':
         if obj == 'Announcement':
                
             course_topic = courseTopic.objects.get(id = topicid)
-            course_topic.released = True
+            course_topic.released = True 
             course_topic.save()
 
             links = []
@@ -415,14 +438,14 @@ def release_topic(request,obj, topicid, courseid):
                 links = course_topic.link.split(",")
             return render(request, 'manager_announce_detail.html', {'topic': course_topic, 'status': 't','obj':"Announcement", 'links': links, 'is_unit': None,'courseid':None})
     if request.user.profile.status == 't':
-        print(obj)
+        #print(obj)
         if obj == 'Unit':
         
             unit = Unit.objects.get(id = topicid)
-            print(unit)
+            #print(unit)
             unit.released = True
             unit.save()
-            print(request.path_info)
+            #print(request.path_info)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
         if obj == 'lesson':
