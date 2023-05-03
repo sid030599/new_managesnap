@@ -111,14 +111,19 @@ def home(request):
             return render(request, 'index.html', {'teachers': User.objects.filter(profile__status='t', profile__college=college), 'courses': courses, 'students': User.objects.filter(profile__status='s', profile__college=college)})
 
         if request.user.profile.status == 's':
-            courses = mycourses.objects.get(user=request.user)
-            #print(courses)
+            courses  = mycourses.objects.filter(user=request.user)
+            print(courses)
+            #print((course.objects.filter(is_paused = False)))
             announcements = courseTopic.objects.filter(created_by = "M")
             
             notification = Manager_notification.objects.all()
             news  = News_feed.objects.all()
             all_courses = mycourses.objects.all()
-            cours=courses.courses.all()
+            cours = []
+            for i in courses:
+                if i.courses.is_paused == False:
+                    cours.append(i.courses)
+            print(cours)
             # for i in courses:
             #     cours.append(i.courses)
         
@@ -127,7 +132,7 @@ def home(request):
 
 
         if request.user.profile.status == 't' :
-            print('asd')
+            
             redirect ('teacher_home')
         if request.user.profile.status == 'm':
 
@@ -199,7 +204,12 @@ def coursepage(request):
 
 def usercourse(request):
     
-    courses , _ = mycourses.objects.get_or_create(user=request.user)
+    courses = mycourses.objects.filter(user=request.user)
+    cours = []
+    for i in courses:
+        print(i.courses.unit)
+
+        cours.append(i.courses)
     all_courses = mycourses.objects.all()
     #courses = courses.courses.all()
     if request.user.profile.status == 't':
@@ -210,7 +220,7 @@ def usercourse(request):
             ('Advanced', 'Advanced')]
         return render(request, 'index2.html', {'courses': courses, 'user':request.user,'choices':choices})
 
-    return render(request, 'student_home.html', {'courses': courses, 'user':request.user,'all_courses':all_courses})
+    return render(request, 'student_home.html', {'courses': cours, 'user':request.user,'all_courses':all_courses})
 
 
 
@@ -384,7 +394,7 @@ def stu_announce_detail(request, topicid,courseid):
     
 
     topic = mytopics.objects.get(id=topicid)
-    print(topic)
+    
     links = []
     if topic.coursetopic.link:
         links = topic.coursetopic.link.split(",")
@@ -422,6 +432,17 @@ def release_course(request,courseid):
         cours = course.objects.get(pk = courseid)
         cours.released = True
         cours.save()
+        return redirect('usercourse')
+
+def pause_unpause_course(request,courseid):
+    if request.user.profile.status == 't':
+        cours = course.objects.get(pk = courseid)
+        if cours.is_paused:
+            cours.is_paused = False
+            cours.save()
+        else:
+            cours.is_paused = True
+            cours.save()
         return redirect('usercourse')
 
 
@@ -661,14 +682,15 @@ def assignment_delete(request, assignmentid):
 
 from account.forms import GroupsStudentForm
 
-
+from itertools import chain
 
 def group_student(request,pk):
     
     #created_default_groups = Groups.objects.filter(created_by__profile__college = college, status='d', created_by=request.user)
     students = Profile.objects.filter(status='s')
     default_groups_students = Groups.objects.get(id=pk)
-    form = GroupsStudentForm()
+    form = GroupsStudentForm(pk)
+    
     students = default_groups_students.students.all()
     
     if request.method == 'POST':
@@ -742,15 +764,11 @@ def enrollcourse(request, courseid, studentid):
     student = User.objects.get(id=studentid)
 
     addcourse = course.objects.get(id=courseid)
-    mycourse,_ = mycourses.objects.get_or_create(user=student)
-    mycourse.courses.add(addcourse)
+    mycourse = mycourses.objects.create(user=student,courses = addcourse,paid = False)
+    
     mycourse.save()
-    print(courseid)
 
     unit = Unit.objects.filter(course = addcourse)
-    print(unit)
-    
-    
     
     for i in unit:
         myunit= MyUnit.objects.create(user = student,unit=i,course = addcourse)
@@ -823,17 +841,18 @@ def unenroll_student(request, studentid, courseid):
     student = User.objects.get(id=studentid)
     Course  = course.objects.get(id=courseid)
 
-    student.enrolledcourses.courses.remove(Course)
-    student.save()
+    student_courses = mycourses.objects.get(courses = Course)
+    student_courses.delete()
+
     mytopics.objects.filter(user=student, coursetopic__course=Course).delete()
     myAssignment.objects.filter(user=student, assignment__course=Course).delete()
     myCourseUnit.objects.filter(user=student, courseunit__course=Course).delete()
     MyUnit.objects.filter(user = student,course__id = courseid).delete()
     unit = Unit.objects.filter(course__id = courseid)
     unitid = []
-    for i in unit:
+    for i in unit: 
         unitid.append(i.id)
-    print(unitid)
+    
     MyLesson.objects.filter(user= student,unit_id__in = unitid).delete()
     messages.success(request, "student unenrolled successfully")
     return redirect('enroll-students', courseid=courseid)
@@ -981,10 +1000,10 @@ def group_detail(request, groupid):
 
     enrolled = []
     for stu in group.students.all():
-        enrolled.append(stu.username)
-
-    students_unenrolled = User.objects.filter(profile__college=request.user.profile.college, profile__status='s').exclude(username__in=enrolled)
-
+        enrolled.append(stu.user)
+    print(enrolled)
+    students_unenrolled = User.objects.filter(profile__college=request.user.profile.college, profile__status='s').exclude(profile__user__in=enrolled)
+    print(students_unenrolled)
     if request.user.profile.status == 't':
         return render(request, 'group_detail.html', {'group': group, 'teacher': request.user, 'students_unenrolled': students_unenrolled})
     
@@ -1245,10 +1264,11 @@ def create_group(request):
 
 def add_student_to_group(request, studentid, groupid):
     student = User.objects.get(id=studentid)
+    student_profile = student.profile
     group = Groups.objects.get(id=groupid)
 
     if request.user.is_authenticated and request.user == group.created_by:
-        group.students.add(student)
+        group.students.add(student_profile)
         group.save()
         messages.success(request, student.username + " added to this group")
         return redirect('group-detail', groupid=group.id)
@@ -1257,11 +1277,13 @@ def add_student_to_group(request, studentid, groupid):
     return redirect('home')
 
 def remove_student_to_group(request, studentid, groupid):
-    student = User.objects.get(id=studentid)
+    student = User.objects.get(profile__id=studentid)
+    
+    student_profile = student.profile
     group = Groups.objects.get(id=groupid)
 
     if request.user.is_authenticated and request.user == group.created_by:
-        group.students.remove(student)
+        group.students.remove(student_profile)
         group.save()
         messages.success(request, student.username + " removed from this group")
         return redirect('group-detail', groupid=group.id)

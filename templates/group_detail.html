@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base1.html' %}
 {% block content %}
 
 
@@ -6,8 +6,10 @@
 
     <h3>Students in this group</h3>
     {% for student in group.students.all %}
-      <div style="display: flex;" class="my-5">
-        <p class="mr-2">{{student.username}}</p>
+      <div style="display: flex;" class="my-5" >
+        <div class="col-md-4">
+        <p class="mr-2">{{student.user}}</p>
+        </div>
         {% if teacher == group.created_by %}
             <a href="/remove_student/{{group.id}}/{{student.id}}"><button class="btn btn-primary">Remove from this group</button></a>
         {% endif %}
@@ -19,7 +21,9 @@
         <h3>Add more students</h3>
         {% for student in students_unenrolled %}
             <div style="display: flex;" class="my-5">
+              <div class="col-md-4">
                 <p class="mr-2">{{student.username}}</p>
+              </div>
                 <a href="/add_student/{{group.id}}/{{student.id}}"><button class="btn btn-primary">Add to this group</button></a>
             </div>
        {% endfor %}

@@ -1,0 +1,255 @@
+.body
+{
+    padding-left: 210px;
+    padding-top: 70px;
+    color: rgb(30, 30, 30);
+}
+/* Heading and add button */
+.announcements-container
+{
+    display: flex;
+    justify-content: center;
+}
+.ann-item 
+{
+    margin: 20px 30px;
+}
+.heading
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: rgb(30, 30, 30);
+}
+.heading-name
+{
+    font-weight: bold;
+    font-size: 26px;
+    letter-spacing: 1px;
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    background-size: 100% 3px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    padding-bottom: 10px;
+}
+.heading-item
+{
+    padding: 10px 0px;
+}
+/* Add and search */
+.add-search
+{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.as-item 
+{
+    padding: 10px;
+}
+.add-btn 
+{
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    color: white;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+.add-btn:hover 
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,   rgba(116,182,247,1) 0% , rgba(171,102,255,1) 90%);
+}
+.search
+{
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    background-color: rgb(246, 246, 246);
+    padding: 5px 15px;
+}
+.searchbar
+{
+    width: 100%;
+    font-size: 14px;
+    border: none;
+    padding: 3px;
+    background-color: rgb(246, 246, 246);
+}
+::placeholder
+{
+    color: rgb(169, 166, 166);
+}
+.searchbar:focus
+{
+    outline: none;
+}
+.search-icon 
+{
+    width: 19px;
+    height: 19px;
+    margin-left: 5px;
+}
+/* Tabs */
+.tabs
+{
+    display: flex;
+    align-items: center;
+}
+.tab 
+{
+    padding: 10px 20px;
+    margin-right: 50px;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.tab p
+{
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    color: rgb(30, 30, 30);
+}
+.icon 
+{
+    width: 20px;
+    height: 20px;
+}
+.not-current
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    background-size: 0% 3px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    transition: background-size 300ms ease;
+}
+.not-current:hover
+{
+    background-size: 100% 3px;
+}
+.current
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    background-size: 100% 3px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    transition: background-size 300ms ease;
+    font-weight: bold;
+}
+/* Released and Drafts */
+.drafts-container 
+{
+    display: none;
+}
+.released, .drafts
+{
+    display: flex;
+    background-color: rgb(246, 246, 246);
+    padding: 10px 20px;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 3px;
+}
+.rd-item 
+{
+    padding: 5px;
+}
+.ann-links-docs 
+{
+    display: flex;
+    flex-direction: row;
+}
+.links, .docs 
+{
+    display: flex;
+    margin-right: 10px;
+}
+.link-num, .docs-num
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    background-size: 0% 3px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    transition: background-size 300ms ease;
+    cursor: pointer;
+    font-size: 15px;
+}
+.link-num:hover, .docs-num:hover 
+{
+    background-size: 100% 3px;
+}
+.links img, .docs img
+{
+    margin-right: 5px;
+}
+.ann-buttons button
+{
+    display: flex;
+    flex-direction: column;
+}
+.ann-buttons button
+{
+    margin: 20px 0px;
+    padding: 6px 12px;
+    text-align: center;
+    border: none;
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    color: white;
+    border-radius: 3px;
+}
+.ann-buttons button:hover 
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,   rgba(116,182,247,1) 0% , rgba(171,102,255,1) 90%);
+}
+.ann-heading
+{
+    font-size: 16px;
+}
+.ann-para 
+{
+    font-size: 15px;
+}
+/* Media queries */
+@media(max-width: 1024px)
+{
+    .body
+    {
+        padding-left: 0px;
+    }
+}
+@media(max-width: 768px)
+{
+    .heading
+    {
+        flex-direction: column;
+    }
+}
+@media(max-width: 482px)
+{
+    .tab p
+    {
+        display: none;
+    }
+    .ann-item
+    {
+        margin: 10px;
+    }
+    .ann-links-docs 
+    {
+        flex-direction: column;
+    }
+    .links, .docs 
+    {
+        padding: 2px 0px;
+    }
+}
+

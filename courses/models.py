@@ -24,11 +24,12 @@ class course(models.Model):
         default='Beginner'
     )
     released = models.BooleanField(default = False)
+    is_paused = models.BooleanField(default = False)
     def __str__(self):
         return self.title 
 
 class Unit(models.Model):
-    course = models.ForeignKey(course, on_delete=models.CASCADE)
+    course = models.ForeignKey(course, on_delete=models.CASCADE,related_name='unit')
     title = models.CharField(max_length=100)
     brief = models.TextField()
     due = models.DateField(null=True)
@@ -270,7 +271,7 @@ class Groups(models.Model):
 class mycourses(models.Model):
     user  = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrolledcourses')
     #courses = models.ForeignKey(course, on_delete=models.RESTRICT,related_name='courses',default=course.objects.all().first().id)
-    courses = models.ManyToManyField(course, related_name="mycourses", blank=True)
+    courses = models.ForeignKey(course, related_name="mycourses", blank=True, on_delete=models.RESTRICT)
     paid = models.BooleanField(default = False)
     def __str__(self):
         return self.user.username
@@ -322,7 +323,7 @@ class myCourseUnit(models.Model):
 class News_feed(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     news = models.CharField(max_length=200,blank=True,null=True)
-    created_at = models.DateTimeField(default = datetime.datetime.now())
+    created_at = models.DateTimeField()
 
     def __str__(self):
         return self.user.username
@@ -330,7 +331,7 @@ class News_feed(models.Model):
 class Manager_notification(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     notification = models.CharField(max_length=200,blank=True,null=True)
-    created_at = models.DateTimeField(default = datetime.datetime.now())
+    created_at = models.DateTimeField()
 
     def __str__(self):
         return self.user.username
@@ -338,7 +339,7 @@ class Manager_notification(models.Model):
 class Manager_Eveng(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     event = models.CharField(max_length=200,blank=True,null=True)
-    created_at = models.DateTimeField(default = datetime.datetime.now())
+    created_at = models.DateTimeField()
 
     def __str__(self):
         return self.user.username

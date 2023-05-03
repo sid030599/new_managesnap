@@ -288,7 +288,19 @@
                                                         </div>
                                                     </div>
                                                     <div class="course-container">
-                                                        
+                                                        {% if course.is_paused%}
+                                                        <div class="filter fs-item">
+                                                            <a href={% url 'pause_unpause_course' course.id %}>
+                                                                <button class="filter-btn">Unpause</button>
+                                                            </a>
+                                                        </div>
+                                                        {% else%}
+                                                        <div class="filter fs-item">
+                                                            <a href={% url 'pause_unpause_course' course.id %}>
+                                                                <button class="filter-btn">Pause</button>
+                                                            </a>
+                                                        </div>
+                                                        {% endif %}
                                                             
                                                         
                                                         <div class="filter fs-item">
@@ -346,10 +358,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="course-container">
-                                                        
+
+                                        
+                                                        {% if course.unit.all %}
                                                         <a href={% url 'release_course' course.id %}>
                                                             <button class="preview-btn">Release</button>
                                                         </a>
+                                                        {% endif %}
                                                         
                                                         <div class="filter fs-item">
                                                             <a href={% url 'course-stats' course.id %}>

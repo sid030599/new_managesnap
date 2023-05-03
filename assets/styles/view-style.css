@@ -1,0 +1,174 @@
+.body
+{
+    padding-left: 210px;
+    padding-top: 70px;
+    color: rgb(30, 30, 30);
+}
+.view-container
+{
+    display: flex;
+    justify-content: center;
+}
+.view-item 
+{
+    margin: 10px 30px;
+}
+/* Heading */
+.heading
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: rgb(30, 30, 30);
+}
+.heading-name
+{
+    font-weight: bold;
+    font-size: 26px;
+    letter-spacing: 1px;
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    background-size: 100% 3px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    padding-bottom: 10px;
+}
+.heading-item
+{
+    padding: 10px 0px;
+}
+/* Heading buttons */
+.release-edit
+{
+    display: flex;
+    align-items: center;
+}
+.release-edit div 
+{
+    padding: 10px;
+}
+.release-btn, .edit-btn 
+{
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    color: white;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+.release-btn img
+{
+    margin-right: 5px;
+    width: 18px;
+    height: 18px;
+}
+.edit-btn img
+{
+    margin-right: 6px;
+    width: 14px;
+    height: 14px;
+}
+.release-btn:hover, .edit-btn:hover
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,   rgba(116,182,247,1) 0% , rgba(171,102,255,1) 90%);
+}
+/* announcement */
+.announcement p
+{
+    font-size: 15px;
+    line-height: 27px;
+}
+/* Links and Files */
+.links .heading .heading-item .heading-name, .docs .heading .heading-item .heading-name
+{
+    font-weight: bold;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+.links .heading .head, .docs .heading .head 
+{
+    background: none;
+}
+.heading
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: rgb(30, 30, 30);
+}
+.add-btn
+{
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    color: white;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+.add-btn:hover
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,   rgba(116,182,247,1) 0% , rgba(171,102,255,1) 90%);
+}
+.dustbin 
+{
+    width: 16px;
+    height: 16px;
+    margin-left: 10px;
+    margin-top: 6px;
+}
+.link-name 
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    background-size: 0% 2px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    transition: background-size 300ms ease;
+    font-size: 15px;
+}
+.link-name:hover 
+{
+    background-size: 100% 2px;
+}
+li 
+{
+    display: flex;
+    align-items: center;
+    padding: 3px 0px;
+}
+li span a 
+{
+    color: rgb(30,30,30);
+}
+/* Media queries */
+@media(max-width: 1024px)
+{
+    .body
+    {
+        padding-left: 0px;
+    }
+}
+@media(max-width: 768px)
+{
+    .heading
+    {
+        flex-direction: column;
+    }
+    .links .heading, .docs .heading 
+    {
+        flex-direction: row;
+    }
+}
+

@@ -1,0 +1,196 @@
+.body
+{
+    padding-left: 210px;
+    padding-top: 70px;
+    color: rgb(30, 30, 30);
+}
+/* Profile and buttons */
+.prof-container
+{
+    display: flex;
+    justify-content: center;
+}
+.prof-item 
+{
+    margin: 20px 30px;
+}
+.prof-details, .image-details
+{
+    display: flex;
+    align-items: center;
+}
+.prof-details
+{
+    justify-content: space-between;
+}
+.details
+{
+    margin-left: 10px;
+}
+.details p
+{
+    line-height: 26px;
+}
+.prof-name 
+{
+    font-weight: bold;
+    font-size: 19px;
+}
+.prof-mail 
+{
+    color: gray;
+}
+.status span 
+{
+    font-style: italic;
+}
+.prof-image img 
+{
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+}
+.prof-buttons 
+{
+    display: flex;
+}
+.accept-btn, .reject-btn 
+{
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: none;
+    color: white;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+    margin: 20px;
+}
+.accept-btn
+{
+    background-image: linear-gradient( 73.1deg,  rgba(34,126,34,1) 8%, rgba(99,162,17,1) 86.9% );
+}
+.reject-btn 
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(247,87,0,1) 0%, rgba(249,0,0,1) 90.1% );
+}
+.accept-btn img
+{
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+}
+.reject-btn img
+{
+    margin-right: 6px;
+    width: 16px;
+    height: 16px;
+}
+.accept-btn:hover, .reject-btn:hover
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,   rgba(116,182,247,1) 0% , rgba(171,102,255,1) 90%);
+}
+.icon 
+{
+    width: 18px;
+    height: 18px;
+}
+/* Tabs */
+.tabs
+{
+    display: flex;
+    align-items: center;
+}
+.tab 
+{
+    padding: 10px 20px;
+    margin-right: 50px;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.tab p
+{
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 19px;
+    color: rgb(30, 30, 30);
+}
+.not-current
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    background-size: 0% 3px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    transition: background-size 300ms ease;
+}
+.not-current:hover
+{
+    background-size: 100% 3px;
+}
+.current
+{
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(162, 88, 253) 0%, rgba(116,182,247,1) 90% );
+    background-size: 100% 3px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    transition: background-size 300ms ease;
+    font-weight: bold;
+}
+/* Information */
+.info , .location
+{
+    display: flex;
+}
+.location-info
+{
+    display: flex;
+    flex-direction: column;
+}
+.info .icon
+{
+    margin-right: 5px;
+}
+.info
+{
+    padding: 10px 0px;
+}
+.info-name 
+{
+    font-size: 17px;
+}
+.education-info, .experience-info 
+{
+    display: none;
+}
+/* Media Queries */
+@media(max-width: 1024px)
+{
+    .body 
+    {
+        padding-left: 0px;
+    }
+}
+@media(max-width: 768px)
+{
+    .prof 
+    {
+        width: 100%;
+    }
+    .prof-details
+    {
+        flex-direction: column;
+    }
+    .prof-buttons
+    {
+        margin-left: -50px;
+    }
+    .tab p 
+    {
+        display: none;
+    }
+}

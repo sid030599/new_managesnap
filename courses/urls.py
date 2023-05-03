@@ -26,6 +26,7 @@ urlpatterns = [
     path('<assignmentid>/assignment_complete/', views.assignmentComp, name='assignment-complete'),
     path('dashboard/mycourses/', views.usercourse, name='usercourse'),
     path('dashboard/release_course/<courseid>/', views.release_course, name='release_course'),
+    path('dashboard/pause_unpause_course/<courseid>/', views.pause_unpause_course, name='pause_unpause_course'),
     path('all_courses/', views.all_courses, name='all-courses'),
     path('create_course', views.create_course, name='create-course'),
     path('create_course_unit', views.create_course_unit, name='create-course-unit'),
